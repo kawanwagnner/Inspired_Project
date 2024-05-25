@@ -1,0 +1,120 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url(../img/bg.png);
+  background-size: 100%; /* ou qualquer outra porcentagem ou tamanho específico */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: bottom center;
+}
+
+/* Header*/
+
+header {
+  position: fixed;
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding: 20px;
+}
+
+header img {
+  margin-right: 10px;
+  width: 30px;
+}
+
+header p {
+  font-family: "Antic", sans-serif;
+  font-size: 18px;
+  margin: 0;
+  border-left: 1px solid black;
+  padding-left: 10px;
+  padding-right: 15px;
+  transform: translate(60% 80%);
+}
+
+p a {
+  text-decoration: none;
+  color: black;
+}
+
+.pai {
+  position: absolute;
+}
+
+.container {
+  text-align: center;
+  color: rgb(0, 0, 0);
+  position: relative;
+  margin-top: 30%;
+  left: 180%;
+  transform: translateX(-50%);
+}
+
+.left-image {
+  position: absolute;
+  right: 465px;
+  top: 27%;
+  transform: translateY(-50%);
+}
+
+.right-image {
+  position: absolute;
+  left: 400px;
+  top: 50%;
+  transform: translateY(-34%);
+}
+
+h2 {
+  font-family: "Antic", sans-serif;
+  font-style: italic;
+  font-size: 30px;
+  transform: translateY(20px);
+}
+
+h1 {
+  margin: 10px 0 0 0;
+  font-size: 120px;
+  font-family: "bogart_triallight";
+  src: url("bogart-light-trial-webfont.woff2") format("woff2"),
+    url("bogart-light-trial-webfont.woff") format("woff");
+  font-style: normal;
+  font-weight: 400; /* Ajuste o valor conforme necessário */
+  margin-bottom: 40px;
+}
+
+h3 {
+  margin: 0;
+  font-family: "Antic", sans-serif;
+  font-style: italic;
+  font-size: 20px;
+  color: gray;
+}
+
+h3 a {
+  text-decoration: none;
+  color: gray;
+}
+
+.pequeno {
+  display: block;
+  font-size: 15%;
+  font-family: "Antic", sans-serif;
+  font-style: italic;
+  margin-top: -10px;
+  margin-bottom: -20px;
+}
+
+.signUp {
+  text-decoration: none;
+}
+
+.login {
+  text-decoration: none;
+  color: #000;
+}
