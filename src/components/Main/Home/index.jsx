@@ -1,81 +1,68 @@
-import aspas1 from './img/aspas1.png'
-import aspas2 from './img/aspasbaixo2.png'
-import profile from './img/profile.png'
-
-import "./css/home.css"
-import "./css/style.css"
+import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
+import aspas1 from "./img/aspas1.png";
+import aspas2 from "./img/aspasbaixo2.png";
+import profile from "./img/profile.png";
+import BgHands from "./img/bg-maos.png";
+import BgWindow from "./img/bg2-janela.png";
+import "./css/style.css";
 
 const Home = () => {
-  return (<>
+  const [isLoaded, setIsLoaded] = useState(false);
 
+  useEffect(() => {
+    const loadScripts = async () => {
+      const script1 = document.createElement("script");
+      script1.src = "https://unpkg.com/gsap@3/dist/gsap.min.js";
+      script1.async = true;
+      document.body.appendChild(script1);
 
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://codepen.io/GreenSock/pen/xxmzBrw.css"
-    />
-    <link rel="stylesheet" href="style.css" />
-    <script defer src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
-    <script
-      defer
-      src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"
-    ></script>
-    <script defer src="main.js"></script>
-    <title>Document</title>
-  </head>
-  <body>
-    <div className="wrapper">
-      <div className="content">
-        <section className="section hero">
+      const script2 = document.createElement("script");
+      script2.src = "https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js";
+      script2.async = true;
+      document.body.appendChild(script2);
 
-        </section>
-        <section className="section gradient-purple">
-          
-       
-      <header>
-      <img src={profile} width="50px" alt="" />
-      <a className='login' href="#"><p>Login</p></a>
-    </header>
+      script2.onload = () => {
+        const script3 = document.createElement("script");
+        script3.src = "/main.js";
+        script3.async = true;
+        script3.onload = () => setIsLoaded(true);
+        document.body.appendChild(script3);
+      };
+    };
 
-      <div className="pai">
-        <div className="container">
-          <img
-            src={aspas1}
-            className="left-image"
-            width="200px"
-            alt=""
-          />
-          <h2>I N O V A T I O N</h2>
-          <h1>Bem vindo <span className="pequeno">AO</span> Inspired</h1>
-          <img
-            src={aspas2}
-            className="right-image"
-            width="200px"
-            alt=""
-          />
-          <a className='signUp' href="#"><h3>CADASTRAR-SE</h3></a>
+    loadScripts();
+
+    return () => {
+      // Remove os scripts ao desmontar o componente, se necessário
+    };
+  }, []);
+
+  return (
+    <>
+      <Helmet>
+        <html lang="pt-br" />
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+          rel="stylesheet"
+          href="https://codepen.io/GreenSock/pen/xxmzBrw.css"
+        />
+        <link rel="stylesheet" href="style.css" />
+        <title>Art</title>
+      </Helmet>
+      <div className={`wrapper ${isLoaded ? "loaded" : ""}`}>
+        <div className="content">
+          <section className="section hero"></section>
+          <section className="section gradient-purple"></section>
+          <section className="section gradient-blue"></section>
+        </div>
+        <div className="image-container">
+          <img src={BgWindow} alt="image" />
         </div>
       </div>
-
-
-
-        </section>
-        <section className="section gradient-blue"></section>
-      </div>
-      <div className="image-container">
-        <img src="img/BG2.png" alt="image" />
-      </div>
-    </div>
-  </body>
-</html>
-
-
-    
-
-  </>);
-}
+    </>
+  );
+};
 
 export default Home;
