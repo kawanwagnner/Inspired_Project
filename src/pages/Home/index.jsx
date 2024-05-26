@@ -53,7 +53,7 @@ const Home = () => {
       </section>
 
       <section id="aboutUs">
-        <h1 className="title">sobre nós</h1>
+        <h1 className="title">Sobre Nós</h1>
         <div className="container-aboutUs">
           <div className="image-container">
             <img src={imgAboutUs} alt="Art Gallery" />

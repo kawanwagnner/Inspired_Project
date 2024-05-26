@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./css/style.css";
 import "./fonts/material-icon/css/material-design-iconic-font.min.css";
 import gregoMan from "../SignIn/img/sculpture-davi.jpg";
+import Header from "../../components/Header";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -87,6 +88,8 @@ const SignIn = () => {
       <ToastContainer />
 
       <section className="sign-in">
+        <Header />
+
         <div className="container">
           <div className="signin-content">
             <div className="signin-image">
@@ -95,7 +98,14 @@ const SignIn = () => {
               </figure>
             </div>
             <div className="signin-form">
-              <h2 className="form-title">Sign in</h2>
+              <h2 className="form-title">
+                Sign in
+                {/* <br />
+                <span style={{ fontSize: "10px" }}>
+                  bem vindo de volta artista
+                </span> */}
+              </h2>
+
               <form
                 method="POST"
                 className="register-form"
