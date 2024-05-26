@@ -69,9 +69,15 @@ const SignUp = () => {
       }
       return;
     }
+    // Save to localStorage
+    localStorage.setItem("formData", JSON.stringify(formData));
     toast.success("Form submitted successfully!");
     console.log("Form data submitted: ", formData);
-    // Add logic to handle form submission (e.g., API call)
+
+    // Redirect to home
+    setTimeout(() => {
+      window.location.href = "/"; // Redirect to home
+    }, 2000); // Give the user time to see the success message
   };
 
   return (

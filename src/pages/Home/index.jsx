@@ -1,5 +1,4 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
 import profile from "./img/profile.png";
 import aspasParaCima from "./img/aspas1.png";
 import aspasParaBaixo from "./img/aspasbaixo2.png";
@@ -8,13 +7,23 @@ import imgAboutUs from "./img/img-about-us.jpg";
 import "./css/home.css";
 
 const Home = () => {
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("formData"));
+    if (storedData && storedData.your_name) {
+      const firstName = storedData.your_name.split(" ")[0]; // Extracting the first name
+      setUserName(firstName);
+    }
+  }, []);
+
   return (
     <>
       <section id="home">
         <header>
-          <img src={profile} width="50px" alt="image" />
-          <a className="signIn" href="/signIn">
-            <p>Login</p>
+          <img src={profile} width="50px" alt="profile" />
+          <a className="signIn" href={userName ? "/" : "/signIn"}>
+            <p>{userName ? userName : "Login"}</p>
           </a>
         </header>
 
@@ -24,7 +33,7 @@ const Home = () => {
               src={aspasParaCima}
               className="left-aspas"
               width="130px"
-              alt="image"
+              alt="aspas para cima"
             />
             <h2 className="title2">INOVATION</h2>
             <h1 className="title1">
@@ -34,7 +43,7 @@ const Home = () => {
               src={aspasParaBaixo}
               className="right-aspas"
               width="130px"
-              alt="image"
+              alt="aspas para baixo"
             />
             <a href="signUp">
               <h3 className="signUp">CADASTRAR-SE</h3>
