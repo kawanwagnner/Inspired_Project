@@ -1,4 +1,4 @@
-console.clear();
+// console.clear();
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,7 +11,7 @@ window.addEventListener("load", () => {
         end: "+=150%",
         pin: true,
         scrub: true,
-        markers: false,
+        markers: true,
       },
     })
     .to("img", {
