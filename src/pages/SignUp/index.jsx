@@ -69,6 +69,7 @@ const SignUp = () => {
       }
       return;
     }
+    toast.success("Form submitted successfully!");
     console.log("Form data submitted: ", formData);
     // Add logic to handle form submission (e.g., API call)
   };

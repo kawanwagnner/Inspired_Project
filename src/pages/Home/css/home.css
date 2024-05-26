@@ -48,7 +48,7 @@ a {
 
 #home {
   background: #000
-    url(https://github.com/kawanwagnner/Inspired_Project/blob/main/src/components/Main/Home/img/bg-maos.png?raw=true)
+    url(../img/bg-maos.png)
     no-repeat;
     background-position: 70% 70%;
   background-size: 100%;
