@@ -1,0 +1,20 @@
+<%
+var menu = [
+{
+    'item': 'Facebook',
+    'link': 'https://facebook.com/?locale=pt_BR'
+},
+{
+    'item': 'WhatsApp',
+    'link': 'https://whatsapp.com/'
+}
+];
+ %>
+ <footer class="o-footer">
+    <% menu.forEach((m)=> { %>
+        <a href="<%= m.link %>" target="_blank"><%= m.item %></a>
+        /
+    <% }) %>
+</footer>
+</body>
+</html>

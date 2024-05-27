@@ -1,0 +1,28 @@
+<% var menuHome = [ { 'item': 'home', 'icon': 'import_contacts', }, { 'item':
+'listLocation', 'icon':' location_on', }, { 'item': 'contact', 'icon':
+'contacts', }, { 'item': 'forms', 'icon': 'comment', } ]; %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <title>Uso do EJS e o File System</title>
+  </head>
+  <body>
+    <header>
+      <nav class="topnav">
+        <% menuHome.forEach((m)=> { %>
+        <a href="<%=m.item%>">
+          <i class="material-icons"><%=m.icon %></i> <%=m.item %></a
+        >
+        <% }) %>
+      </nav>
+    </header>
+  </body>
+</html>
