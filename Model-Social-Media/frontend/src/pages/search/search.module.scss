@@ -1,0 +1,23 @@
+.container {
+	background-color: white;
+	width: 70%;
+
+  @media (max-width: 1000px) {
+		width: 100%;
+
+		min-height: calc(100vh - 6rem);
+  }
+
+	border-radius: 0.5rem;
+
+	padding: 1.5rem;
+
+	.title {
+		margin-bottom: 0.75rem;
+	}
+
+	.division {
+		opacity: 0.3;
+		margin-bottom: 0.75rem;
+	}
+}

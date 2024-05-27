@@ -1,0 +1,153 @@
+.commentsContainer {
+	padding-top: 2rem;
+
+	hr {
+		margin-top: 0.5rem;
+	}
+
+	.content {
+		padding-top: 1rem;
+
+		.newCommentContainer {
+			margin-bottom: 1rem;
+			display: flex;
+			padding: 0.5rem;
+			border: solid 1px var(--gray-1);
+			border-radius: 0.3rem;
+			box-shadow: 0 0 7px rgb(0, 0, 0, 0.2);
+
+			&:hover {
+				box-shadow: 0 0 10px rgb(0, 0, 0, 0.2);
+			}
+
+			button {
+				background-color: var(--default-blue);
+				color: white;
+				font-size: 1.5rem;
+				display: flex;
+				border: none;
+				border-radius: 50%;
+				padding: 0.25rem;
+				transition: all 300ms;
+				margin-left: 0.5rem;
+
+				svg {
+					color: white;
+				}
+			}
+
+
+
+			input {
+				font-size: 0.8rem;
+				width: 100%;
+				border: none;
+				padding-left: 10px;
+
+				&:focus {
+					outline: none;
+				}
+			}
+
+		}
+
+		.commentLimit {
+			font-size: 0.9rem;
+		}
+
+		.commentLimitOk {
+			color: green;
+		}
+
+		.commentLimitWarning {
+			color: gold;
+		}
+
+		.commentLimitFull {
+			color: red;
+		}
+
+		.notHaveComments {
+			text-align: center;
+			color: var(--gray-2);
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			svg {
+				font-size: 1.5rem;
+			}
+		}
+
+		.comment {
+			padding: 0.5rem;
+			border-radius: 0.5rem;
+			margin-top: 1rem;
+			border: solid 1px rgb(0, 0, 0, 0.2);
+
+			header {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+
+				.createdOn {
+					font-size: 0.8rem;
+					color: var(--gray-2);
+				}
+
+				a {
+					display: flex;
+					align-items: center;					
+					width: max-content;
+				}
+
+				.imageContainer {
+					width: 1.75em;
+					height: 1.75rem;
+
+					border-radius: 50%;
+					overflow: hidden;
+
+					img {
+						width: 1.75em;
+						height: 1.75rem;
+						object-fit: cover;
+					}
+				}
+
+				.username {
+					margin-left: 0.5rem;
+					font-size: 0.9rem;
+					font-weight: 400;
+					color: var(--gray-2);
+				}
+
+			}
+
+			section {
+				margin-left: calc(0.7rem);
+				display: flex;
+				
+				svg {
+					opacity: 0.2;
+					margin-right: 0.5rem;
+					font-size: 1rem;
+				}
+
+				.data {
+					line-break: anywhere;
+					max-width: calc(95% - 0.7rem);
+					overflow-y: hidden;
+					position: relative;
+				}				
+			}
+
+		}
+	}
+}
+
+#loading {
+	font-size: 1.5rem;
+	margin-bottom:1rem;
+}
