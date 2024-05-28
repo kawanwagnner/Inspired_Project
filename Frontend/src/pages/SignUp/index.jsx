@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+// Importações de pacotes necessários
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,7 +8,9 @@ import "./fonts/material-icon/css/material-design-iconic-font.min.css";
 import cameraMan from "../SignUp/img/cameraman.jpg";
 import Header from "../../components/Header";
 
+// Componente de inscrição
 const SignUp = () => {
+  // Definindo estado inicial do formulário
   const [formData, setFormData] = useState({
     your_name: "",
     your_email: "",
@@ -17,6 +20,7 @@ const SignUp = () => {
     remember_me: false,
   });
 
+  // Carregar scripts externos após o componente ser montado
   useEffect(() => {
     const loadScript = (src) => {
       return new Promise((resolve, reject) => {
@@ -34,6 +38,7 @@ const SignUp = () => {
       .catch((err) => console.error("Failed to load script", err));
   }, []);
 
+  // Função para validar o formulário
   const validate = () => {
     const errors = {};
     if (!formData.your_name) errors.your_name = "Name is required";
@@ -51,6 +56,7 @@ const SignUp = () => {
     return errors;
   };
 
+  // Função para lidar com alterações no formulário
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -59,26 +65,50 @@ const SignUp = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  // Função para lidar com a submissão do formulário
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
-      for (const key in validationErrors) {
-        if (validationErrors.hasOwnProperty(key)) {
-          toast.error(validationErrors[key]);
-        }
-      }
+      Object.entries(validationErrors).forEach(([message]) => {
+        toast.error(message);
+      });
       return;
     }
-    // Save to localStorage
-    localStorage.setItem("formData", JSON.stringify(formData));
-    toast.success("Form submitted successfully!");
-    console.log("Form data submitted: ", formData);
 
-    // Redirect to home
-    setTimeout(() => {
-      window.location.href = "/"; // Redirect to home
-    }, 2000); // Give the user time to see the success message
+    try {
+      const response = await fetch("/api/form", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        toast.success("Form submitted successfully!");
+        console.log("Form data submitted: ", formData);
+
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
+      } else {
+        const errorData = await response.json();
+        toast.error(`Error: ${errorData.error}`);
+      }
+    } catch (error) {
+      toast.error("Error submitting form");
+    }
+    
+        // // Lógica que Salva os dados no localStorage
+        // localStorage.setItem("formData", JSON.stringify(formData));
+        // toast.success("Form submitted successfully!");
+        // console.log("Form data submitted: ", formData);
+    
+        // // Redireciona para a página inicial após um tempo
+        // setTimeout(() => {
+        //   window.location.href = "/"; // Redireciona para home
+        // }, 2000); // Dá tempo ao usuário para ver a mensagem de sucesso
   };
 
   return (

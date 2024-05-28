@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -52,17 +52,17 @@ const SignIn = () => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
-      for (const key in validationErrors) {
-        if (validationErrors.hasOwnProperty(key)) {
-          toast.error(validationErrors[key]);
-        }
+      if (Object.keys(validationErrors).length > 0) {
+        Object.entries(validationErrors).forEach(([message]) => {
+          toast.error(message);
+        });
       }
       return;
     }
 
     const storedData = JSON.parse(localStorage.getItem("formData"));
     if (
-      storedData &&
+      storedData && 
       storedData.your_email === formData.your_name &&
       storedData.your_pass === formData.your_pass
     ) {
@@ -107,7 +107,7 @@ const SignIn = () => {
               </h2>
 
               <form
-                method="POST"
+                method="get"
                 className="register-form"
                 id="login-form"
                 onSubmit={handleSubmit}

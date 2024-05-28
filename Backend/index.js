@@ -1,23 +1,16 @@
+// server.js
+
 const express = require("express");
+const bodyParser = require("body-parser");
+const userRoutes = require("./src/Routers/Router");
 
 const app = express();
-const port = 3002;
 
-const router = require("./src/routes/router");
+app.use(bodyParser.json());
 
-//O ejs consegue colocar java no meio do HTML. E ele consegue ler tudo separadamente e mostra tudo como HTML.
+app.use("/", userRoutes);
 
-//to falando quando a estrutura de view vou trabalhar
-app.set("view engine", "ejs");
-//Apontamento de pasta de onde estará o view de execução
-app.set("views", "src/view/");
-
-app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
-
-app.use(express.json());
-app.use("/", router);
-
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log("Servidor (API) iniciado em http://localhost:3002");
+  console.log(`Servidor está ouvindo na porta ${port}`);
 });
