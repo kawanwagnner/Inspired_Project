@@ -1,4 +1,3 @@
-// Importações de pacotes necessários
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { ToastContainer, toast } from "react-toastify";
@@ -8,9 +7,7 @@ import "./fonts/material-icon/css/material-design-iconic-font.min.css";
 import cameraMan from "../SignUp/img/cameraman.jpg";
 import Header from "../../components/Header";
 
-// Componente de inscrição
 const SignUp = () => {
-  // Definindo estado inicial do formulário
   const [formData, setFormData] = useState({
     your_name: "",
     your_email: "",
@@ -20,25 +17,27 @@ const SignUp = () => {
     remember_me: false,
   });
 
-  // Carregar scripts externos após o componente ser montado
   useEffect(() => {
-    const loadScript = (src) => {
-      return new Promise((resolve, reject) => {
+    const loadScript = async (src) => {
+      try {
         const script = document.createElement("script");
         script.src = src;
         script.async = true;
-        script.onload = resolve;
-        script.onerror = reject;
-        document.body.appendChild(script);
-      });
+        await new Promise((resolve, reject) => {
+          script.onload = resolve;
+          script.onerror = reject;
+          document.body.appendChild(script);
+        });
+      } catch (error) {
+        console.error("Failed to load script", error);
+      }
     };
 
-    loadScript("vendor/jquery/jquery.min.js")
+    loadScript("./vendor/jquery/jquery.min.js")
       .then(() => loadScript("js/main.js"))
       .catch((err) => console.error("Failed to load script", err));
   }, []);
 
-  // Função para validar o formulário
   const validate = () => {
     const errors = {};
     if (!formData.your_name) errors.your_name = "Name is required";
@@ -56,7 +55,6 @@ const SignUp = () => {
     return errors;
   };
 
-  // Função para lidar com alterações no formulário
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -65,7 +63,6 @@ const SignUp = () => {
     });
   };
 
-  // Função para lidar com a submissão do formulário
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
@@ -77,7 +74,7 @@ const SignUp = () => {
     }
 
     try {
-      const response = await fetch("/api/form", {
+      const response = await fetch("http://localhost:5000/api/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -86,7 +83,8 @@ const SignUp = () => {
       });
 
       if (response.ok) {
-        toast.success("Form submitted successfully!");
+        const data = await response.json();
+        toast.success(data.message);
         console.log("Form data submitted: ", formData);
 
         setTimeout(() => {
@@ -99,16 +97,6 @@ const SignUp = () => {
     } catch (error) {
       toast.error("Error submitting form");
     }
-    
-        // // Lógica que Salva os dados no localStorage
-        // localStorage.setItem("formData", JSON.stringify(formData));
-        // toast.success("Form submitted successfully!");
-        // console.log("Form data submitted: ", formData);
-    
-        // // Redireciona para a página inicial após um tempo
-        // setTimeout(() => {
-        //   window.location.href = "/"; // Redireciona para home
-        // }, 2000); // Dá tempo ao usuário para ver a mensagem de sucesso
   };
 
   return (
