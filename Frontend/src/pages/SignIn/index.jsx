@@ -9,7 +9,7 @@ import Header from "../../components/Header";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
-    your_name: "",
+    your_email: "",
     your_pass: "",
     remember_me: false,
   });
@@ -33,7 +33,7 @@ const SignIn = () => {
 
   const validate = () => {
     const errors = {};
-    if (!formData.your_name) errors.your_name = "Name is required";
+    if (!formData.your_email) errors.your_email = "Email is required";
     if (!formData.your_pass) errors.your_pass = "Password is required";
     if (formData.your_pass.length < 6)
       errors.your_pass = "Password must be at least 6 characters";
@@ -48,30 +48,43 @@ const SignIn = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
-      if (Object.keys(validationErrors).length > 0) {
-        Object.entries(validationErrors).forEach(([message]) => {
-          toast.error(message);
-        });
-      }
+      Object.entries(validationErrors).forEach(([key, message]) => {
+        toast.error(message);
+      });
       return;
     }
 
-    const storedData = JSON.parse(localStorage.getItem("formData"));
-    if (
-      storedData && 
-      storedData.your_email === formData.your_name &&
-      storedData.your_pass === formData.your_pass
-    ) {
-      toast.success("Login successful!");
-      setTimeout(() => {
-        window.location.href = "/"; // Redirecionamento após o login
-      }, 2000); // 2 segundos de delay para o usuário ver a mensagem de sucesso
-    } else {
-      toast.error("Invalid email or password");
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          your_email: formData.your_email,
+          your_pass: formData.your_pass,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        toast.success(data.message);
+
+        console.log("User authenticated: ", data);
+        setTimeout(() => {
+          window.location.href = "/"; // Redirecionamento após o login
+        }, 2000); // 2 segundos de delay para o usuário ver a mensagem de sucesso
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.message);
+      }
+    } catch (error) {
+      toast.error("Error logging in");
     }
   };
 
@@ -107,21 +120,21 @@ const SignIn = () => {
               </h2>
 
               <form
-                method="get"
+                method="post"
                 className="register-form"
                 id="login-form"
                 onSubmit={handleSubmit}
               >
                 <div className="form-group">
-                  <label htmlFor="your_name">
+                  <label htmlFor="your_email">
                     <i className="zmdi zmdi-email material-icons-name"></i>
                   </label>
                   <input
-                    type="text"
-                    name="your_name"
-                    id="your_name"
+                    type="email"
+                    name="your_email"
+                    id="your_email"
                     placeholder="Your Email"
-                    value={formData.your_name}
+                    value={formData.your_email}
                     onChange={handleChange}
                   />
                 </div>

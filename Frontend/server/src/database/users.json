@@ -1,0 +1,16 @@
+[
+  {
+    "your_name": "John Smith",
+    "your_email": "kawanwagnner8@gmail.com",
+    "your_phone": "987-654-3210",
+    "your_password": "$2b$10$MhzU1oDQkMVJ.ACKBocQfe6EOvSj2krW2BYJ8oTtOmgKJQmIQfNoq",
+    "remember_me": false
+  },
+  {
+    "your_name": "Kawan Wagnner Gonçalves Silva",
+    "your_email": "kawanwagnner7@gmail.com",
+    "your_phone": "11939060203",
+    "your_password": "$2b$10$17PHRJxjl/UlsZ1vhHEocujKKBrvaFuEc83kH.wMbxXUpsMngoSAe",
+    "remember_me": true
+  }
+]
