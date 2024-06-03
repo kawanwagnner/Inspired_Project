@@ -30,8 +30,14 @@ const writeDataToFile = (filePath, data) => {
 
 // Rota para salvar os dados do SignUp
 router.post("/signup", async (req, res) => {
-  const { your_name, your_email, your_phone, your_pass, remember_me } =
-    req.body;
+  const {
+    your_name,
+    your_email,
+    your_phone,
+    your_pass,
+    remember_me,
+    username,
+  } = req.body;
 
   // Verifica se todos os campos foram fornecidos
   if (
@@ -39,6 +45,7 @@ router.post("/signup", async (req, res) => {
     !your_email ||
     !your_phone ||
     !your_pass ||
+    !username ||
     remember_me === undefined
   ) {
     return res
@@ -58,22 +65,33 @@ router.post("/signup", async (req, res) => {
   // Lê os dados existentes do arquivo
   const existingData = readDataFromFile(filePath);
 
-  // Verifica se o email já está registrado
+  // Verifica se o email ou o nome de usuário já estão registrados
   if (existingData.some((user) => user.your_email === your_email)) {
     return res.status(400).json({ message: "Email já registrado." });
+  }
+  if (existingData.some((user) => user.username === username)) {
+    return res.status(400).json({ message: "Nome de usuário já registrado." });
   }
 
   try {
     // Hash da senha antes de armazenar
     const hashedPassword = await bcrypt.hash(your_pass, 10);
 
+    // Gera o ID auto-incremental
+    const newId =
+      existingData.length > 0
+        ? existingData[existingData.length - 1].id + 1
+        : 1;
+
     // Adiciona os novos dados
     const newUser = {
-      your_name: your_name,
-      your_email: your_email,
-      your_phone: your_phone,
+      id: newId,
+      your_name,
+      your_email,
+      your_phone,
       your_password: hashedPassword, // Usa your_password aqui
-      remember_me: remember_me,
+      remember_me,
+      username,
     };
     existingData.push(newUser);
 
@@ -83,10 +101,12 @@ router.post("/signup", async (req, res) => {
     res.json({
       message: "Usuário registrado com sucesso!",
       user: {
-        your_email: your_email,
-        your_name: your_name,
-        your_phone: your_phone,
-        remember_me: remember_me,
+        id: newId,
+        your_email,
+        your_name,
+        your_phone,
+        remember_me,
+        username,
       },
     });
   } catch (error) {

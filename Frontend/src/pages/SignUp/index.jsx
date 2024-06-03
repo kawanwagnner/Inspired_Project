@@ -15,6 +15,7 @@ const SignUp = () => {
     your_pass: "",
     confirm_pass: "",
     remember_me: false,
+    username: "",
   });
 
   useEffect(() => {
@@ -52,6 +53,7 @@ const SignUp = () => {
       errors.your_pass = "Password must be at least 6 characters";
     if (formData.your_pass !== formData.confirm_pass)
       errors.confirm_pass = "Passwords do not match";
+    if (!formData.username) errors.username = "Username is required";
     return errors;
   };
 
@@ -67,7 +69,7 @@ const SignUp = () => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
-      Object.entries(validationErrors).forEach(([message]) => {
+      Object.entries(validationErrors).forEach(([key, message]) => {
         toast.error(message);
       });
       return;
@@ -165,7 +167,7 @@ const SignUp = () => {
                     type="tel"
                     name="your_phone"
                     id="your_phone"
-                    placeholder="Celular"
+                    placeholder="Phone"
                     value={formData.your_phone}
                     onChange={handleChange}
                   />
@@ -179,7 +181,7 @@ const SignUp = () => {
                     type="password"
                     name="your_pass"
                     id="your_pass"
-                    placeholder="Senha"
+                    placeholder="Password"
                     value={formData.your_pass}
                     onChange={handleChange}
                   />
@@ -193,8 +195,22 @@ const SignUp = () => {
                     type="password"
                     name="confirm_pass"
                     id="confirm_pass"
-                    placeholder="Confirme sua senha"
+                    placeholder="Confirm Password"
                     value={formData.confirm_pass}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="username">
+                    <i className="zmdi zmdi-account material-icons-name"></i>
+                  </label>
+                  <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    placeholder="Username"
+                    value={formData.username}
                     onChange={handleChange}
                   />
                 </div>
@@ -221,7 +237,7 @@ const SignUp = () => {
                     name="signin"
                     id="signin"
                     className="form-submit"
-                    value="Log in"
+                    value="Sign Up"
                   />
                 </div>
               </form>
