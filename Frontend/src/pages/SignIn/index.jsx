@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./css/style.css";
 import "./fonts/material-icon/css/material-design-iconic-font.min.css";
-import gregoMan from "../SignIn/img/sculpture-davi.jpg";
+import gregoMan from "./img/sculpture-davi.jpg";
 import Header from "../../components/Header";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -14,22 +15,7 @@ const SignIn = () => {
     remember_me: false,
   });
 
-  useEffect(() => {
-    const loadScript = (src) => {
-      return new Promise((resolve, reject) => {
-        const script = document.createElement("script");
-        script.src = src;
-        script.async = true;
-        script.onload = resolve;
-        script.onerror = reject;
-        document.body.appendChild(script);
-      });
-    };
-
-    loadScript("vendor/jquery/jquery.min.js")
-      .then(() => loadScript("js/main.js"))
-      .catch((err) => console.error("Failed to load script", err));
-  }, []);
+  const navigate = useNavigate();
 
   const validate = () => {
     const errors = {};
@@ -53,7 +39,7 @@ const SignIn = () => {
 
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
-      Object.entries(validationErrors).forEach(([key, message]) => {
+      Object.entries(validationErrors).forEach(([, message]) => {
         toast.error(message);
       });
       return;
@@ -73,11 +59,12 @@ const SignIn = () => {
 
       if (response.ok) {
         const data = await response.json();
+        localStorage.setItem("authToken", data.token);
         toast.success(data.message);
 
         console.log("User authenticated: ", data);
         setTimeout(() => {
-          window.location.href = "/"; // Redirecionamento após o login
+          navigate("/"); // Redirecionamento após o login
         }, 2000); // 2 segundos de delay para o usuário ver a mensagem de sucesso
       } else {
         const errorData = await response.json();
@@ -111,13 +98,7 @@ const SignIn = () => {
               </figure>
             </div>
             <div className="signin-form">
-              <h2 className="form-title">
-                Sign in
-                {/* <br />
-                <span style={{ fontSize: "10px" }}>
-                  bem vindo de volta artista
-                </span> */}
-              </h2>
+              <h2 className="form-title">Sign in</h2>
 
               <form
                 method="post"

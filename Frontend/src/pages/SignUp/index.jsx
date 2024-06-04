@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,27 +18,6 @@ const SignUp = () => {
     username: "",
   });
 
-  useEffect(() => {
-    const loadScript = async (src) => {
-      try {
-        const script = document.createElement("script");
-        script.src = src;
-        script.async = true;
-        await new Promise((resolve, reject) => {
-          script.onload = resolve;
-          script.onerror = reject;
-          document.body.appendChild(script);
-        });
-      } catch (error) {
-        console.error("Failed to load script", error);
-      }
-    };
-
-    loadScript("./vendor/jquery/jquery.min.js")
-      .then(() => loadScript("js/main.js"))
-      .catch((err) => console.error("Failed to load script", err));
-  }, []);
-
   const validate = () => {
     const errors = {};
     if (!formData.your_name) errors.your_name = "Name is required";
@@ -57,6 +36,27 @@ const SignUp = () => {
     return errors;
   };
 
+  const checkAvailability = async (username, email) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/auth/check-availability`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, email }),
+        }
+      );
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error checking availability", error);
+      return { usernameAvailable: false, emailAvailable: false };
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -69,9 +69,24 @@ const SignUp = () => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
-      Object.entries(validationErrors).forEach(([key, message]) => {
+      Object.entries(validationErrors).forEach(([, message]) => {
         toast.error(message);
       });
+      return;
+    }
+
+    const { usernameAvailable, emailAvailable } = await checkAvailability(
+      formData.username,
+      formData.your_email
+    );
+
+    if (!usernameAvailable) {
+      toast.error("Username is already taken");
+      return;
+    }
+
+    if (!emailAvailable) {
+      toast.error("Email is already registered");
       return;
     }
 

@@ -1,10 +1,10 @@
-// Importa os módulos necessários
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { Router } from "express";
 import fs from "fs";
 import path from "path";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 // Obtém o caminho do diretório atual
 const __filename = fileURLToPath(import.meta.url);
@@ -12,6 +12,9 @@ const __dirname = dirname(__filename);
 
 // Cria um roteador para as rotas de signup e signin
 const router = Router();
+
+// Chave secreta para assinar o token
+const SECRET_KEY = "bomdia"; // Substitua isso por uma chave secreta forte e segura
 
 // Função para ler dados do arquivo
 const readDataFromFile = (filePath) => {
@@ -27,6 +30,28 @@ const readDataFromFile = (filePath) => {
 const writeDataToFile = (filePath, data) => {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf8");
 };
+
+// Rota para verificar disponibilidade de username e email
+router.post("/check-availability", (req, res) => {
+  const { username, email } = req.body;
+
+  // Caminho para a pasta e o arquivo onde os dados são armazenados
+  const filePath = path.resolve(__dirname, "../database/users.json");
+
+  // Lê os dados existentes do arquivo
+  const existingData = readDataFromFile(filePath);
+
+  // Verifica se o email ou o nome de usuário já estão registrados
+  const isEmailTaken = existingData.some((user) => user.your_email === email);
+  const isUsernameTaken = existingData.some(
+    (user) => user.username === username
+  );
+
+  res.json({
+    emailAvailable: !isEmailTaken,
+    usernameAvailable: !isUsernameTaken,
+  });
+});
 
 // Rota para salvar os dados do SignUp
 router.post("/signup", async (req, res) => {
@@ -148,9 +173,18 @@ router.post("/signin", async (req, res) => {
     return res.status(401).json({ message: "Email ou senha incorretos." });
   }
 
+  // Gera um token para o usuário autenticado
+  const token = jwt.sign(
+    { id: user.id, your_email: user.your_email },
+    SECRET_KEY,
+    {
+      expiresIn: "3h", // Token expira em 3 horas
+    }
+  );
+
   // Se chegou até aqui, significa que o usuário foi autenticado com sucesso
   console.log("Usuário autenticado com sucesso. Dados do usuário:", user); // Imprime todos os dados do usuário no console
-  res.json({ message: "Usuário autenticado com sucesso!" });
+  res.json({ message: "Usuário autenticado com sucesso!", token });
 });
 
 // Rota para visualizar um usuário específico

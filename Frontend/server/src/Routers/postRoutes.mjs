@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import { authenticateToken } from "./middleware/authenticateToken.mjs"; // Importe o middleware de autenticação
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -10,7 +11,7 @@ const __dirname = dirname(__filename);
 const router = Router();
 
 // Rota para criar um post
-router.post("/create", (req, res) => {
+router.post("/create", authenticateToken, (req, res) => {
   const { image, description, email } = req.body;
 
   // Verifica se todos os campos obrigatórios foram fornecidos
