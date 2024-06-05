@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "../pages/Home/index.jsx";
 import SignIn from "../pages/SignIn/index.jsx";
 import SignUp from "../pages/SignUp/index.jsx";
-import PrivateRoute from "../auth/PrivateRoute.mjs";
+import PrivateRoute from "../auth/PrivateRoute.jsx";
 
 export function Routers() {
   return (

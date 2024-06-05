@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import profile from "./img/profile.png";
 import aspasParaCima from "./img/aspas1.png";
 import aspasParaBaixo from "./img/aspasbaixo2.png";
@@ -10,11 +11,32 @@ const Home = () => {
   const [userName, setUserName] = useState("");
 
   useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("formData"));
-    if (storedData && storedData.your_name) {
-      const firstName = storedData.your_name.split(" ")[0]; // Extracting the first name
-      setUserName(firstName);
-    }
+    const fetchUserName = async () => {
+      const authToken = localStorage.getItem("authToken");
+      const storedEmail = localStorage.getItem("userEmail");
+
+      if (authToken && storedEmail) {
+        try {
+          const response = await axios.get(
+            `http://localhost:3000/api/auth/user/${storedEmail}`,
+            {
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+              },
+            }
+          );
+
+          if (response.data && response.data.username) {
+            const firstName = response.data.username.split(" ")[0]; // Extracting the first name
+            setUserName(firstName);
+          }
+        } catch (error) {
+          console.error("Erro ao buscar nome do usuário:", error);
+        }
+      }
+    };
+
+    fetchUserName();
   }, []);
 
   return (
@@ -22,7 +44,7 @@ const Home = () => {
       <section id="home">
         <header>
           <img src={profile} width="50px" alt="profile" />
-          <a className="signIn" href={userName ? "/" : "/signIn"}>
+          <a className="signIn" href={userName ? "/perfil" : "/signIn"}>
             <p>{userName ? userName : "Login"}</p>
           </a>
         </header>

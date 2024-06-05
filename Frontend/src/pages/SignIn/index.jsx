@@ -60,6 +60,7 @@ const SignIn = () => {
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("authToken", data.token);
+        localStorage.setItem("userEmail", formData.your_email); // Salvar o email no localStorage
         toast.success(data.message);
 
         console.log("User authenticated: ", data);

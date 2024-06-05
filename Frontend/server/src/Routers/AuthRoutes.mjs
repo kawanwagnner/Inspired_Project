@@ -216,7 +216,7 @@ router.get("/user/:email", (req, res) => {
 // Rota para atualizar os dados do usuário
 router.put("/user/:email", async (req, res) => {
   const { email } = req.params;
-  const { your_name, your_phone, your_pass, remember_me } = req.body;
+  const { your_name, your_phone, your_pass, remember_me, username } = req.body;
 
   // Caminho para o arquivo de dados dos usuários
   const usersDataFilePath = path.resolve(
@@ -242,6 +242,7 @@ router.put("/user/:email", async (req, res) => {
     your_name,
     your_phone,
     remember_me,
+    username,
   };
   if (your_pass) {
     updatedUser.your_password = await bcrypt.hash(your_pass, 10);
