@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import profile from "./img/profile.png";
 import aspasParaCima from "./img/aspas1.png";
@@ -44,7 +44,7 @@ const Home = () => {
       <section id="home">
         <header>
           <img src={profile} width="50px" alt="profile" />
-          <a className="signIn" href={userName ? "/perfil" : "/signIn"}>
+          <a className="signIn" href={userName ? "/profile" : "/signIn"}>
             <p>{userName ? userName : "Login"}</p>
           </a>
         </header>

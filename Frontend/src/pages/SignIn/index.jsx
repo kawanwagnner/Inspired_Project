@@ -65,7 +65,7 @@ const SignIn = () => {
 
         console.log("User authenticated: ", data);
         setTimeout(() => {
-          navigate("/"); // Redirecionamento após o login
+          navigate("/feed"); // Redirecionamento após o login
         }, 2000); // 2 segundos de delay para o usuário ver a mensagem de sucesso
       } else {
         const errorData = await response.json();
