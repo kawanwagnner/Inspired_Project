@@ -47,10 +47,8 @@ a {
 /* Body Page; */
 
 #home {
-  background: #000
-    url(../img/bg-maos.png)
-    no-repeat;
-    background-position: 70% 70%;
+  background: #000 url(../img/bg-maos.png) no-repeat;
+  background-position: 95% 95%;
   background-size: 100%;
   background-attachment: fixed;
 
@@ -109,7 +107,9 @@ a {
 .title2 {
   font-family: "Antic", sans-serif;
   font-style: italic;
-  font-size: 30px;letter-spacing: 10px;transform: translateY(20px);
+  font-size: 30px;
+  letter-spacing: 10px;
+  transform: translateY(20px);
 }
 
 .signUp {
@@ -161,7 +161,8 @@ a {
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 20px;object-fit: cover;
+  border-radius: 20px;
+  object-fit: cover;
 }
 
 .text-container {
@@ -191,11 +192,12 @@ a {
 /* Responsive styles */
 @media (max-width: 768px) {
   .content {
-      flex-direction: column;
+    flex-direction: column;
   }
-  
-  .image-container, .text-container {
-      flex: 1 1 100%;
+
+  .image-container,
+  .text-container {
+    flex: 1 1 100%;
   }
 }
 
@@ -213,7 +215,7 @@ a {
 }
 
 .container-exhibition .title {
-  font-family: 'Bogart Regular';
+  font-family: "Bogart Regular";
   color: #fff;
 }
 
@@ -240,7 +242,7 @@ a {
 .card-header {
   text-align: center;
   padding: 50px 10px;
-  background-color:  red;
+  background-color: red;
   color: #fff;
 }
 

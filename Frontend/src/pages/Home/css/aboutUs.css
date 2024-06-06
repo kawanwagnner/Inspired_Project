@@ -1,0 +1,83 @@
+@font-face {
+  font-family: "Bogart Regular";
+  src: url("fonts/bogart/Bogart-Regular-trial.ttf") format("truetype"),
+    url("fonts/bogart/Bogart-Semibold-Italic-trial.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+}
+
+ul {
+  list-style: none;
+}
+
+.aboutUs {
+  margin: 100px auto;
+}
+
+.container-aboutUs {
+  margin-top: 188px;
+  margin-left: 48px;
+  margin-right: 48px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  width: 90%;
+  margin: auto;
+  background-color: #fff;
+}
+
+.sobre-text-align {
+  display: flex;
+  flex-direction: column;
+  width: 780px;
+}
+
+.sobre-text-align ul {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+#sobre-title {
+  font-size: 32px;
+  font-weight: bold;
+  font-family: "Antic", sans-serif;
+}
+
+#sobre-text {
+  font-size: 25px;
+  font-weight: 200;
+}
+
+#sobre-subtitle {
+  font-size: 28px;
+  font-weight: bold;
+  font-family: "Antic", sans-serif;
+}
+
+.sobre-text-align img {
+  margin: 0 10px; /* Ajuste a margem conforme necessário */
+}
+
+.sobre-buttons {
+  margin-top: 38px;
+}
+
+.sobre-buttons ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sobre-buttons button {
+  color: #f20530;
+  background-color: #ffff;
+  border: 4px solid #f20530;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 27px;
+  font-family: "Antic", sans-serif;
+}

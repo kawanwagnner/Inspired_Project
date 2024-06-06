@@ -3,9 +3,10 @@ import axios from "axios";
 import profile from "./img/profile.png";
 import aspasParaCima from "./img/aspas1.png";
 import aspasParaBaixo from "./img/aspasbaixo2.png";
-import imgAboutUs from "./img/img-about-us.jpg";
+import vanGogh from "./img/van-gogh.png";
 
 import "./css/home.css";
+import "./css/aboutUs.css";
 
 const Home = () => {
   const [userName, setUserName] = useState("");
@@ -74,21 +75,58 @@ const Home = () => {
         </div>
       </section>
 
-      <section id="aboutUs">
-        <h1 className="title">Sobre Nós</h1>
+      <section className="aboutUs">
         <div className="container-aboutUs">
-          <div className="image-container">
-            <img src={imgAboutUs} alt="Art Gallery" />
-          </div>
+          <img src={vanGogh} width="720px" height="578px" alt="" />
+          <div className="sobre-text-align">
+            <ul id="list-sobre-texts">
+              <li>
+                <h1 id="sobre-title">Aqui a arte ganha vida</h1>
+              </li>
+              <li>
+                <h3 id="sobre-text">
+                  Somos uma rede social criada exclusivamente para artistas de
+                  todos os gêneros e formas de expressão, proporcionando um
+                  espaço seguro e inspirador para compartilhar, colaborar e
+                  crescer
+                </h3>
+              </li>
+              <li>
+                <h2 id="sobre-subtitle">
+                  Na nossa rede social, você tem liberdade de mostrar seu
+                  trabalho em todas as suas formas
+                </h2>
+              </li>
+            </ul>
 
-          <div className="text-container">
-            <h1>Nosso Objetivo</h1>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </p>
+            <div className="sobre-buttons">
+              <ul>
+                <li>
+                  <button>Desenhos</button>
+                </li>
+                <li>
+                  <button>Fotografias</button>
+                </li>
+                <li>
+                  <button>Esculturas</button>
+                </li>
+                <li>
+                  <button>Cinema</button>
+                </li>
+                <li>
+                  <button>Tatuagens</button>
+                </li>
+                <li>
+                  <button>Textos</button>
+                </li>
+                <li>
+                  <button>Pinturas</button>
+                </li>
+                <li>
+                  <button>Teatro</button>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
