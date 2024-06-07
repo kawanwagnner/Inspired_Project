@@ -1,57 +1,106 @@
 import { Router } from "express";
-import fs from "fs";
+import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
-import { authenticateToken } from "./middleware/authenticateToken.mjs"; // Importe o middleware de autenticação
+import multer from "multer";
+import { authenticateToken } from "./middleware/authenticateToken.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const router = Router();
 
-// Rota para criar um post
-router.post("/create", authenticateToken, (req, res) => {
-  const { image, description, email } = req.body;
-
-  // Verifica se todos os campos obrigatórios foram fornecidos
-  if (!image || !email) {
-    return res.status(400).json({
-      message: "Imagem e email são obrigatórios.",
-    });
-  }
-
-  const postData = {
-    image,
-    description: description || "",
-    email,
-    createdAt: new Date().toISOString(), // Adiciona um timestamp ao post
-  };
-
-  const postsDataFilePath = path.resolve(
-    __dirname,
-    "..",
-    "database",
-    "posts.json"
-  );
-
-  // Verifica se o arquivo de posts já existe, caso contrário, cria um array vazio
-  let postsData = [];
-  if (fs.existsSync(postsDataFilePath)) {
-    postsData = JSON.parse(fs.readFileSync(postsDataFilePath, "utf8"));
-  }
-
-  // Adiciona o novo post
-  postsData.push(postData);
-
-  // Escreve os dados atualizados de volta ao arquivo
-  fs.writeFileSync(
-    postsDataFilePath,
-    JSON.stringify(postsData, null, 2),
-    "utf8"
-  );
-
-  res.json({ message: "Post criado com sucesso!", postData });
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "..", "uploads"));
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
 });
+
+const upload = multer({ storage });
+
+router.post(
+  "/create",
+  authenticateToken,
+  upload.single("post_image"),
+  async (req, res) => {
+    try {
+      const { desc } = req.body;
+      const { email, username } = req.user;
+      const image = req.file ? req.file.filename : null;
+
+      if (!image) {
+        return res.status(400).json({ message: "Imagem é obrigatória." });
+      }
+
+      const postData = {
+        image,
+        description: desc || "",
+        email,
+        username,
+        createdAt: new Date().toISOString(),
+      };
+
+      const postsDataFilePath = path.resolve(
+        __dirname,
+        "..",
+        "database",
+        "posts.json"
+      );
+
+      let postsData = [];
+      if (await fileExists(postsDataFilePath)) {
+        const data = await fs.readFile(postsDataFilePath, "utf8");
+        postsData = JSON.parse(data);
+      }
+
+      postsData.push(postData);
+      await fs.writeFile(
+        postsDataFilePath,
+        JSON.stringify(postsData, null, 2),
+        "utf8"
+      );
+
+      res.json({ message: "Post criado com sucesso!", postData });
+    } catch (error) {
+      console.error("Erro ao criar o post:", error);
+      res.status(500).json({ message: "Erro interno do servidor." });
+    }
+  }
+);
+
+router.get("/", async (req, res) => {
+  try {
+    const postsDataFilePath = path.resolve(
+      __dirname,
+      "..",
+      "database",
+      "posts.json"
+    );
+    let postsData = [];
+
+    if (await fileExists(postsDataFilePath)) {
+      const data = await fs.readFile(postsDataFilePath, "utf8");
+      postsData = JSON.parse(data);
+    }
+
+    res.json(postsData);
+  } catch (error) {
+    console.error("Erro ao buscar posts:", error);
+    res.status(500).json({ message: "Erro interno do servidor." });
+  }
+});
+
+const fileExists = async (filePath) => {
+  try {
+    await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+};
 
 export { router as postRouter };

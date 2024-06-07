@@ -2,9 +2,12 @@ import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./css/style.css";
 import "./fonts/material-icon/css/material-design-iconic-font.min.css";
-// import gregoMan from "./img/sculpture-davi.jpg";
+// import gregoMan from "./img/sculpture-davi.jpg"
+import Logo from "./img/LOGO.png";
+
+import "./css/style.css";
+
 import Header from "../../components/Header";
 import { useNavigate } from "react-router-dom";
 
@@ -91,12 +94,7 @@ const SignIn = () => {
 
         <div className="container">
           <div className="form">
-            <img
-              className="inspi"
-              src="img/Inspired-removebg-preview (1)cort (1).png"
-              width="180px"
-              alt=""
-            />
+            <img className="inspi" src={Logo} width="180px" />
             <h2 className="login">Sign in</h2>
 
             <form
