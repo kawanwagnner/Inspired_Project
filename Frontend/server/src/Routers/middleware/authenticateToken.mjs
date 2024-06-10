@@ -4,7 +4,7 @@ const SECRET_KEY = "bomdia"; // Substitua isso por uma chave secreta forte e seg
 
 // Middleware de autenticação
 const authenticateToken = (req, res, next) => {
-  // Obtem o cabeçalho de autorização
+  // Obtém o cabeçalho de autorização
   const authHeader = req.headers["authorization"];
   // Extrai o token JWT do cabeçalho de autorização
   const token = authHeader && authHeader.split(" ")[1];
@@ -21,7 +21,7 @@ const authenticateToken = (req, res, next) => {
       return res.status(403).json({ message: "Token inválido." });
     }
     // Adiciona as informações do usuário à requisição
-    req.user = user;
+    req.user = { email: user.email }; // Supondo que o token contenha o email do usuário
     // Continua para a próxima função middleware
     next();
   });

@@ -16,9 +16,35 @@
   font-weight: 400;
 }
 
+/* Header; */
+
+#header-main-feed {
+  background-color: var(--Bgbranco-secundario);
+  height: 88px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 56;
+}
+
+.image-content {
+  width: 100px;
+  margin: auto;
+}
+
+.image-content img {
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Body Page; */
+
 .feed-pagina-feed {
   width: 100%;
-  font-family: "Bogart Regular", sans-serif; /* Adicionado para garantir que a fonte seja aplicada ao corpo */
+  font-family: "Bogart Regular", sans-serif;
+  /* Adicionado para garantir que a fonte seja aplicada ao corpo */
 }
 
 .feed-header {
@@ -56,7 +82,9 @@
 
 .feed-post {
   border: var(--Bgbranco-secundario) 3px solid;
-  width: 600px;
+  width: 70%;
+  margin: 50px auto;
+  /* Ajuste a margem superior conforme necessário */
   border-radius: 30px;
   padding: 20px 50px;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, #eff3f4 0px 0px 0px 1px;
@@ -82,8 +110,11 @@
 }
 
 .feed-text-content {
-  font-size: 18px;
   font-weight: 500;
+}
+
+.feed-text-content p {
+  transform: translateX(-10%);
 }
 
 .feed-name {
@@ -91,10 +122,17 @@
 }
 
 .feed-img-content {
-  width: 498px;
+  width: 90%;
   height: 434px;
-  background-color: gray;
   border-radius: 30px;
+  margin: auto;
+  display: block;
+}
+
+.feed-img-content img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .feed-avatar-align {
@@ -129,7 +167,12 @@
   width: 25%;
   background-color: #fff;
   height: 920px;
-  position: relative;
+  position: fixed;
+  /* Adicionado */
+  top: 88px;
+  /* Adicionado para alinhar com o cabeçalho */
+  left: 0;
+  /* Adicionado para alinhar com a borda esquerda */
 }
 
 .feed-logo {
@@ -170,12 +213,13 @@
 /* DIV DO MEIO */
 
 .feed-meio {
-  background-color: #fff;
-  height: 944px;
+  /* background-color: #fff; */
   width: 50%;
+  margin: 88px auto 0 auto;
   z-index: 10;
-  border: 3px solid var(--Bgbranco-secundario);
+  /* border: 3px solid var(--Bgbranco-secundario); */
   border-top: none;
+  transform: translateX(0%);
 }
 
 .feed-banner {
@@ -316,20 +360,39 @@
   width: 30%;
   background-color: #fff;
   height: 920px;
-  z-index: 1;
+  position: fixed;
+  top: 30px;
+  right: -40px;
 }
 
-.feed-imgMao {
+.relative-feed {
+  position: relative;
+}
+
+.relative-feed::after {
+  content: "";
+  height: 100%;
+  width: 40px;
+  background-color: #F8F8F8;
+  border-right: 3px solid var(--Bgbranco-secundario);
+
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* .feed-imgMao {
   width: 120%;
   margin-left: -10%;
   margin-top: 20px;
-}
+  position: relative;
+} */
 
-.feed-imgBoneco {
+/* .feed-imgBoneco {
   margin-top: 9%;
   height: 500px;
   margin-left: -5%;
-}
+} */
 
 /* <reset-style> ============================ */
 
@@ -396,7 +459,7 @@ button {
   background-color: rgba(66, 66, 69, 0.7);
 }
 
-.popup {
+.popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -416,6 +479,16 @@ button {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 400px;
   max-width: 80%;
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  right: 5%;
+  top: 5%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
 }
 
 .popup-inner h2 {
@@ -426,28 +499,36 @@ button {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  justify-content: center;
+}
+
+.popup-username p {
+  transform: translate(-45%, -12%);
 }
 
 .popup-username img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  margin-right: 10px;
 }
 
-.popup-inner .form-group {
-  margin-bottom: 15px;
+.form-group {
+  margin-bottom: 0px;
 }
 
-.popup-inner .form-label {
+.form-group-desc {
+  margin-bottom: 30px;
+}
+
+.form-label {
   display: block;
   margin-bottom: 5px;
-  transform: translateX(-15%);
   font-weight: bold;
+  transform: translateX(-15%);
 }
 
-.popup-inner .form-group input,
-.popup-inner .form-group textarea {
+.form-group input,
+.form-group textarea {
   width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
@@ -455,7 +536,7 @@ button {
   box-sizing: border-box;
 }
 
-.popup-inner .form-group textarea {
+.form-group textarea {
   resize: vertical;
 }
 

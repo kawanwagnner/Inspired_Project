@@ -15,7 +15,8 @@
 
 .profile-esquerda {
   width: 25%;
-  background-color: rgb(255, 255, 255);
+  background-color: #fff;
+  /* Corrigido: Alterado de "rgb(255, 255, 255)" para "#fff" */
   height: 920px;
   position: relative;
 }
@@ -26,16 +27,19 @@
   display: block;
   transform: translate(-5%, 85%);
 }
+
 .profile-logoHome {
   width: 25px;
   height: 25px;
   margin-right: 10px;
 }
+
 .profile-logoUser {
   width: 25px;
   height: 25px;
   margin-right: 10px;
 }
+
 .profile-ul {
   width: 50%;
   margin: auto;
@@ -60,7 +64,8 @@
 /* DIV DO MEIO */
 
 .profile-meio {
-  background-color: rgb(255, 255, 255);
+  background-color: #fff;
+  /* Corrigido: Alterado de "rgb(255, 255, 255)" para "#fff" */
   height: 944px;
   width: 50%;
   z-index: 55;
@@ -72,16 +77,18 @@
   height: 22%;
   width: 100%;
 }
+
 .profile-botaoPost {
   position: absolute;
-  bottom: 150px;
+  bottom: 350px;
   left: 50%;
   transform: translateX(-70%);
   height: 39px;
   width: 150px;
   border-radius: 25px;
   border: none;
-  color: rgb(255, 255, 255);
+  color: #fff;
+  /* Corrigido: Alterado de "rgb(255, 255, 255)" para "#fff" */
   background-color: red;
   box-shadow: rgba(0, 0, 0, 0.506) 0px 5px 15px;
   font-family: "Bogart Regular", sans-serif;
@@ -108,7 +115,8 @@
 
 .profile-custum-file-upload .profile-icon svg {
   height: 50px;
-  fill: rgb(255, 255, 255);
+  fill: #fff;
+  /* Corrigido: Alterado de "rgb(255, 255, 255)" para "#fff" */
 }
 
 .profile-custum-file-upload .profile-text {
@@ -119,7 +127,8 @@
 
 .profile-custum-file-upload .profile-text span {
   font-weight: 400;
-  color: rgb(255, 255, 255);
+  color: #fff;
+  /* Corrigido: Alterado de "rgb(255, 255, 255)" para "#fff" */
   font-size: 13px;
   cursor: pointer;
 }
@@ -161,7 +170,8 @@
   width: 150px;
   border-radius: 25px;
   border: none;
-  color: rgb(255, 255, 255);
+  color: #fff;
+  /* Corrigido: Alterado de "rgb(255, 255, 255)" para "#fff" */
   background-color: red;
   box-shadow: rgba(0, 0, 0, 0.506) 0px 5px 15px;
   font-family: "Bogart Regular", sans-serif;
@@ -181,6 +191,7 @@
   display: flex;
   text-align: center;
 }
+
 .profile-linha {
   background-color: red;
   box-shadow: rgba(0, 0, 0, 0.506) 0px 5px 15px;
@@ -211,15 +222,18 @@
 /* DIV DA DIREITA */
 .profile-direita {
   width: 25%;
-  background-color: rgb(255, 255, 255);
+  background-color: #fff;
+  /* Corrigido: Alterado de "rgb(255, 255, 255)" para "#fff" */
   height: 920px;
   z-index: -99;
 }
+
 .profile-imgMao {
   width: 120%;
   margin-left: -10%;
   margin-top: 20px;
 }
+
 .profile-imgBoneco {
   margin-top: 9%;
   height: 500px;

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import profile from "./img/profile.png";
 import aspasParaCima from "./img/aspas1.png";
@@ -38,16 +38,34 @@ const Home = () => {
     };
 
     fetchUserName();
+
+    // Definindo um temporizador para limpar o localStorage após 3 horas
+    const clearLocalStorageTimer = setTimeout(() => {
+      localStorage.clear();
+    }, 3 * 60 * 60 * 1000); // 3 horas em milissegundos
+
+    // Limpando o temporizador ao desmontar o componente
+    return () => clearTimeout(clearLocalStorageTimer);
   }, []);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.href = "/signIn"; // Redireciona para a página de login após o logout
+  };
 
   return (
     <>
       <section id="home">
-        <header>
+        <header style={{ display: "flex", alignItems: "center" }}>
           <img src={profile} width="50px" alt="profile" />
           <a className="signIn" href={userName ? "/profile" : "/signIn"}>
             <p>{userName ? userName : "Login"}</p>
           </a>
+          {userName && (
+            <button className="logoutButton" onClick={handleLogout}>
+              Sair
+            </button>
+          )}
         </header>
 
         <div className="container-position">
@@ -68,9 +86,15 @@ const Home = () => {
               width="130px"
               alt="aspas para baixo"
             />
-            <a href="signUp">
-              <h3 className="signUp">CADASTRAR-SE</h3>
-            </a>
+            {userName ? (
+              <a href="/feed">
+                <h3 className="signUp">EXPLORAR</h3>
+              </a>
+            ) : (
+              <a href="/signUp">
+                <h3 className="signUp">CADASTRAR-SE</h3>
+              </a>
+            )}
           </div>
         </div>
       </section>

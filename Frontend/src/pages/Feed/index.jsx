@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PostCard from "../../components/Card/index";
 import "./assets/css/feed.css";
 
 import logo from "./assets/img/Inspired-preto-no-bg.png";
@@ -10,15 +11,17 @@ import userIcon from "./assets/img/user.png";
 import userAvatar from "./assets/img/usuario.png";
 import handImage from "./assets/img/maos.png";
 import figureImage from "./assets/img/escultura-grego.png";
+import closeWindow from "./assets/img/close-512.png";
 
 const Feed = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [user, setUser] = useState("");
   const [post, setPost] = useState({
     user_image: userAvatar,
     desc: "",
+    user: "",
     post_image: null,
   });
-  const [userName, setUserName] = useState("");
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -40,8 +43,7 @@ const Feed = () => {
           );
 
           if (response.data && response.data.username) {
-            const firstName = response.data.username.split(" ")[0];
-            setUserName(firstName);
+            setUser(response.data.username);
           }
         } catch (error) {
           console.error("Erro ao buscar nome do usuário:", error);
@@ -56,8 +58,16 @@ const Feed = () => {
     const fetchPosts = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("http://localhost:3000/api/posts");
-        setPosts(response.data);
+        const response = await axios.get("http://localhost:3000/api/posts", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        });
+        if (response.data && Array.isArray(response.data)) {
+          setPosts(response.data);
+        } else {
+          setError("Dados inválidos recebidos da API.");
+        }
       } catch (error) {
         console.error("Erro ao buscar posts:", error);
         setError(error);
@@ -86,9 +96,10 @@ const Feed = () => {
 
     try {
       const authToken = localStorage.getItem("authToken");
+      const username = user; // Use o username obtido pelo useEffect
 
       const response = await axios.post(
-        "http://localhost:3000/api/posts/create",
+        `http://localhost:3000/api/posts/create/${username}`,
         formData,
         {
           headers: {
@@ -98,9 +109,14 @@ const Feed = () => {
         }
       );
 
-      if (response.data) {
+      if (
+        response.data &&
+        response.data.message === "Post criado com sucesso!"
+      ) {
         toast.success("Post criado com sucesso!");
         setPosts((prevPosts) => [response.data.postData, ...prevPosts]);
+      } else {
+        toast.error("Resposta inválida da API.");
       }
     } catch (error) {
       toast.error("Erro ao criar o post.");
@@ -111,118 +127,117 @@ const Feed = () => {
   };
 
   if (loading) return <p>Carregando...</p>;
-  if (error) return <p>Erro ao carregar dados.</p>;
 
   return (
-    <div className="feed-pagina-feed">
-      <ToastContainer />
-      <header className="feed-header">
-        <img className="feed-header-logo" src={logo} alt="Logo" />
-      </header>
-
-      <div className="feed-container">
-        <div className="feed-esquerda">
-          <ul className="list-menu">
-            <li>
-              <div className="feed-flex-item feed-home-hover">
-                <img className="feed-logoHome" src={homeIcon} alt="Início" />
-                <h1 className="feed-titulo">Início</h1>
-              </div>
-            </li>
-            <li>
-              <div className="feed-flex-item">
-                <img className="feed-logoUser" src={userIcon} alt="Perfil" />
-                <h1 className="feed-titulo">Perfil</h1>
-              </div>
-            </li>
-            <li>
-              <button
-                className="feed-botaoPost"
-                onClick={() => setIsPopupVisible(true)}
-              >
-                <strong>POSTAR</strong>
-              </button>
-            </li>
-          </ul>
-        </div>
-
-        <div className="feed-meio">
-          {posts.map((post, index) => (
-            <div key={index} className="feed-post">
-              <div className="feed-header-post">
-                <ul>
-                  <div className="feed-avatar-align">
-                    <img
-                      src={userAvatar}
-                      className="feed-avatar"
-                      alt="Usuário"
-                    />
-                    <h1 className="feed-name">{post.username}</h1>
-                  </div>
-                </ul>
-              </div>
-              <section className="feed-post-section">
-                <h1 className="feed-text-content">{post.description}</h1>
-                <div className="feed-img-content">
-                  <img src={`./uploads/${post.image}`} alt="Imagem do Post" />
+    <>
+      <div className="feed-pagina-feed">
+        <ToastContainer />
+        <header id="header-main-feed">
+          <div className="image-content">
+            <img src={logo} alt="Logo" />
+          </div>
+        </header>
+        <div className="feed-container">
+          <div className="feed-esquerda">
+            <ul className="list-menu">
+              <li>
+                <div className="feed-flex-item feed-home-hover">
+                  <img className="feed-logoHome" src={homeIcon} alt="Início" />
+                  <a style={{ color: "#000" }} href="/">
+                    <h1 className="feed-titulo">Início</h1>
+                  </a>
                 </div>
-                <div className="feed-actions">
-                  <button className="feed-button feed-like">
-                    <img
-                      src=""
-                      alt="curtir"
-                      className="feed-img feed-like-img"
-                    />
-                  </button>
+              </li>
+              <li>
+                <div className="feed-flex-item">
+                  <img className="feed-logoUser" src={userIcon} alt="Perfil" />
+                  <a style={{ color: "#000" }} href="/profile">
+                    <h1 className="feed-titulo">Perfil</h1>
+                  </a>
                 </div>
-              </section>
+              </li>
+              <li>
+                <button
+                  className="feed-botaoPost"
+                  onClick={() => setIsPopupVisible(true)}
+                >
+                  <strong>POSTAR</strong>
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div className="feed-meio">
+            {posts.length === 0 ? (
+              <p>Não há posts para exibir.</p>
+            ) : (
+              posts.map((post, index) => (
+                <PostCard key={index} post={post} userName={post.username} />
+              ))
+            )}
+          </div>
+          <div className="feed-direita">
+            <div className="relative-feed">
+              <img className="feed-handImage" src={handImage} alt="Imagem" />
+              <img
+                className="feed-figureImage"
+                src={figureImage}
+                alt="Imagem"
+              />
             </div>
-          ))}
-        </div>
-
-        <div className="feed-direita">
-          <img className="feed-imgMao" src={handImage} alt="Mão" />
-          <img className="feed-imgBoneco" src={figureImage} alt="Boneco" />
-        </div>
-      </div>
-
-      {isPopupVisible && (
-        <div className="popup">
-          <div className="popup-inner">
-            <h2>Novo Post</h2>
-            <div className="popup-username">
-              <img src={post.user_image} alt="Avatar do Usuário" />
-              <span>{userName}</span>
-            </div>
-            <form onSubmit={handlePostSubmit}>
-              <div className="form-group">
-                <p className="form-label">Imagem do Post:</p>
-                <input
-                  type="file"
-                  id="post_image"
-                  name="post_image"
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <p className="form-label">Descrição (opcional):</p>
-                <textarea
-                  id="desc"
-                  name="desc"
-                  value={post.desc}
-                  onChange={handleInputChange}
-                ></textarea>
-              </div>
-              <button type="submit">Enviar</button>
-              <button type="button" onClick={() => setIsPopupVisible(false)}>
-                Cancelar
-              </button>
-            </form>
           </div>
         </div>
-      )}
-    </div>
+
+        {isPopupVisible && (
+          <div className="popup-overlay">
+            <div className="popup-inner">
+              <img
+                className="close-btn"
+                onClick={() => setIsPopupVisible(false)}
+                src={closeWindow}
+                alt="Fechar"
+              />
+              <h2 className="titulo">Novo POST:</h2>
+              <form onSubmit={handlePostSubmit}>
+                <div className="popup-username">
+                  <img src={userAvatar} alt="Usuário" />
+                  <p>{user}</p>
+                </div>
+                <div className="form-group">
+                  <p className="form-label" htmlFor="post_image">
+                    Selecionar imagem:
+                  </p>
+                  <input
+                    id="post_image"
+                    type="file"
+                    name="post_image"
+                    accept="image/*"
+                    required
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="form-group form-group-desc">
+                  <p className="form-label" htmlFor="desc">
+                    Descrição:
+                  </p>
+                  <input
+                    className="feed-input-post"
+                    type="text"
+                    id="desc"
+                    name="desc"
+                    placeholder="Descrição"
+                    value={post.desc}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <button className="feed-botaoEnviar" type="submit">
+                  Postar
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
