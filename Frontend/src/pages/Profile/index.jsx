@@ -163,7 +163,7 @@ const Profile = () => {
             <button className="profile-botao_editar">Editar Perfil</button>
           </div>
           <div className="profile-bio_usuario">
-            <p>{userData.bio}</p>
+            <p>- Sem Bio</p>
             <p id="profile-date">Entrou em {userData.joinDate}</p>
             <br />
             <h2>Posts</h2>
@@ -173,11 +173,11 @@ const Profile = () => {
             <div key={post.createdAt} className="profile-card">
               <div className="profile-usuario_feed">
                 <img
-                  src={`http://localhost:3000/uploads/${post.image}`}
+                  src={`https://files.tecnoblog.net/wp-content/uploads/2022/09/stable-diffusion-imagem.jpg`}
                   alt="Post"
                   className="profile-foto_post"
                 />
-                <p className="profile-nome_usuario_feed">{post.description}</p>
+                <p className="profile-nome_usuario_feed">descrição</p>
               </div>
             </div>
           ))}

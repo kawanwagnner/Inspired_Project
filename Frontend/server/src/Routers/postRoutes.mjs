@@ -137,7 +137,7 @@ router.get("/posts", authenticateToken, async (req, res) => {
       }
     });
 
-    console.log("Posts encontrados:", allPosts); // Adicione este console.log
+    console.log("Posts encontrados:", allPosts);
 
     res.json(allPosts);
   } catch (error) {

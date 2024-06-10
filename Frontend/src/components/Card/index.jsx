@@ -1,6 +1,6 @@
 // Card.jsx
 import React from "react";
-import userAvatar from "./assets/img/usuario.png"; // Adjust the import path as necessary
+import userAvatar from "./assets/img/usuario.png"; // Ajuste o caminho conforme necessário
 
 const Card = ({ post, userName }) => {
   return (

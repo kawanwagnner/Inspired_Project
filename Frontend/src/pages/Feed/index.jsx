@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import PostCard from "../../components/Card/index";
+import Card from "../../components/Card"; // Ajuste o caminho conforme necessário
 import "./assets/css/feed.css";
 
 import logo from "./assets/img/Inspired-preto-no-bg.png";
@@ -64,7 +64,15 @@ const Feed = () => {
           },
         });
         if (response.data && Array.isArray(response.data)) {
-          setPosts(response.data);
+          // Ajuste a estrutura dos dados para incluir o nome de usuário
+          const postsWithUsernames = response.data.reduce((acc, user) => {
+            const userPosts = user.posts.map((post) => ({
+              ...post,
+              userName: user.username,
+            }));
+            return [...acc, ...userPosts];
+          }, []);
+          setPosts(postsWithUsernames);
         } else {
           setError("Dados inválidos recebidos da API.");
         }
@@ -170,9 +178,7 @@ const Feed = () => {
             {posts.length === 0 ? (
               <p>Não há posts para exibir.</p>
             ) : (
-              posts.map((post, index) => (
-                <PostCard key={index} post={post} userName={post.username} />
-              ))
+              posts.map((post, index) => <Card key={index} post={post} />)
             )}
           </div>
           <div className="feed-direita">
