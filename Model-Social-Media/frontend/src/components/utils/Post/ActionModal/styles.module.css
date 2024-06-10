@@ -1,0 +1,179 @@
+.ModalMain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+.ModalMain .bg {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.7);
+  top: 0;
+  left: 0;
+  z-index: 111;
+}
+.ModalMain .modal {
+  z-index: 112;
+  background-color: white;
+  width: 40vw;
+  height: 65vh;
+  position: relative;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 991px) {
+  .ModalMain .modal {
+    width: 90vw;
+    height: 50vh;
+  }
+}
+.ModalMain .modal svg.iconClose {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+}
+.ModalMain .modal header.options .handleOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ModalMain .modal header.options .handleOption .aOption {
+  padding: 0.4rem 0.5rem;
+  margin-right: 0.5rem;
+  border-bottom-left-radius: 0.1rem;
+  border-bottom-right-radius: 0.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 300ms;
+  border: solid 2px transparent;
+}
+.ModalMain .modal header.options .handleOption .aOption svg {
+  margin-right: 0.35rem;
+}
+.ModalMain .modal header.options .handleOption .aOption:hover {
+  filter: brightness(0.85);
+}
+.ModalMain .modal header.options .handleOption .like {
+  color: var(--default-blue);
+}
+.ModalMain .modal header.options .handleOption .dislike {
+  color: var(--offline);
+}
+.ModalMain .modal header.options hr {
+  width: 100%;
+}
+.ModalMain .modal section.content {
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+.ModalMain .modal section.content::-webkit-scrollbar-track {
+  background-color: #F4F4F4;
+}
+.ModalMain .modal section.content::-webkit-scrollbar {
+  width: 6px;
+  background: #F4F4F4;
+}
+.ModalMain .modal section.content::-webkit-scrollbar-thumb {
+  background: #dad7d7;
+}
+.ModalMain .modal section.content .loading {
+  font-size: 2rem;
+  margin-top: 1rem;
+}
+.ModalMain .modal section.content .actionsContainer {
+  height: -moz-max-content;
+  height: max-content;
+}
+.ModalMain .modal section.content .actionsContainer .actionUser {
+  margin-top: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--background);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+.ModalMain .modal section.content .actionsContainer .actionUser a {
+  display: flex;
+  align-items: center;
+  width: -moz-max-content;
+  width: max-content;
+}
+.ModalMain .modal section.content .actionsContainer .actionUser a .imageContainer {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 0.35rem;
+}
+.ModalMain .modal section.content .actionsContainer .actionUser a .imageContainer img {
+  width: 2rem;
+  height: 2rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.ModalMain .modal section.content .actionsContainer .actionUser .letsIcons {
+  cursor: default;
+}
+.ModalMain .modal section.content .actionsContainer .actionUser .letsIcons svg {
+  opacity: 0.6 !important;
+}
+.ModalMain .modal section.content .commentsContainer .commentUser {
+  background-color: var(--background);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  margin-top: 0.4rem;
+}
+.ModalMain .modal section.content .commentsContainer .commentUser header.userInfo a {
+  display: flex;
+  align-items: center;
+}
+.ModalMain .modal section.content .commentsContainer .commentUser header.userInfo a .imageContainer {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.ModalMain .modal section.content .commentsContainer .commentUser header.userInfo a .imageContainer img {
+  width: 2rem;
+  height: 2rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.ModalMain .modal section.content .commentsContainer .commentUser header.userInfo a .username {
+  color: rgb(58, 58, 58);
+  margin-left: 0.4rem;
+}
+.ModalMain .modal section.content .commentsContainer .commentUser section.content {
+  margin-left: 2rem;
+  line-break: anywhere;
+}
+.ModalMain .modal section.content .notHave {
+  height: 100%;
+  color: var(--gray-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  margin-top: 4rem;
+}
+.ModalMain .modal section.content .notHave .title {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+.ModalMain .modal section.content .notHave svg {
+  margin-top: 1rem;
+  font-size: 4rem;
+}/*# sourceMappingURL=styles.module.css.map */

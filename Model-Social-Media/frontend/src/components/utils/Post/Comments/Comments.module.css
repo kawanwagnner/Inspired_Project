@@ -1,0 +1,124 @@
+.commentsContainer {
+  padding-top: 2rem;
+}
+.commentsContainer hr {
+  margin-top: 0.5rem;
+}
+.commentsContainer .content {
+  padding-top: 1rem;
+}
+.commentsContainer .content .newCommentContainer {
+  margin-bottom: 1rem;
+  display: flex;
+  padding: 0.5rem;
+  border: solid 1px var(--gray-1);
+  border-radius: 0.3rem;
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+}
+.commentsContainer .content .newCommentContainer:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.commentsContainer .content .newCommentContainer button {
+  background-color: var(--default-blue);
+  color: white;
+  font-size: 1.5rem;
+  display: flex;
+  border: none;
+  border-radius: 50%;
+  padding: 0.25rem;
+  transition: all 300ms;
+  margin-left: 0.5rem;
+}
+.commentsContainer .content .newCommentContainer button svg {
+  color: white;
+}
+.commentsContainer .content .newCommentContainer input {
+  font-size: 0.8rem;
+  width: 100%;
+  border: none;
+  padding-left: 10px;
+}
+.commentsContainer .content .newCommentContainer input:focus {
+  outline: none;
+}
+.commentsContainer .content .commentLimit {
+  font-size: 0.9rem;
+}
+.commentsContainer .content .commentLimitOk {
+  color: green;
+}
+.commentsContainer .content .commentLimitWarning {
+  color: gold;
+}
+.commentsContainer .content .commentLimitFull {
+  color: red;
+}
+.commentsContainer .content .notHaveComments {
+  text-align: center;
+  color: var(--gray-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.commentsContainer .content .notHaveComments svg {
+  font-size: 1.5rem;
+}
+.commentsContainer .content .comment {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  border: solid 1px rgba(0, 0, 0, 0.2);
+}
+.commentsContainer .content .comment header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.commentsContainer .content .comment header .createdOn {
+  font-size: 0.8rem;
+  color: var(--gray-2);
+}
+.commentsContainer .content .comment header a {
+  display: flex;
+  align-items: center;
+  width: -moz-max-content;
+  width: max-content;
+}
+.commentsContainer .content .comment header .imageContainer {
+  width: 1.75em;
+  height: 1.75rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.commentsContainer .content .comment header .imageContainer img {
+  width: 1.75em;
+  height: 1.75rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.commentsContainer .content .comment header .username {
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--gray-2);
+}
+.commentsContainer .content .comment section {
+  margin-left: 0.7rem;
+  display: flex;
+}
+.commentsContainer .content .comment section svg {
+  opacity: 0.2;
+  margin-right: 0.5rem;
+  font-size: 1rem;
+}
+.commentsContainer .content .comment section .data {
+  line-break: anywhere;
+  max-width: calc(95% - 0.7rem);
+  overflow-y: hidden;
+  position: relative;
+}
+
+#loading {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}/*# sourceMappingURL=Comments.module.css.map */

@@ -1,0 +1,73 @@
+.emailRegisterContainer header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.emailRegisterContainer header .back {
+  cursor: pointer;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  border: solid 1px var(--gray-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.emailRegisterContainer header .back svg {
+  font-size: 100%;
+}
+.emailRegisterContainer header .title {
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+.emailRegisterContainer .formControl {
+  margin-bottom: 1.25rem;
+}
+.emailRegisterContainer .formControl label {
+  margin-bottom: 0.2rem;
+  display: block;
+  font-size: 0.9rem;
+}
+.emailRegisterContainer .formControl input {
+  width: 100%;
+  padding: 0.7rem;
+  font-size: 0.9rem;
+  border: solid 1px var(--gray-1);
+}
+.emailRegisterContainer .formControl input:focus {
+  outline: none;
+}
+.emailRegisterContainer .formControl input::-moz-placeholder {
+  opacity: 0.8;
+}
+.emailRegisterContainer .formControl input::placeholder {
+  opacity: 0.8;
+}
+.emailRegisterContainer .loading {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+.emailRegisterContainer .btnRegister {
+  background-color: var(--default-blue);
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 0.3rem;
+}
+.emailRegisterContainer .showPassword {
+  display: flex;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  color: var(--gray-2);
+  margin-top: -0.5rem;
+}
+.emailRegisterContainer .showPassword input {
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+.emailRegisterContainer .showPassword label {
+  cursor: pointer;
+}/*# sourceMappingURL=EmailSignUp.module.css.map */

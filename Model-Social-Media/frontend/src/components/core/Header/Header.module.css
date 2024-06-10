@@ -1,0 +1,168 @@
+.Header {
+  background-color: white;
+  width: 100%;
+  padding: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 0 10px #898989;
+}
+
+#firstContainer {
+  display: flex;
+  align-items: center;
+  margin-right: 0.75rem;
+}
+#firstContainer > a {
+  margin-right: 1rem;
+}
+#firstContainer .logoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  width: 3rem;
+}
+#firstContainer .logoContainer img {
+  height: 3rem;
+  width: 3rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+#firstContainer .searchContainer {
+  padding: 0 0.5rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background-color: var(--background);
+  border-radius: 0.5rem;
+}
+#firstContainer .searchContainer svg {
+  font-size: 1.5rem;
+  color: rgba(0, 0, 0, 0.5);
+}
+#firstContainer .searchContainer label {
+  display: flex;
+}
+#firstContainer .searchContainer input {
+  height: 100%;
+  background-color: var(--background);
+  padding-left: 0.3rem;
+  border: none;
+  width: calc(100% + 2rem);
+}
+#firstContainer .searchContainer input:focus {
+  outline: none;
+}
+@media (min-width: 991px) {
+  #firstContainer .searchContainer input:focus {
+    width: 400px;
+  }
+}
+#firstContainer .searchContainer .searchIconContainer {
+  height: inherit;
+  display: flex;
+  align-items: center;
+}
+#firstContainer .searchContainer .searchIconContainer button {
+  border: none;
+  background-color: var(--default-blue);
+  color: white;
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.4rem;
+}
+
+#secondContainer {
+  position: relative;
+  cursor: pointer;
+}
+#secondContainer .userData {
+  display: flex;
+  align-items: center;
+}
+#secondContainer .userData .dropdownContainer {
+  margin-right: 1rem;
+  border-radius: 50%;
+  padding: 0.2rem;
+  background-color: var(--gray-3);
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#secondContainer .userData .dropdownContainer svg {
+  font-size: 1.3rem;
+  color: var(--gray-4);
+}
+#secondContainer .userData .username {
+  margin-right: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 400;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+#secondContainer .userData .userPicture {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#secondContainer .userData .userPicture img {
+  height: 3rem;
+  width: 3rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+#secondContainer .dropdown {
+  position: absolute;
+  background-color: white;
+  border: solid 1px rgba(0, 0, 0, 0.2);
+  z-index: 19;
+  max-width: 200px;
+  min-width: -moz-max-content;
+  min-width: max-content;
+  right: 3rem;
+  left: 0;
+  top: 106%;
+  border-radius: 0.5rem;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+#secondContainer .dropdown div {
+  transition: all 200ms;
+  padding: 0.5rem;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+#secondContainer .dropdown div svg {
+  margin-right: 0.3rem;
+  color: var(--default-blue);
+}
+#secondContainer .dropdown div a {
+  display: flex;
+  align-items: center;
+}
+#secondContainer .dropdown div:hover {
+  background-color: var(--background);
+}
+#secondContainer .menuMobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--default-blue);
+  font-size: 2rem;
+}
+@media (max-width: 901px) {
+  #secondContainer {
+    position: unset;
+  }
+}/*# sourceMappingURL=Header.module.css.map */

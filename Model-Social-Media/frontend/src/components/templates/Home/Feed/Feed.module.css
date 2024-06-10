@@ -1,0 +1,61 @@
+.feed {
+  width: 100%;
+  margin-top: 3rem;
+}
+.feed .notHavePosts {
+  font-size: 2rem;
+  color: var(--gray-2);
+  padding: 2rem 1rem;
+  text-align: center;
+}
+.feed .spin {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.feed .division {
+  opacity: 0.5;
+  margin: 1rem 0;
+}
+.feed .loadingContainer {
+  font-size: 2.5rem;
+}
+.feed .loadMorePosts {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  padding-bottom: 3rem;
+}
+.feed .loadMorePosts button {
+  border: none;
+  padding: 0.8rem 2.5rem;
+  background: var(--default-blue);
+  color: white;
+  border-radius: 0.2rem;
+  font-size: 0.85rem;
+  transition: all 300ms;
+  font-weight: 400;
+}
+.feed .loadMorePosts button svg {
+  margin-left: 0.5rem;
+  font-size: 1rem;
+}
+.feed .loadMorePosts button:hover {
+  filter: brightness(0.9);
+}
+.feed .loadMorePosts .noHavePosts {
+  color: var(--gray-2);
+  opacity: 0.65;
+  text-align: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.feed .loadMorePosts .noHavePosts svg {
+  margin-top: 0.5rem;
+  font-size: 3.5rem;
+}
+@media (max-width: 901px) {
+  .feed {
+    width: 100%;
+  }
+}/*# sourceMappingURL=Feed.module.css.map */
