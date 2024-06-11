@@ -1,20 +1,10 @@
+// routes.js
 import express from "express";
-import { signUpUser, signInUser } from "../Controllers/authController.mjs";
-import {
-  validateEmail,
-  validateName,
-  validatePassword,
-  validateEmailExists,
-} from "../services/validator.mjs";
+import { signIn, signUp } from "../Controllers/authController.mjs";
 
-const router = express.Router();
+const authRouter = express.Router();
 
-router.post(
-  "/signup",
-  [validateEmail, validateName, validatePassword, validateEmailExists],
-  signUpUser
-);
+authRouter.post("/signup", signUp);
+authRouter.post("/signin", signIn);
 
-router.post("/signin", [validateEmail, validatePassword], signInUser);
-
-export default router;
+export default authRouter;

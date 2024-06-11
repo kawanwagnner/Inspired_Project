@@ -6,62 +6,39 @@ import "./css/style.css";
 import "./fonts/material-icon/css/material-design-iconic-font.min.css";
 import cameraMan from "../SignUp/img/cameraman.jpg";
 import Header from "../../components/Header";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    your_name: "",
-    your_email: "",
-    your_phone: "",
-    your_pass: "",
-    confirm_pass: "",
-    remember_me: false,
+    name: "",
     username: "",
+    email: "",
+    password: "",
+    confirm_pass: "",
   });
+
+  const navigate = useNavigate();
 
   const validate = () => {
     const errors = {};
-    if (!formData.your_name) errors.your_name = "Name is required";
-    if (!formData.your_email) errors.your_email = "Email is required";
-    if (!/\S+@\S+\.\S+/.test(formData.your_email))
-      errors.your_email = "Email address is invalid";
-    if (!formData.your_phone) errors.your_phone = "Phone is required";
-    if (!/^\d{10,}$/.test(formData.your_phone))
-      errors.your_phone = "Phone number is invalid";
-    if (!formData.your_pass) errors.your_pass = "Password is required";
-    if (formData.your_pass.length < 6)
-      errors.your_pass = "Password must be at least 6 characters";
-    if (formData.your_pass !== formData.confirm_pass)
+    if (!formData.name) errors.name = "Name is required";
+    if (!formData.email) errors.email = "Email is required";
+    if (!/\S+@\S+\.\S+/.test(formData.email))
+      errors.email = "Email address is invalid";
+    if (!formData.password) errors.password = "Password is required";
+    if (formData.password.length < 6)
+      errors.password = "Password must be at least 6 characters";
+    if (formData.password !== formData.confirm_pass)
       errors.confirm_pass = "Passwords do not match";
     if (!formData.username) errors.username = "Username is required";
     return errors;
   };
 
-  const checkAvailability = async (username, email) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3000/api/auth/check-availability`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username, email }),
-        }
-      );
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error checking availability", error);
-      return { usernameAvailable: false, emailAvailable: false };
-    }
-  };
-
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     });
   };
 
@@ -75,23 +52,8 @@ const SignUp = () => {
       return;
     }
 
-    const { usernameAvailable, emailAvailable } = await checkAvailability(
-      formData.username,
-      formData.your_email
-    );
-
-    if (!usernameAvailable) {
-      toast.error("Username is already taken");
-      return;
-    }
-
-    if (!emailAvailable) {
-      toast.error("Email is already registered");
-      return;
-    }
-
     try {
-      const response = await fetch("http://localhost:3000/api/auth/signup", {
+      const response = await fetch("http://localhost:3000/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -104,9 +66,8 @@ const SignUp = () => {
         toast.success(data.message);
         console.log("Form data submitted: ", formData);
 
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 2000);
+        // Redirecionar imediatamente após o cadastro bem-sucedido
+        navigate("/");
       } else {
         const errorData = await response.json();
         toast.error(`Error: ${errorData.error}`);
@@ -147,57 +108,43 @@ const SignUp = () => {
                 onSubmit={handleSubmit}
               >
                 <div className="form-group">
-                  <label htmlFor="your_name">
+                  <label htmlFor="name">
                     <i className="zmdi zmdi-account material-icons-name"></i>
                   </label>
                   <input
                     type="text"
-                    name="your_name"
-                    id="your_name"
+                    name="name"
+                    id="name"
                     placeholder="Your Name"
-                    value={formData.your_name}
+                    value={formData.name}
                     onChange={handleChange}
                   />
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="your_email">
+                  <label htmlFor="email">
                     <i className="zmdi zmdi-email material-icons-name"></i>
                   </label>
                   <input
                     type="email"
-                    name="your_email"
-                    id="your_email"
+                    name="email"
+                    id="email"
                     placeholder="Email"
-                    value={formData.your_email}
+                    value={formData.email}
                     onChange={handleChange}
                   />
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="your_phone">
-                    <i className="zmdi zmdi-phone material-icons-name"></i>
-                  </label>
-                  <input
-                    type="tel"
-                    name="your_phone"
-                    id="your_phone"
-                    placeholder="Phone"
-                    value={formData.your_phone}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="your_pass">
+                  <label htmlFor="password">
                     <i className="zmdi zmdi-lock"></i>
                   </label>
                   <input
                     type="password"
-                    name="your_pass"
-                    id="your_pass"
+                    name="password"
+                    id="password"
                     placeholder="Password"
-                    value={formData.your_pass}
+                    value={formData.password}
                     onChange={handleChange}
                   />
                 </div>
@@ -230,22 +177,6 @@ const SignUp = () => {
                   />
                 </div>
 
-                <div className="form-group">
-                  <input
-                    type="checkbox"
-                    name="remember_me"
-                    id="remember_me"
-                    className="agree-term"
-                    checked={formData.remember_me}
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="remember_me" className="label-agree-term">
-                    <span>
-                      <span></span>
-                    </span>
-                    Remember me
-                  </label>
-                </div>
                 <div className="form-group form-button">
                   <input
                     type="submit"
@@ -256,26 +187,6 @@ const SignUp = () => {
                   />
                 </div>
               </form>
-              <div className="social-login">
-                <span className="social-label">Ou cadastre-se com</span>
-                <ul className="socials">
-                  <li>
-                    <a href="#">
-                      <i className="display-flex-center zmdi zmdi-facebook"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="display-flex-center zmdi zmdi-twitter"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="display-flex-center zmdi zmdi-google"></i>
-                    </a>
-                  </li>
-                </ul>
-              </div>
             </div>
           </div>
         </div>

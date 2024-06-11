@@ -1,96 +1,101 @@
-import { validationResult } from "express-validator";
+// controllers/userController.mjs
 import User from "../models/user.mjs";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import gravatar from "gravatar-url";
+import { generateToken } from "../middleware/token_auth.mjs";
 
-export const signUpUser = async (req, res, next) => {
+const signIn = async (req, res) => {
+  const { email, password } = req.body;
+
+  console.log(`Tentativa de login para o e-mail: ${email}`);
+
   try {
-    const errors = validationResult(req);
+    // Verificar se o usuário existe com o e-mail fornecido
+    const user = await User.findOne({ email });
 
-    if (!errors.isEmpty()) {
-      const error = new Error("Validation failed");
-      error.statusCode = 422;
-      error.data = errors.array();
-      throw error;
+    // Se o usuário não existe, retornar uma mensagem de erro
+    if (!user) {
+      console.log(`Usuário com o e-mail ${email} não encontrado.`);
+      return res.status(404).json({ msg: "Usuário não encontrado." });
     }
 
-    const email = req.body.email;
-    const name = req.body.name;
-    const password = req.body.password;
+    // Verificar se a senha fornecida corresponde à senha armazenada no banco de dados
+    const passwordMatch = await bcrypt.compare(password, user.password);
 
-    const hashedPassword = await bcrypt.hash(password, 12);
-    const avatar = gravatar(email, { size: 200, default: "identicon" }); // Gerar URL do avatar usando Gravatar
+    // Se as senhas não coincidirem, retornar uma mensagem de erro
+    if (!passwordMatch) {
+      console.log(
+        `Tentativa de login para o e-mail ${email} falhou: Senha incorreta.`
+      );
+      return res.status(401).json({ msg: "Credenciais inválidas." });
+    }
 
-    const user = new User({
-      email: email,
-      name: name,
-      password: hashedPassword,
-      avatar: avatar,
-    });
+    // Se as credenciais estiverem corretas, gerar um novo token de autenticação
+    const token = generateToken(user._id);
 
-    const savedUser = await user.save();
-    savedUser.password = undefined;
+    // Remover a senha do usuário das informações retornadas
+    user.password = undefined;
 
-    res.status(201).json({
-      message: "User created successfully",
-      result: savedUser,
-    });
+    // Retornar as informações do usuário junto com o token de autenticação
+    console.log(`Login bem-sucedido para o e-mail ${email}.`);
+    return res.status(200).json({ user, token });
   } catch (error) {
-    console.log(error);
-    res
-      .status(error.statusCode || 500)
-      .json({ message: error.message, error: error.data });
+    // Se ocorrer um erro, retornar uma resposta de erro 500 com detalhes do erro
+    console.error("Erro ao fazer login:", error);
+    return res.status(500).json({ status: "error", error: error.message });
   }
 };
 
-export const signInUser = async (req, res, next) => {
-  const email = req.body.email;
-  const password = req.body.password;
-  let loadedUser;
-  //Buscar user na base de dados com o email enviado
-  await User.findOne({ email: email })
-    .then((user) => {
-      //user é o que ele retorna
-      //validar que email não existe na base
-      console.log(user);
-      if (!user) {
-        const error = new Error("Falha de validação");
-        error.statusCode = 422;
-        throw error;
-      }
-      loadedUser = user;
-      return bcrypt.compare(password, user.password);
-    })
-    .then((passIsEqual) => {
-      if (!passIsEqual) {
-        const error = new Error("Email ou senha inválida...");
-        error.statusCode = 401;
-        throw error;
-      }
+const signUp = async (req, res) => {
+  const { name, username, email, password } = req.body;
 
-      //Vamos gerar o token para ele!
-      const token = jwt.sign(
-        {
-          email: loadedUser.email,
-          userId: loadedUser._id.toString(),
-        },
-        "MinhaChaveJWT@2024Senai",
-        { expiresIn: "4h" }
-      );
+  console.log(
+    `name=${name}, username=${username}, email=${email}, password=${password}`
+  );
 
-      return res.status(200).json({
-        message: "Usuário logado com sucesso!",
-        token: token,
+  try {
+    if (!name) {
+      return res
+        .status(400)
+        .json({ msg: "Digite um valor diferente de null para o nome." });
+    }
+
+    if (!username) {
+      return res
+        .status(400)
+        .json({ msg: "Digite um valor diferente de null para o username." });
+    }
+
+    // Verificar se já existe um usuário com o mesmo e-mail
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        msg: "Este e-mail já está sendo usado. Por favor, escolha outro.",
       });
-    })
-    .catch((error) => {
-      console.log(error);
-      if (!error.statusCode) {
-        error.statusCode = 500;
-      }
-      next(error);
+    }
+
+    // Criptografar a senha antes de salvar o usuário
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Criar um novo usuário com os dados fornecidos
+    const newUser = new User({
+      name,
+      username,
+      email,
+      password: hashedPassword,
     });
+
+    // Salvar o novo usuário no banco de dados
+    const userSaved = await newUser.save();
+
+    // Gerar um token JWT para o novo usuário
+    const token = generateToken(userSaved._id);
+
+    // Retornar o novo usuário e o token na resposta
+    return res.status(200).json({ newUser: userSaved, token });
+  } catch (error) {
+    // Se ocorrer um erro, retornar uma resposta de erro 500 com detalhes do erro
+    return res.status(500).json({ status: "error", error: error.message });
+  }
 };
 
-// export default { signInUser, signUpUser };
+export { signIn, signUp };

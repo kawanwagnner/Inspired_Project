@@ -3,37 +3,33 @@ import { Helmet } from "react-helmet";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./fonts/material-icon/css/material-design-iconic-font.min.css";
-// import gregoMan from "./img/sculpture-davi.jpg"
 import Logo from "./img/LOGO.png";
-
 import "./css/style.css";
-
 import Header from "../../components/Header";
 import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
-    your_email: "",
-    your_pass: "",
-    remember_me: false,
+    email: "",
+    password: "",
   });
 
   const navigate = useNavigate();
 
   const validate = () => {
     const errors = {};
-    if (!formData.your_email) errors.your_email = "Email is required";
-    if (!formData.your_pass) errors.your_pass = "Password is required";
-    if (formData.your_pass.length < 6)
-      errors.your_pass = "Password must be at least 6 characters";
+    if (!formData.email) errors.email = "Email is required";
+    if (!formData.password) errors.password = "Password is required";
+    if (formData.password.length < 6)
+      errors.password = "Password must be at least 6 characters";
     return errors;
   };
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     });
   };
 
@@ -49,21 +45,21 @@ const SignIn = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/api/auth/signin", {
+      const response = await fetch("http://localhost:3000/auth/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          your_email: formData.your_email,
-          your_pass: formData.your_pass,
+          email: formData.email,
+          password: formData.password,
         }),
       });
 
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("authToken", data.token);
-        localStorage.setItem("userEmail", formData.your_email); // Salvar o email no localStorage
+        localStorage.setItem("userId", data.userId); // Salvar o ID do usuário no localStorage
         toast.success(data.message);
 
         console.log("User authenticated: ", data);
@@ -94,7 +90,7 @@ const SignIn = () => {
 
         <div className="container">
           <div className="form">
-            <img className="inspi" src={Logo} width="180px" />
+            <img className="inspi" src={Logo} width="180px" alt="Logo" />
             <h2 className="login">Sign in</h2>
 
             <form
@@ -128,10 +124,10 @@ const SignIn = () => {
                 </svg>
                 <input
                   type="email"
-                  name="your_email"
-                  id="your_email"
+                  name="email"
+                  id="email"
                   placeholder="Email"
-                  value={formData.your_email}
+                  value={formData.email}
                   onChange={handleChange}
                   className="input_field"
                 />
@@ -163,30 +159,13 @@ const SignIn = () => {
                 </svg>
                 <input
                   type="password"
-                  name="your_pass"
-                  id="your_pass"
+                  name="password"
+                  id="password"
                   placeholder="Password"
-                  value={formData.your_pass}
+                  value={formData.password}
                   onChange={handleChange}
                   className="input_field"
                 />
-              </div>
-
-              <div className="input_container">
-                <input
-                  type="checkbox"
-                  name="remember_me"
-                  id="remember-me"
-                  checked={formData.remember_me}
-                  onChange={handleChange}
-                  className="agree-term"
-                />
-                <label htmlFor="remember-me" className="label-agree-term">
-                  <span>
-                    <span></span>
-                  </span>
-                  Remember me
-                </label>
               </div>
 
               <div className="form-group form-button">
@@ -201,7 +180,7 @@ const SignIn = () => {
               </div>
             </form>
             <p>
-              Não tem uma conta? <a href="">Crie a sua</a>
+              Não tem uma conta? <a href="/signup">Crie a sua</a>
             </p>
           </div>
         </div>

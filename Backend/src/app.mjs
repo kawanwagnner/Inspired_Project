@@ -1,59 +1,26 @@
-import path from "path";
 import express from "express";
-import multer from "multer";
-import { fileURLToPath } from "url";
 import connectDatabase from "./database/db.mjs";
-
-import feedRoutes from "./routers/feedRoutes.mjs";
-import authRoutes from "./routers/authRoutes.mjs";
-import userRoutes from "./routers/userRoutes.mjs";
-import uploadFiles from "./services/uploadFiles.mjs";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import userRouter from "./routers/userRoutes.mjs";
+import authRouter from "./routers/authRoutes.mjs";
+import feedRouter from "./routers/feedRoutes.mjs";
+import cors from "cors";
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
+
+// Configurar CORS
+app.use(
+  cors({
+    origin: "http://localhost:5173", // ou "*" para permitir todas as origens
+  })
+);
 
 // Json parser do express - middleware para 'captar' os json do client!
 app.use(express.json());
 
-app.use(
-  multer({
-    storage: uploadFiles.fileStorage,
-    fileFilter: uploadFiles.fileFilter,
-  }).single("image")
-);
-
-app.use("/images", express.static(path.join(__dirname, "images")));
-
-// Middleware para configurar o CORS
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, PUT, POST, PATCH, DELETE"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
-
-// Rotas do app - Esse middleware vai captar todas as rotas criadas no feedRoutes
-app.use("/feed", feedRoutes);
-app.use("/auth", authRoutes);
-app.use("/user", userRoutes);
-
-// Middleware para interceptar os erros
-app.use((error, req, res, next) => {
-  const message = error.message;
-  const status = error.statusCode || 500;
-  const data = error.data;
-
-  console.log("Aqui...");
-  console.log(message);
-
-  res.status(status).json({ message: message, error: data });
-});
+app.use("/api", userRouter);
+app.use("/auth", authRouter);
+app.use("/feed", feedRouter);
 
 connectDatabase()
   .then(() => {

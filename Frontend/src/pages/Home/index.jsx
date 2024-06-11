@@ -14,12 +14,12 @@ const Home = () => {
   useEffect(() => {
     const fetchUserName = async () => {
       const authToken = localStorage.getItem("authToken");
-      const storedEmail = localStorage.getItem("userEmail");
+      const userId = localStorage.getItem("userId");
 
-      if (authToken && storedEmail) {
+      if (authToken && userId) {
         try {
           const response = await axios.get(
-            `http://localhost:3000/api/auth/user/${storedEmail}`,
+            `http://localhost:3000/api/users/${userId}`,
             {
               headers: {
                 Authorization: `Bearer ${authToken}`,
@@ -27,8 +27,8 @@ const Home = () => {
             }
           );
 
-          if (response.data && response.data.username) {
-            const firstName = response.data.username.split(" ")[0]; // Extracting the first name
+          if (response.data && response.data.name) {
+            const firstName = response.data.name.split(" ")[0]; // Extracting the first name
             setUserName(firstName);
           }
         } catch (error) {
@@ -101,7 +101,7 @@ const Home = () => {
 
       <section className="aboutUs">
         <div className="container-aboutUs">
-          <img src={vanGogh} width="720px" height="578px" alt="" />
+          <img src={vanGogh} width="720px" height="578px" alt="Van Gogh" />
           <div className="sobre-text-align">
             <ul id="list-sobre-texts">
               <li>
@@ -112,13 +112,13 @@ const Home = () => {
                   Somos uma rede social criada exclusivamente para artistas de
                   todos os gêneros e formas de expressão, proporcionando um
                   espaço seguro e inspirador para compartilhar, colaborar e
-                  crescer
+                  crescer.
                 </h3>
               </li>
               <li>
                 <h2 id="sobre-subtitle">
                   Na nossa rede social, você tem liberdade de mostrar seu
-                  trabalho em todas as suas formas
+                  trabalho em todas as suas formas.
                 </h2>
               </li>
             </ul>

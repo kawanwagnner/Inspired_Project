@@ -1,24 +1,24 @@
-import express from "express";
-import feedController from "../Controllers/feedController.mjs";
-// import { check, body } from "express-validator";
-import { validateTitle, validateContent } from "../services/validator.mjs";
-import isAuth from "../middleware/token_auth.mjs";
+import { Router } from "express";
+import {
+  getPosts,
+  createPost,
+  updatePost,
+  deletePost,
+} from "../controllers/feedController.mjs";
+import { authMiddleware } from "../middleware/token_auth.mjs";
 
-const router = express.Router();
+const feedRouter = Router();
 
-// Criar as rotas relacionadas ao feed
-router.get("/posts", feedController.getPosts);
+// Rota para obter todas as postagens no feed
+feedRouter.get("/posts", authMiddleware, getPosts);
 
-// Validar as informações
-router.post(
-  "/post",
-  [validateTitle, validateContent],
-  isAuth,
-  feedController.createPost
-);
+// Rota para criar uma nova postagem no feed
+feedRouter.post("/post", authMiddleware, createPost);
 
-router.patch("/post/:postID", feedController.updatePost);
-router.delete("/post/:postID", feedController.deletePost);
-router.delete("/post/", feedController.deletePost);
+// Rota para atualizar uma postagem no feed
+feedRouter.put("/posts/:postId", authMiddleware, updatePost);
 
-export default router;
+// Rota para deletar uma postagem do feed
+feedRouter.delete("/posts/:postId", authMiddleware, deletePost);
+
+export default feedRouter;

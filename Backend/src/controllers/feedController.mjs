@@ -1,4 +1,3 @@
-import { validationResult } from "express-validator";
 import Post from "../models/post.mjs";
 import User from "../models/user.mjs";
 
@@ -27,23 +26,15 @@ const getPosts = async (req, res, next) => {
 
 // Criar post
 const createPost = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
+  const { title, content } = req.body;
+  const imageUrl = req.file ? req.file.path : null; // Verifica se a imagem foi enviada
+
+  if (!title || !content || !imageUrl) {
     return res.status(422).json({
       error: true,
-      message: errors.array()[0].msg,
+      message: "Por favor, forneça um título, conteúdo e uma imagem válida.",
     });
   }
-
-  if (!req.file) {
-    const error = new Error("Faltou enviar a imagem!!");
-    error.statusCode = 422;
-    throw error;
-  }
-
-  const { title, content } = req.body;
-  const imageUrl = req.file.path;
-  let postCreator;
 
   try {
     const postagem = new Post({
@@ -55,15 +46,15 @@ const createPost = async (req, res, next) => {
 
     await postagem.save();
     const user = await User.findById(req.userId);
-    postCreator = user;
     user.posts.push(postagem);
     await user.save();
 
     res.status(201).json({
       message: "Post criado com sucesso!!",
+      postId: postagem._id,
       creator: {
-        _id: postCreator._id,
-        name: postCreator.name,
+        _id: user._id,
+        name: user.name,
       },
     });
   } catch (error) {
@@ -93,4 +84,4 @@ const deletePost = (req, res, next) => {
   });
 };
 
-export default { getPosts, createPost, updatePost, deletePost };
+export { getPosts, createPost, updatePost, deletePost };

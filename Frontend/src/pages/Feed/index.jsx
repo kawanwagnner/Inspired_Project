@@ -18,9 +18,9 @@ const Feed = () => {
   const [user, setUser] = useState("");
   const [post, setPost] = useState({
     user_image: userAvatar,
-    desc: "",
-    user: "",
-    post_image: null,
+    title: "",
+    content: "",
+    image: null,
   });
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -58,13 +58,12 @@ const Feed = () => {
     const fetchPosts = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("http://localhost:3000/api/posts", {
+        const response = await axios.get("http://localhost:3000/feed/posts", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
         });
         if (response.data && Array.isArray(response.data)) {
-          // Ajuste a estrutura dos dados para incluir o nome de usuário
           const postsWithUsernames = response.data.reduce((acc, user) => {
             const userPosts = user.posts.map((post) => ({
               ...post,
@@ -89,7 +88,7 @@ const Feed = () => {
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
-    if (name === "post_image") {
+    if (name === "image") {
       setPost({ ...post, [name]: files[0] });
     } else {
       setPost({ ...post, [name]: value });
@@ -99,15 +98,16 @@ const Feed = () => {
   const handlePostSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("post_image", post.post_image);
-    formData.append("desc", post.desc);
+    formData.append("image", post.image);
+    formData.append("title", post.title);
+    formData.append("content", post.content);
 
     try {
       const authToken = localStorage.getItem("authToken");
-      const username = user; // Use o username obtido pelo useEffect
+      const username = user;
 
       const response = await axios.post(
-        `http://localhost:3000/api/posts/create/${username}`,
+        `http://localhost:3000/feed/post`,
         formData,
         {
           headers: {
@@ -209,29 +209,43 @@ const Feed = () => {
                   <p>{user}</p>
                 </div>
                 <div className="form-group">
-                  <p className="form-label" htmlFor="post_image">
+                  <p className="form-label" htmlFor="title">
+                    Título:
+                  </p>
+                  <input
+                    className="feed-input-post"
+                    type="text"
+                    id="title"
+                    name="title"
+                    placeholder="Título"
+                    value={post.title}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <p className="form-label" htmlFor="image">
                     Selecionar imagem:
                   </p>
                   <input
-                    id="post_image"
+                    id="image"
                     type="file"
-                    name="post_image"
+                    name="image"
                     accept="image/*"
                     required
                     onChange={handleInputChange}
                   />
                 </div>
                 <div className="form-group form-group-desc">
-                  <p className="form-label" htmlFor="desc">
-                    Descrição:
+                  <p className="form-label" htmlFor="content">
+                    Conteúdo:
                   </p>
                   <input
                     className="feed-input-post"
                     type="text"
-                    id="desc"
-                    name="desc"
-                    placeholder="Descrição"
-                    value={post.desc}
+                    id="content"
+                    name="content"
+                    placeholder="Conteúdo"
+                    value={post.content}
                     onChange={handleInputChange}
                   />
                 </div>

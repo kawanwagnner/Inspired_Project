@@ -1,33 +1,36 @@
 import jwt from "jsonwebtoken";
 
-export default (req, res, next) => {
-  // Pegar o token sem a palavra Bearer
-  let token = req.get("Authorization");
-
-  if (!token) {
-    const error = new Error("Não enviou Token válido");
-    error.statusCode = 401;
-    throw error;
-  }
-
-  token = token.split(" ")[1];
-  // Verificar se o token é válido!
-  let decodedToken;
-
-  try {
-    decodedToken = jwt.verify(token, "bomdia");
-  } catch (error) {
-    error.statusCode = 500;
-    throw error;
-  }
-
-  if (!decodedToken) {
-    const error = new Error("Usuário não autenticado!");
-    error.statusCode = 401;
-    throw error;
-  }
-
-  // Adicionar ao objeto req, a propriedade userId
-  req.userId = decodedToken.userId;
-  next();
+const generateToken = (userId) => {
+  const token = jwt.sign({ userId }, "bomdia", { expiresIn: "5h" });
+  return token;
 };
+
+const authMiddleware = (req, res, next) => {
+  try {
+    // Verifica se o token está presente no cabeçalho de autorização
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({
+        msg: "Autenticação falhou! Token não fornecido ou malformado.",
+      });
+    }
+
+    // Extrai o token da string do cabeçalho de autorização
+    const token = authHeader.split(" ")[1];
+
+    // Verifica a validade do token e decodifica-o
+    const decodedToken = jwt.verify(token, "bomdia");
+
+    // Define o ID do usuário decodificado na requisição para uso posterior
+    req.userId = decodedToken.userId;
+
+    // Passa para o próximo middleware
+    next();
+  } catch (err) {
+    // Se houver um erro na verificação do token, retorna uma resposta de erro
+    res.status(401).json({ msg: "Autenticação falhou! Token inválido." });
+  }
+};
+
+export { authMiddleware, generateToken };

@@ -1,122 +1,103 @@
-import Post from "../models/post.mjs";
+// controllers/userController.mjs
+import { generateToken } from "../middleware/token_auth.mjs";
 import User from "../models/user.mjs";
-import bcrypt from "bcrypt";
-
-// Função para obter o perfil do usuário
-const profile = async (req, res, next) => {
-  console.log(req.userId);
-
-  try {
-    const data = await Post.find({ creator: { _id: req.userId } });
-    const user = await User.findById(req.userId);
-
-    if (!user) {
-      throw new Error("User not found");
-    }
-
-    user.password = undefined;
-    user.posts = data;
-
-    res.status(200).json({ profile: user });
-  } catch (err) {
-    res.status(500).json({ msg: err });
-  }
-};
-
-// Função para alterar a senha do usuário
-const changePassword = async (req, res, next) => {
-  if (!req.userId || !req.body.password || !req.body.newPassword) {
-    return res.status(500).json({ msg: "Nada alterado..." });
-  }
-
-  try {
-    const password = req.body.password;
-    const newPassword = req.body.newPassword;
-
-    const user = await User.findById(req.userId);
-
-    if (!user) {
-      const error = new Error("Falha de validação");
-      error.statusCode = 422;
-      throw error;
-    }
-
-    const passIsEqual = await bcrypt.compare(password, user.password);
-
-    if (!passIsEqual) {
-      const error = new Error("Email ou senha inválida...");
-      error.statusCode = 401;
-      throw error;
-    }
-
-    const passHashed = await bcrypt.hash(newPassword, 12);
-    user.password = passHashed;
-
-    const updatedUser = await user.save();
-    updatedUser.password = undefined;
-
-    res.status(201).json({
-      message: "Senha atualizada com sucesso!!",
-      result: updatedUser,
-    });
-  } catch (err) {
-    res.status(err.statusCode || 500).json({
-      message: "Error ao atualizar o user...",
-      result: err,
-    });
-  }
-};
 
 // Função para atualizar o perfil do usuário
 const update = async (req, res, next) => {
-  if (!req.userId || !req.body.name) {
-    return res.status(500).json({ msg: "Nada alterado..." });
-  }
-
   try {
-    const user = await User.findById(req.userId);
-
-    if (!user) {
-      throw new Error("User not found");
+    // Verifica se req.userId está presente e é válido
+    if (!req.userId) {
+      return res.status(400).json({ msg: "ID do usuário inválido." });
     }
 
+    // Verifica se o campo 'name' está presente no corpo da requisição
+    if (!req.body.name) {
+      return res.status(400).json({ msg: "O campo 'name' é obrigatório." });
+    }
+
+    // Procura o usuário pelo ID
+    const user = await User.findById(req.userId);
+
+    // Verifica se o usuário foi encontrado
+    if (!user) {
+      return res.status(404).json({ msg: "Usuário não encontrado." });
+    }
+
+    // Atualiza o nome do usuário com o valor fornecido
     user.name = req.body.name;
+
+    // Salva as alterações no banco de dados
     const updatedUser = await user.save();
 
+    // Remove informações sensíveis do usuário antes de enviar a resposta
     updatedUser.password = undefined;
     updatedUser.posts = undefined;
 
-    res.status(200).json({ profile: updatedUser });
+    // Retorna o perfil atualizado do usuário
+    return res.status(200).json({ profile: updatedUser });
   } catch (err) {
-    res.status(500).json({ msg: err.message });
+    // Em caso de erro, retorna uma mensagem de erro detalhada
+    return res
+      .status(500)
+      .json({ msg: `Erro ao atualizar o perfil: ${err.message}` });
   }
 };
 
 // Função para deletar o usuário
 const deleteUser = async (req, res, next) => {
-  const password = req.body.password;
-
   try {
-    const user = await User.findById(req.userId);
+    const userId = req.params.id; // Obter o ID do usuário a ser excluído
+
+    const user = await User.findById(userId);
 
     if (!user) {
-      throw new Error("Usuário não encontrado..");
+      throw new Error("Usuário não encontrado.");
     }
 
-    const passIsEqual = await bcrypt.compare(password, user.password);
+    await User.findByIdAndDelete(userId);
 
-    if (!passIsEqual) {
-      throw new Error("Email ou senha inválida...");
-    }
-
-    await User.findByIdAndDelete(req.userId);
-
-    res.status(200).json({
-      message: "Usuário excluído com sucesso!",
-    });
+    res.status(200).json({ message: "Usuário excluído com sucesso!" });
   } catch (err) {
-    next(err);
+    res.status(500).json({ msg: err.message });
   }
 };
 
-export default { profile, changePassword, update, deleteUser };
+// Função para obter todos os usuários
+const getUsers = async (req, res, next) => {
+  const users = await User.find();
+
+  return res.status(200).json(users);
+};
+
+// Função para obter o perfil de um único usuário
+const getUserProfile = async (req, res, next) => {
+  try {
+    // Verificar se req.userId está presente
+    if (!req.userId) {
+      return res.status(400).json({ msg: "ID do usuário não fornecido." });
+    }
+
+    // Procurar o usuário pelo ID fornecido
+    const user = await User.findById(req.userId);
+
+    // Se o usuário não for encontrado, retornar uma resposta 404
+    if (!user) {
+      return res.status(404).json({ msg: "Usuário não encontrado." });
+    }
+
+    // Remover a senha e outros dados sensíveis das informações retornadas
+    user.password = undefined;
+    user.posts = undefined;
+
+    // Pegando token
+    const token = generateToken(req.userId);
+
+    // Retornar o perfil do usuário na resposta
+    return res.status(200).json({ profile: user, token });
+  } catch (err) {
+    // Se ocorrer um erro, retornar uma resposta de erro 500 com detalhes do erro
+    return res.status(500).json({ msg: err.message });
+  }
+};
+
+export { getUsers, update, deleteUser, getUserProfile };

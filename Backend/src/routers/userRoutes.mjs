@@ -1,18 +1,18 @@
-import express from "express";
-import isAuth from "../middleware/token_auth.mjs";
-import userController from "../Controllers/userController.mjs";
-import { validateEmail, validatePassword } from "../services/validator.mjs";
+// routes/index.mjs
+import { Router } from "express";
+import {
+  getUsers,
+  deleteUser,
+  update,
+  getUserProfile, // Adicionando a importação para getUserProfile
+} from "../Controllers/userController.mjs"; // Corrigido para o diretório correto
+import { authMiddleware } from "../middleware/token_auth.mjs"; // Corrigido para o diretório correto
 
-const router = express.Router();
+const userRouter = Router();
 
-router.delete("/", isAuth, userController.delete);
-router.put("/update", isAuth, userController.update);
-router.put(
-  "/change-password",
-  [validateEmail, validatePassword],
-  isAuth,
-  userController.changePassword
-);
-router.get("/profile", isAuth, userController.profile);
+userRouter.get("/users", getUsers);
+userRouter.delete("/users/:id", deleteUser);
+userRouter.put("/users/update", authMiddleware, update);
+userRouter.get("/users/profile", authMiddleware, getUserProfile); // Adicionando a rota para getUserProfile
 
-export default router;
+export default userRouter;
