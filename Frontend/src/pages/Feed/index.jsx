@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Card from "../../components/Card"; // Ajuste o caminho conforme necessário
 import "./assets/css/feed.css";
 
 import logo from "./assets/img/Inspired-preto-no-bg.png";
@@ -17,8 +16,6 @@ const Feed = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [user, setUser] = useState("");
   const [post, setPost] = useState({
-    user_image: userAvatar,
-    title: "",
     content: "",
     image: null,
   });
@@ -27,12 +24,13 @@ const Feed = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchUserName = async () => {
+    const fetchUserData = async () => {
       const authToken = localStorage.getItem("authToken");
       const storedEmail = localStorage.getItem("userEmail");
 
       if (authToken && storedEmail) {
         try {
+          console.log("Fetching user data...");
           const response = await axios.get(
             `http://localhost:3000/api/auth/user/${storedEmail}`,
             {
@@ -41,39 +39,41 @@ const Feed = () => {
               },
             }
           );
+          console.log("User data response:", response);
 
           if (response.data && response.data.username) {
             setUser(response.data.username);
+            console.log("User set:", response.data.username);
           }
         } catch (error) {
           console.error("Erro ao buscar nome do usuário:", error);
         }
+      } else {
+        console.log("Auth token or stored email not found");
       }
     };
 
-    fetchUserName();
+    fetchUserData();
   }, []);
 
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
       try {
+        console.log("Fetching posts...");
         const response = await axios.get("http://localhost:3000/feed/posts", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
         });
-        if (response.data && Array.isArray(response.data)) {
-          const postsWithUsernames = response.data.reduce((acc, user) => {
-            const userPosts = user.posts.map((post) => ({
-              ...post,
-              userName: user.username,
-            }));
-            return [...acc, ...userPosts];
-          }, []);
-          setPosts(postsWithUsernames);
+        console.log("Posts response:", response);
+
+        if (response.data && Array.isArray(response.data.posts)) {
+          setPosts(response.data.posts);
+          console.log("Posts set:", response.data.posts);
         } else {
           setError("Dados inválidos recebidos da API.");
+          console.error("Invalid data received from API:", response.data);
         }
       } catch (error) {
         console.error("Erro ao buscar posts:", error);
@@ -90,22 +90,28 @@ const Feed = () => {
     const { name, value, files } = e.target;
     if (name === "image") {
       setPost({ ...post, [name]: files[0] });
+      console.log("Image selected:", files[0]);
     } else {
       setPost({ ...post, [name]: value });
+      console.log("Content changed:", value);
     }
   };
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
+
+    if (!post.content || !post.image) {
+      toast.error("Por favor, preencha todos os campos.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("image", post.image);
-    formData.append("title", post.title);
     formData.append("content", post.content);
 
     try {
       const authToken = localStorage.getItem("authToken");
-      const username = user;
-
+      console.log("Submitting post...");
       const response = await axios.post(
         `http://localhost:3000/feed/post`,
         formData,
@@ -116,6 +122,7 @@ const Feed = () => {
           },
         }
       );
+      console.log("Post submit response:", response);
 
       if (
         response.data &&
@@ -123,15 +130,58 @@ const Feed = () => {
       ) {
         toast.success("Post criado com sucesso!");
         setPosts((prevPosts) => [response.data.postData, ...prevPosts]);
+        console.log("New post added:", response.data.postData);
       } else {
         toast.error("Resposta inválida da API.");
+        console.error("Resposta inválida da API:", response.data);
       }
     } catch (error) {
-      toast.error("Erro ao criar o post.");
-      console.error("Erro ao criar o post:", error);
+      if (error.response) {
+        console.error("Erro ao criar o post:", error.response.data);
+        toast.error(
+          `Erro ao criar o post: ${
+            error.response.data.message || error.response.data.error
+          }`
+        );
+      } else if (error.request) {
+        console.error("Nenhuma resposta recebida:", error.request);
+        toast.error("Nenhuma resposta do servidor.");
+      } else {
+        console.error("Erro ao configurar a solicitação:", error.message);
+        toast.error(`Erro ao criar o post: ${error.message}`);
+      }
     }
 
     setIsPopupVisible(false);
+  };
+
+  const renderPosts = () => {
+    if (posts.length === 0) {
+      return <p>Não há posts para exibir.</p>;
+    }
+
+    return posts.map((post) => (
+      <div key={post._id} className="post-card">
+        <div className="post-header">
+          <img
+            className="post-avatar"
+            src={userAvatar}
+            alt="Avatar do usuário"
+          />
+          <h3 className="post-username">{post.creator.username}</h3>
+        </div>
+        <div className="post-content">
+          <p>{post.content}</p>
+          {post.imageUrl && (
+            <img
+              className="post-image"
+              src={`http://192.168.15.6:3000/${post.imageUrl}`}
+              alt="Post"
+            />
+          )}
+        </div>
+      </div>
+    ));
   };
 
   if (loading) return <p>Carregando...</p>;
@@ -174,13 +224,7 @@ const Feed = () => {
               </li>
             </ul>
           </div>
-          <div className="feed-meio">
-            {posts.length === 0 ? (
-              <p>Não há posts para exibir.</p>
-            ) : (
-              posts.map((post, index) => <Card key={index} post={post} />)
-            )}
-          </div>
+          <div className="feed-meio">{renderPosts()}</div>
           <div className="feed-direita">
             <div className="relative-feed">
               <img className="feed-handImage" src={handImage} alt="Imagem" />
@@ -207,20 +251,6 @@ const Feed = () => {
                 <div className="popup-username">
                   <img src={userAvatar} alt="Usuário" />
                   <p>{user}</p>
-                </div>
-                <div className="form-group">
-                  <p className="form-label" htmlFor="title">
-                    Título:
-                  </p>
-                  <input
-                    className="feed-input-post"
-                    type="text"
-                    id="title"
-                    name="title"
-                    placeholder="Título"
-                    value={post.title}
-                    onChange={handleInputChange}
-                  />
                 </div>
                 <div className="form-group">
                   <p className="form-label" htmlFor="image">

@@ -1,61 +1,24 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+// import PostCard from "../../components/Card/index";
 import logo from "./assets/img/logo.png";
-import homeIcon from "./assets/img/home.png";
-import userProfile from "./assets/img/usuario.png";
-import handImage from "./assets/img/Login e Cadastro (4) 1.png";
-import dollImage from "./assets/img/Login e Cadastro (5) 1.png";
+import homeIcon from "./assets/img/home.png"; // Import the home icon
+import userProfile from "./assets/img/usuario.png"; // Import the default user profile picture
 import "./assets/css/profile.css";
 
 const Profile = () => {
-  const [userPosts, setUserPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
-  const [userData, setUserData] = useState({});
-  const [newPost, setNewPost] = useState("");
-  const [postImage, setPostImage] = useState(null);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
       const authToken = localStorage.getItem("authToken");
-      const storedEmail = localStorage.getItem("userEmail");
-
-      if (authToken && storedEmail) {
-        try {
-          const response = await axios.get(
-            `http://localhost:3000/api/auth/user/${storedEmail}`,
-            {
-              headers: {
-                Authorization: `Bearer ${authToken}`,
-              },
-            }
-          );
-
-          console.log("Dados do usuário recebidos:", response.data); // Debug
-
-          if (response.data) {
-            setUserData(response.data);
-          }
-        } catch (error) {
-          console.error("Erro ao buscar dados do usuário:", error); // Debug
-          setError(error);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
-  useEffect(() => {
-    const fetchUserPosts = async () => {
-      setLoading(true);
-      const authToken = localStorage.getItem("authToken");
 
       try {
+        console.log("Fetching user data...");
         const response = await axios.get(
-          `http://localhost:3000/api/posts/user/${userData.email}`,
+          "http://localhost:3000/api/users/profile",
           {
             headers: {
               Authorization: `Bearer ${authToken}`,
@@ -63,71 +26,55 @@ const Profile = () => {
           }
         );
 
-        console.log("Posts do usuário recebidos:", response.data); // Debug
-
-        if (response.data && Array.isArray(response.data)) {
-          setUserPosts(response.data);
-        } else {
-          console.error("Dados inválidos recebidos da API:", response.data); // Debug
-          setError("Dados inválidos recebidos da API.");
-        }
+        const { profile } = response.data;
+        console.log("User data received:", profile);
+        setUserData(profile);
       } catch (error) {
-        console.error("Erro ao buscar posts do usuário:", error); // Debug
+        console.error("Error fetching user data:", error);
         setError(error);
-      } finally {
-        setLoading(false);
       }
     };
 
-    if (userData.email) {
-      // Certifique-se de que os dados do usuário foram carregados antes de buscar os posts
-      fetchUserPosts();
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const authToken = localStorage.getItem("authToken");
+
+      try {
+        console.log("Fetching posts...");
+        const response = await axios.get("http://localhost:3000/feed/posts/", {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
+
+        console.log("Posts received:", response.data);
+        if (response.data && Array.isArray(response.data.posts)) {
+          const userPosts = response.data.posts.filter(
+            (post) => post.creator.email === userData.email
+          );
+          setPosts(userPosts);
+          console.log("User posts set:", userPosts);
+        } else {
+          console.error("Invalid data received from API:", response.data);
+          setError("Invalid data received from API.");
+        }
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        setError(error);
+      }
+    };
+
+    if (userData && userData.email) {
+      fetchPosts();
     }
   }, [userData]);
 
-  const handlePostSubmit = async (e) => {
-    e.preventDefault();
-    const authToken = localStorage.getItem("authToken");
-
-    // Verifica se userData está definido corretamente
-    if (!userData || !userData.email || !userData.username) {
-      console.error("Dados do usuário não estão definidos corretamente.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("description", newPost);
-    formData.append("post_image", postImage);
-    formData.append("email", userData.email); // Usando o email do usuário logado
-    formData.append("username", userData.username); // Usando o username do usuário logado
-
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/posts/create",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      console.log("Post criado com sucesso:", response.data);
-      setUserPosts((prevPosts) => [response.data.postData, ...prevPosts]);
-      setNewPost("");
-      setPostImage(null);
-    } catch (error) {
-      console.error("Erro ao criar o post:", error);
-      setError(error);
-    }
-  };
-
-  if (loading) return <p>Carregando...</p>;
-  if (error)
-    return (
-      <p>Ocorreu um erro ao carregar os dados do usuário: {error.message}</p>
-    );
+  if (error) {
+    return <p>Ocorreu um erro ao carregar os dados: {error.message}</p>;
+  }
 
   return (
     <div className="profile-container">
@@ -138,7 +85,8 @@ const Profile = () => {
         <ul className="profile-ul">
           <li className="profile-li">
             <div className="profile-flex-item">
-              <img className="profile-logoHome" src={homeIcon} alt="Home" />
+              <img className="profile-logoHome" src={homeIcon} alt="Home" />{" "}
+              {/* Use homeIcon */}
               <a href="/feed">
                 <h1 style={{ color: "#000" }} className="profile-h1">
                   Feed
@@ -155,37 +103,36 @@ const Profile = () => {
         <div className="profile-banner">
           <img
             className="profile-foto_perfil"
-            src={userProfile}
+            src={userProfile} // Use userProfile for user profile picture
             alt="Usuário"
           />
           <div className="profile-sobre_usuario">
-            <p className="profile-nome_usuario">@{userData.username}</p>
+            <p className="profile-nome_usuario">@{userData?.username}</p>
             <button className="profile-botao_editar">Editar Perfil</button>
           </div>
           <div className="profile-bio_usuario">
             <p>- Sem Bio</p>
-            <p id="profile-date">Entrou em {userData.joinDate}</p>
+            <p id="profile-date">Entrou em {userData?.joinDate}</p>
             <br />
             <h2>Posts</h2>
             <div className="profile-linha"></div>
           </div>
-          {userPosts.map((post) => (
+          {posts.map((post) => (
             <div key={post.createdAt} className="profile-card">
-              <div className="profile-usuario_feed">
-                <img
-                  src={`https://files.tecnoblog.net/wp-content/uploads/2022/09/stable-diffusion-imagem.jpg`}
-                  alt="Post"
-                  className="profile-foto_post"
-                />
-                <p className="profile-nome_usuario_feed">descrição</p>
-              </div>
+              <div className="profile-usuario_feed"></div>
+              <img
+                style={{ margin: "auto", display: "block" }}
+                src={`http://192.168.15.6:3000/${post.imageUrl}`}
+                alt="Post"
+                className="profile-foto_post"
+              />
+              <p className="profile-nome_usuario_feed">{post.content}</p>
             </div>
           ))}
         </div>
       </div>
       <div className="profile-direita">
-        <img className="profile-imgMao" src={handImage} alt="Mão" />
-        <img className="profile-imgBoneco" src={dollImage} alt="Boneco" />
+        {/* Add any additional elements here */}
       </div>
     </div>
   );

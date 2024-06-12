@@ -3,14 +3,14 @@ import User from "../models/user.mjs";
 
 // Obter posts com paginação
 const getPosts = async (req, res, next) => {
-  const page = req.query.page || 1;
-  const perPage = req.query.perPage || 10;
+  const page = parseInt(req.query.page) || 1;
+  const perPage = parseInt(req.query.perPage) || 10;
   let totalItems;
 
   try {
     totalItems = await Post.find().countDocuments();
     const posts = await Post.find()
-      .populate("creator", "name email")
+      .populate("creator", "name email username")
       .skip((page - 1) * perPage)
       .limit(perPage);
 
@@ -26,32 +26,50 @@ const getPosts = async (req, res, next) => {
 
 // Criar post
 const createPost = async (req, res, next) => {
-  const { title, content } = req.body;
-  const imageUrl = req.file ? req.file.path : null; // Verifica se a imagem foi enviada
+  const { content } = req.body;
+  const imageUrl = req.file ? req.file.path.replace(/\\/g, "/") : null; // Substituir barras invertidas por barras normais
 
-  if (!title || !content || !imageUrl) {
+  if (!content || !imageUrl) {
     return res.status(422).json({
       error: true,
-      message: "Por favor, forneça um título, conteúdo e uma imagem válida.",
+      message: "Por favor, forneça conteúdo e uma imagem válida.",
     });
   }
 
   try {
-    const postagem = new Post({
-      title,
+    // Verificar se o usuário está autenticado
+    if (!req.userId) {
+      return res.status(401).json({
+        error: true,
+        message: "Usuário não autenticado.",
+      });
+    }
+
+    // Criar uma nova postagem
+    const post = new Post({
       content,
       imageUrl,
       creator: req.userId,
     });
 
-    await postagem.save();
+    // Salvar a postagem no banco de dados
+    await post.save();
+
+    // Adicionar o ID da postagem ao array de postagens do usuário
     const user = await User.findById(req.userId);
-    user.posts.push(postagem);
+    if (!user) {
+      return res.status(404).json({
+        error: true,
+        message: "Usuário não encontrado.",
+      });
+    }
+    user.posts.push(post._id);
     await user.save();
 
+    // Responder com os detalhes da postagem criada
     res.status(201).json({
-      message: "Post criado com sucesso!!",
-      postId: postagem._id,
+      message: "Post criado com sucesso!",
+      postId: post._id,
       creator: {
         _id: user._id,
         name: user.name,
@@ -65,23 +83,59 @@ const createPost = async (req, res, next) => {
 };
 
 // Atualizar post
-const updatePost = (req, res, next) => {
-  const postId = req.params.postID;
-  console.log(postId);
-  res.status(200).json({
-    msg: "Post atualizado com sucesso!",
-    post: postId,
-  });
+const updatePost = async (req, res, next) => {
+  const postId = req.params.postId;
+  const { content } = req.body;
+
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post não encontrado!" });
+    }
+
+    if (post.creator.toString() !== req.userId) {
+      return res.status(403).json({ message: "Não autorizado!" });
+    }
+
+    post.content = content || post.content;
+    if (req.file) {
+      post.imageUrl = req.file.path;
+    }
+
+    await post.save();
+    res.status(200).json({ message: "Post atualizado com sucesso!", post });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Erro ao atualizar post", error: error.message });
+  }
 };
 
 // Deletar post
-const deletePost = (req, res, next) => {
-  const postID = req.params.postID;
-  console.log(postID);
-  res.status(200).json({
-    msg: "Post excluído com sucesso!",
-    post: postID,
-  });
+const deletePost = async (req, res, next) => {
+  const postId = req.params.postId;
+
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post não encontrado!" });
+    }
+
+    if (post.creator.toString() !== req.userId) {
+      return res.status(403).json({ message: "Não autorizado!" });
+    }
+
+    await post.remove();
+    const user = await User.findById(req.userId);
+    user.posts.pull(postId);
+    await user.save();
+
+    res.status(200).json({ message: "Post excluído com sucesso!" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Erro ao excluir post", error: error.message });
+  }
 };
 
 export { getPosts, createPost, updatePost, deletePost };

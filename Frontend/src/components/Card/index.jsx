@@ -1,30 +1,42 @@
-// Card.jsx
 import React from "react";
-import userAvatar from "./assets/img/usuario.png"; // Ajuste o caminho conforme necessário
 
-const Card = ({ post, userName }) => {
+const PostCard = ({ post }) => {
   return (
-    <div className="feed-post">
-      <div className="feed-header-post">
-        <ul>
-          <div className="feed-avatar-align">
-            <img src={userAvatar} className="feed-avatar" alt="Usuário" />
-            <h1>{userName}</h1>
-          </div>
-        </ul>
-        <p>{new Date(post.createdAt).toLocaleString()}</p>
-      </div>
-      <div className="feed-img-content">
-        <img
-          src={`http://localhost:3000/uploads/${post.image}`}
-          alt="Imagem do Post"
-        />
-      </div>
-      <div className="feed-text-content">
-        <p>{post.description}</p>
+    <div style={styles.profileCard}>
+      <div style={styles.profileUsuarioFeed}>
+        <p style={styles.profileNomeUsuarioFeed}>{post.content}</p>
+        {post.imageUrl && (
+          <img
+            src={`http://192.168.15.6:3000/${post.imageUrl}`}
+            alt="Post"
+            style={styles.profileFotoPost}
+          />
+        )}
       </div>
     </div>
   );
 };
 
-export default Card;
+const styles = {
+  profileCard: {
+    backgroundColor: "#f9f9f9",
+    padding: "10px",
+    borderRadius: "5px",
+    margin: "10px 0",
+  },
+  profileUsuarioFeed: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  profileNomeUsuarioFeed: {
+    fontSize: "1.2em",
+    marginBottom: "10px",
+  },
+  profileFotoPost: {
+    maxWidth: "100%",
+    borderRadius: "5px",
+  },
+};
+
+export default PostCard;

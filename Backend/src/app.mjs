@@ -1,4 +1,6 @@
 import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 import connectDatabase from "./database/db.mjs";
 import userRouter from "./routers/userRoutes.mjs";
 import authRouter from "./routers/authRoutes.mjs";
@@ -18,6 +20,11 @@ app.use(
 // Json parser do express - middleware para 'captar' os json do client!
 app.use(express.json());
 
+// Middleware para servir arquivos estáticos do diretório "uploads"
+const __dirname = path.resolve();
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// Definir as rotas da API
 app.use("/api", userRouter);
 app.use("/auth", authRouter);
 app.use("/feed", feedRouter);

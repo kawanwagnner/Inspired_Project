@@ -28,8 +28,13 @@ const authMiddleware = (req, res, next) => {
     // Passa para o próximo middleware
     next();
   } catch (err) {
-    // Se houver um erro na verificação do token, retorna uma resposta de erro
-    res.status(401).json({ msg: "Autenticação falhou! Token inválido." });
+    // Se houver um erro na verificação do token
+    if (err.name === "TokenExpiredError") {
+      return res
+        .status(401)
+        .json({ msg: "Token expirado. Faça login novamente." });
+    }
+    return res.status(401).json({ msg: "Token inválido ou malformado." });
   }
 };
 
