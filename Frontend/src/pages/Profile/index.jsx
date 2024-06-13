@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import PostCard from "../../components/Card/index";
+
 import logo from "./assets/img/logo.png";
-import homeIcon from "./assets/img/home.png"; // Import the home icon
-import userProfile from "./assets/img/usuario.png"; // Import the default user profile picture
+import homeIcon from "./assets/img/home.png";
+import userProfile from "./assets/img/usuario.png";
+import handImage from "./assets/img/maos.png";
+import figureImage from "./assets/img/escultura-grego.png";
 import "./assets/css/profile.css";
 
 const Profile = () => {
   const [posts, setPosts] = useState([]);
+  //Tem q puxar essa função do IsPopupVisible
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [error, setError] = useState(null);
   const [userData, setUserData] = useState(null);
 
@@ -84,55 +88,72 @@ const Profile = () => {
         </a>
         <ul className="profile-ul">
           <li className="profile-li">
-            <div className="profile-flex-item">
-              <img className="profile-logoHome" src={homeIcon} alt="Home" />{" "}
-              {/* Use homeIcon */}
-              <a href="/feed">
+            <a href="/feed">
+              <div className="profile-flex-item">
+                <img className="profile-logoHome" src={homeIcon} alt="Home" />{" "}
+                {/* Use homeIcon */}
                 <h1 style={{ color: "#000" }} className="profile-h1">
                   Feed
                 </h1>
-              </a>
-            </div>
+              </div>
+            </a>
           </li>
         </ul>
-        <button className="profile-botaoPost">
+        <button
+          className="profile-botaoPost"
+          onClick={() => setIsPopupVisible(true)}
+        >
           <strong>POSTAR</strong>
         </button>
       </div>
       <div className="profile-meio">
-        <div className="profile-banner">
-          <img
-            className="profile-foto_perfil"
-            src={userProfile} // Use userProfile for user profile picture
-            alt="Usuário"
-          />
-          <div className="profile-sobre_usuario">
-            <p className="profile-nome_usuario">@{userData?.username}</p>
-            <button className="profile-botao_editar">Editar Perfil</button>
+        <div className="profile-sobre">
+          <div className="content-block">
+            <img
+              className="profile-foto_perfil"
+              src={userProfile}
+              alt="Usuário"
+            />
+            <p className="profile-username">@{userData?.username}</p>
+            <p className="profile-usuario_bio">- Sem Bio</p>
+            <p className="profile-date">entrou em {userData?.createdAt}</p>
           </div>
-          <div className="profile-bio_usuario">
-            <p>- Sem Bio</p>
-            <p id="profile-date">Entrou em {userData?.joinDate}</p>
-            <br />
-            <h2>Posts</h2>
-            <div className="profile-linha"></div>
-          </div>
-          {posts.map((post) => (
-            <div key={post.createdAt} className="profile-card">
-              <div className="profile-usuario_feed"></div>
-              <img
-                style={{ margin: "auto", display: "block" }}
-                src={`http://192.168.15.6:3000/${post.imageUrl}`}
-                alt="Post"
-                className="profile-foto_post"
-              />
-              <p className="profile-nome_usuario_feed">{post.content}</p>
-            </div>
-          ))}
+          <button className="profile-botao_editar">Editar Perfil</button>
         </div>
+        <div className="divisor-content">
+          <h2>Posts</h2>
+          <div className="profile-linha"></div>
+        </div>
+        {posts.map((post) => (
+          <div key={post._id} className="post-card">
+            <div className="post-header">
+              <img
+                className="post-avatar"
+                src={userProfile}
+                alt="Avatar do usuário"
+              />
+              <h3 className="post-username">{post.creator.username}</h3>
+            </div>
+            <div className="post-content">
+              {post.imageUrl && (
+                <img
+                  className="post-image"
+                  src={`http://192.168.175.179:3000/${post.imageUrl}`}
+                  alt="Post"
+                />
+              )}
+              <p className="description">{post.content}</p>
+            </div>
+          </div>
+        ))}
       </div>
       <div className="profile-direita">
-        {/* Add any additional elements here */}
+        <div className="relative-profile">
+          <div className="img-mao-content">
+            <img className="profile-imgMao" src={handImage} alt="Imagem" />
+          </div>
+          <img className="profile-imgBoneco" src={figureImage} alt="Imagem" />
+        </div>
       </div>
     </div>
   );

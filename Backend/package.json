@@ -8,7 +8,6 @@
     "start": "nodemon src/app.mjs"
   },
   "dependencies": {
-    "@faker-js/faker": "github:faker-js/faker",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.12",
     "@types/react": "^18.3.3",

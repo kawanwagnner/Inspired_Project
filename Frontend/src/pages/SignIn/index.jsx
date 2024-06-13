@@ -18,10 +18,10 @@ const SignIn = () => {
 
   const validate = () => {
     const errors = {};
-    if (!formData.email) errors.email = "Email is required";
-    if (!formData.password) errors.password = "Password is required";
+    if (!formData.email) errors.email = "Email é obrigatório!";
+    if (!formData.password) errors.password = "Senha é obrigatória!";
     if (formData.password.length < 6)
-      errors.password = "Password must be at least 6 characters";
+      errors.password = "A senha deve conter no mínimo 6 caracteres...";
     return errors;
   };
 
@@ -90,7 +90,9 @@ const SignIn = () => {
 
         <div className="container">
           <div className="form">
-            <img className="inspi" src={Logo} width="180px" alt="Logo" />
+            <a href="/">
+              <img className="inspi" src={Logo} width="180px" alt="Logo" />
+            </a>
             <h2 className="login">Sign in</h2>
 
             <form

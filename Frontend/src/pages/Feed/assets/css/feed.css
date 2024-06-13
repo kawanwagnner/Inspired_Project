@@ -557,3 +557,36 @@ button {
 .popup-inner button:hover {
   opacity: 0.9;
 }
+
+.post-card {
+  background: #999;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 30px;
+  width: 75%;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  width: 100%;
+}
+
+.post-avatar {
+  width: 60px;
+}
+
+.post-image {
+  margin: 10px auto 0 auto;
+  display: block;
+  object-fit: cover;
+  width: 90%;
+  border-radius: 10px;
+}
+
+.description {
+  transform: translateX(-7%);
+  color: #000;
+}

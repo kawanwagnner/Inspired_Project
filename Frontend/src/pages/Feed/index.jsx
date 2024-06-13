@@ -73,7 +73,7 @@ const Feed = () => {
           console.log("Posts set:", response.data.posts);
         } else {
           setError("Dados inválidos recebidos da API.");
-          console.error("Invalid data received from API:", response.data);
+          console.error("Dados inválidos recebidos da API:", response.data);
         }
       } catch (error) {
         console.error("Erro ao buscar posts:", error);
@@ -90,10 +90,10 @@ const Feed = () => {
     const { name, value, files } = e.target;
     if (name === "image") {
       setPost({ ...post, [name]: files[0] });
-      console.log("Image selected:", files[0]);
+      console.log("Imagem selecionada:", files[0]);
     } else {
       setPost({ ...post, [name]: value });
-      console.log("Content changed:", value);
+      console.log("Conteúdo alterado:", value);
     }
   };
 
@@ -171,14 +171,14 @@ const Feed = () => {
           <h3 className="post-username">{post.creator.username}</h3>
         </div>
         <div className="post-content">
-          <p>{post.content}</p>
           {post.imageUrl && (
             <img
               className="post-image"
-              src={`http://192.168.15.6:3000/${post.imageUrl}`}
+              src={`http://192.168.175.179:3000/${post.imageUrl}`}
               alt="Post"
             />
           )}
+          <p className="description">{post.content}</p>
         </div>
       </div>
     ));
@@ -191,28 +191,38 @@ const Feed = () => {
       <div className="feed-pagina-feed">
         <ToastContainer />
         <header id="header-main-feed">
-          <div className="image-content">
-            <img src={logo} alt="Logo" />
-          </div>
+          <a href="/">
+            <div className="image-content">
+              <img src={logo} alt="Logo" />
+            </div>
+          </a>
         </header>
         <div className="feed-container">
           <div className="feed-esquerda">
             <ul className="list-menu">
               <li>
-                <div className="feed-flex-item feed-home-hover">
-                  <img className="feed-logoHome" src={homeIcon} alt="Início" />
-                  <a style={{ color: "#000" }} href="/">
+                <a style={{ color: "#000" }} href="/">
+                  <div className="feed-flex-item feed-home-hover">
+                    <img
+                      className="feed-logoHome"
+                      src={homeIcon}
+                      alt="Início"
+                    />
                     <h1 className="feed-titulo">Início</h1>
-                  </a>
-                </div>
+                  </div>
+                </a>
               </li>
               <li>
-                <div className="feed-flex-item">
-                  <img className="feed-logoUser" src={userIcon} alt="Perfil" />
-                  <a style={{ color: "#000" }} href="/profile">
+                <a style={{ color: "#000" }} href="/profile">
+                  <div className="feed-flex-item">
+                    <img
+                      className="feed-logoUser"
+                      src={userIcon}
+                      alt="Perfil"
+                    />
                     <h1 className="feed-titulo">Perfil</h1>
-                  </a>
-                </div>
+                  </div>
+                </a>
               </li>
               <li>
                 <button
