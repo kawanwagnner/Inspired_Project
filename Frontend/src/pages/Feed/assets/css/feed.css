@@ -367,13 +367,15 @@
 
 .relative-feed {
   position: relative;
+  background-color: yellow;
+  height: 100vh;
 }
 
 .relative-feed::after {
   content: "";
-  height: 100%;
-  width: 40px;
-  background-color: #F8F8F8;
+  height: 100vh;
+  width: 50px;
+  background-color: #f8f8f8;
   border-right: 3px solid var(--Bgbranco-secundario);
 
   position: absolute;
@@ -381,18 +383,28 @@
   left: 0;
 }
 
-/* .feed-imgMao {
-  width: 120%;
-  margin-left: -10%;
-  margin-top: 20px;
-  position: relative;
-} */
+.img-mao-content-feed {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+}
 
-/* .feed-imgBoneco {
-  margin-top: 9%;
-  height: 500px;
-  margin-left: -5%;
-} */
+.feed-imgMao {
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+}
+
+.feed-imgBoneco {
+  position: absolute;
+  right: 0;
+  bottom: -11px;
+
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+}
 
 /* <reset-style> ============================ */
 

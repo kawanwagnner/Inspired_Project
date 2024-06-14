@@ -15,6 +15,9 @@ const Profile = () => {
   const [error, setError] = useState(null);
   const [userData, setUserData] = useState(null);
 
+  const PORT = 3000;
+  const ip_Host = `172.21.208.1${":"}${PORT}`;
+
   useEffect(() => {
     const fetchUserData = async () => {
       const authToken = localStorage.getItem("authToken");
@@ -138,7 +141,7 @@ const Profile = () => {
               {post.imageUrl && (
                 <img
                   className="post-image"
-                  src={`http://192.168.175.179:3000/${post.imageUrl}`}
+                  src={`http://${ip_Host}/${post.imageUrl}`}
                   alt="Post"
                 />
               )}
