@@ -18,5 +18,9 @@ module.exports = {
       { allowConstantExport: true },
     ],
     "no-undef": "off",
+    "no-unused-vars": [
+      "warn",
+      { vars: "all", args: "after-used", ignoreRestSiblings: false },
+    ],
   },
 };

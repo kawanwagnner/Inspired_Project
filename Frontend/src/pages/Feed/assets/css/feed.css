@@ -213,11 +213,10 @@
 /* DIV DO MEIO */
 
 .feed-meio {
-  /* background-color: #fff; */
   width: 50%;
   margin: 88px auto 0 auto;
   z-index: 10;
-  /* border: 3px solid var(--Bgbranco-secundario); */
+  border: 3px solid var(--Bgbranco-secundario);
   border-top: none;
   transform: translateX(0%);
 }

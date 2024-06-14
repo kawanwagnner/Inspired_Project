@@ -11,6 +11,22 @@
   padding: 0;
   box-sizing: border-box;
 }
+html {
+  scroll-behavior: smooth;
+}
+.social-footer {
+  display: flex;
+  gap: 50px;
+  margin-top: 20px;
+  align-items: center;
+}
+.imgs_logo {
+  width: 39%;
+  height: 55%;
+  cursor: pointer;
+  align-items: center;
+  margin-top: 20%;
+}
 
 /* Header*/
 
@@ -21,6 +37,16 @@ header {
   justify-content: end;
   align-items: center;
   padding: 20px;
+}
+.imagens_creaters {
+  width: 80%;
+  height: 230px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.tresPrimeiro {
+  display: flex;
+  justify-content: space-around;
 }
 
 header img {
@@ -232,24 +258,40 @@ a {
 }
 
 .card {
-  width: 20%;
+  width: 25%;
   background: #fff;
   border: 1px solid #ccc;
   margin-bottom: 50px;
   transition: 0.3s;
+  border-radius: 30px;
 }
 
 .card-header {
   text-align: center;
-  padding: 50px 10px;
-  background-color: red;
-  color: #fff;
+  padding: 10px 10px;
+
+  color: #000;
+  border-radius: 10px;
 }
 
 .card-body {
   padding: 30px 20px;
   text-align: center;
   font-size: 18px;
+}
+.logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoCard {
+  width: 25%;
+  margin-top: 20px;
+}
+.texto {
+  align-items: center;
+  display: flex;
 }
 
 .card-body .btn {
@@ -292,5 +334,168 @@ a {
 
   .card {
     width: 80%;
+  }
+}
+.container-footer {
+  background-color: black;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+  padding-left: 23%;
+  padding-right: 15%;
+  padding-top: 50px;
+  text-align: center;
+}
+
+.logo-footer {
+  width: 100px;
+  height: 35px;
+}
+
+.logo-footer img {
+  width: 100%;
+  padding-top: 30px;
+}
+
+.menu-footer a {
+  display: block;
+  text-decoration: none;
+  color: #fff;
+  padding-top: 10px;
+}
+
+.menu-footer a:hover {
+  color: rgb(255, 0, 0);
+}
+
+.social-footer a {
+  display: block;
+  text-decoration: none;
+  color: #fff;
+  padding-top: 10px;
+}
+
+.social-footer a:hover {
+  color: rgb(255, 0, 0);
+}
+
+.footer {
+  height: 200px;
+}
+
+.social-footer {
+  display: flex;
+  height: 70px;
+  width: 250px;
+}
+
+.social-footer svg {
+  position: absolute;
+  display: flex;
+  width: 60%;
+  height: 100%;
+  font-size: 24px;
+  font-weight: 700;
+  opacity: 1;
+  transition: opacity 0.25s;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.social-footer .social-link1,
+.social-footer .social-link2 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25%;
+  color: whitesmoke;
+  font-size: 24px;
+  text-decoration: none;
+  transition: 0.25s;
+  border-radius: 50px;
+}
+
+/* Media query to adjust layout for smaller screens */
+
+@media (max-width: 950px) {
+  .container-footer {
+    display: block;
+    height: 300px;
+  }
+
+  .logo-footer {
+    margin-left: 30%;
+    margin-bottom: 50px;
+    width: 100px;
+    margin-top: -40px;
+  }
+  .menu-footer {
+    font-size: 18px;
+    margin-left: -22%;
+    margin-bottom: 20px;
+  }
+  .social-footer {
+    margin-left: 30%;
+    margin-top: 20px;
+    width: 180px;
+  }
+}
+
+@media (max-width: 770px) {
+  .container-footer {
+    display: block;
+    height: 300px;
+  }
+
+  .logo-footer {
+    margin-left: 30%;
+    margin-bottom: 50px;
+    width: 100px;
+    margin-top: -40px;
+  }
+  .menu-footer {
+    font-size: 17px;
+    margin-left: -19%;
+    margin-bottom: 20px;
+  }
+  .social-footer {
+    margin-left: 30%;
+    margin-top: 20px;
+    width: 180px;
+  }
+}
+
+@media (max-width: 600px) {
+  .container-footer {
+    display: block;
+    height: 300px;
+  }
+
+  .logo-footer {
+    margin-bottom: 50px;
+    width: 100px;
+    margin-left: 25%;
+  }
+  .menu-footer {
+    font-size: 14px;
+    margin-left: -10%;
+  }
+  .social-footer {
+    margin-left: 27%;
+    width: 160px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  #home {
+    background: #000 url(../img/design-moba.png) no-repeat;
+    background-position: 95% 95%;
+    background-size: 100%;
+    background-attachment: fixed;
+    width: 100%;
+    height: 100vh;
+    font-size: 10px;
   }
 }

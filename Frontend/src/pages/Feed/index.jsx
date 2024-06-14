@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -133,8 +133,15 @@ const Feed = () => {
         response.data.message === "Post criado com sucesso!"
       ) {
         toast.success("Post criado com sucesso!");
+
+        // Adicionar novo post à lista de posts
         setPosts((prevPosts) => [response.data.postData, ...prevPosts]);
         console.log("New post added:", response.data.postData);
+
+        // Recarregar a página após um pequeno atraso para garantir que o toast seja exibido
+        setTimeout(() => {
+          window.location.reload();
+        }, 1);
       } else {
         toast.error("Resposta inválida da API.");
         console.error("Resposta inválida da API:", response.data);

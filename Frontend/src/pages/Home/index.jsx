@@ -1,9 +1,18 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import profile from "./img/profile.png";
 import aspasParaCima from "./img/aspas1.png";
 import aspasParaBaixo from "./img/aspasbaixo2.png";
 import vanGogh from "./img/van-gogh.png";
+import kawan from "./img/img-developers/Kawan.jpg";
+import ricardo from "./img/img-developers/RicardoF.jpg";
+import emerson from "./img/img-developers/Emerson.jpg";
+import lucasS from "./img/img-developers/LucasMoedas.jpg";
+import joao from "./img/img-developers/joao.jpg";
+import lucasR from "./img/img-developers/LucasSantana.jpg";
+import logoFooter from "./img/img-developers/inspired_White.png";
+import logoGit from "./img/img-developers/github (1).png";
+import logoInstagram from "./img/img-developers/instagram (1).png";
 
 import "./css/home.css";
 import "./css/aboutUs.css";
@@ -99,7 +108,10 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="aboutUs">
+      <section className="aboutUs" id="aboutUs">
+        <div className="heading">
+          <h1 className="title">Sobre nós</h1>
+        </div>
         <div className="container-aboutUs">
           <img src={vanGogh} width="720px" height="578px" alt="Van Gogh" />
           <div className="sobre-text-align">
@@ -155,71 +167,134 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="exhibition">
+      <section className="exhibition" id="developers">
         <div className="container-exhibition">
           <div className="heading">
-            <h1 className="title">Micro Exposição</h1>
+            <h1 className="title">Desenvolvedores</h1>
           </div>
           <div className="row">
-            <div className="card">
-              <div className="card-header">
-                <h1>React</h1>
+            <div className="tresPrimeiro">
+              <div className="card">
+                <div className="card-body">
+                  <img className="imagens_creaters" src={kawan} alt="" />
+                  <div className="card-header">
+                    <h1>Kawan Wagnner</h1>
+                  </div>
+                  <div className="logos">
+                    <a href="https://github.com/kawanwagnner/Inspired_Project">
+                      <img className="logoCard" src={logoGit} alt="" />
+                    </a>
+                    <a href="https://www.instagram.com/kawan_wg.k/">
+                      <img className="logoCard" src={logoInstagram} alt="" />
+                    </a>
+                  </div>
+                </div>
               </div>
-              <div className="card-body">
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Culpa, recusandae!
-                </p>
-                <a href="#" className="btn">
-                  Read more
-                </a>
+
+              <div className="card">
+                <div className="card-body">
+                  <img className="imagens_creaters" src={ricardo} alt="" />
+                  <div className="card-header">
+                    <h1>Luiz Ricardo</h1>
+                  </div>
+                  <div className="logos">
+                    <a href="https://github.com/RicksDev">
+                      <img className="logoCard" src={logoGit} alt="" />
+                    </a>
+                    <a href="https://www.instagram.com/ricardo.filho04/">
+                      <img className="logoCard" src={logoInstagram} alt="" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div className="card">
+                <div className="card-body">
+                  <img className="imagens_creaters" src={emerson} alt="" />
+                  <div className="card-header">
+                    <h1>Emerson Morales</h1>
+                  </div>
+                  <div className="logos">
+                    <a href="https://github.com/emersonjrdev">
+                      <img className="logoCard" src={logoGit} alt="" />
+                    </a>
+                    <a href="https://www.instagram.com/emersxn_jr/">
+                      <img className="logoCard" src={logoInstagram} alt="" />
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
 
             <div className="card">
-              <div className="card-header">
-                <h1>Vue</h1>
-              </div>
               <div className="card-body">
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Culpa, recusandae!
-                </p>
-                <a href="#" className="btn">
-                  Read more
-                </a>
+                <img className="imagens_creaters" src={lucasS} alt="" />
+                <div className="card-header">
+                  <h1>Lucas Santos</h1>
+                </div>
+                <div className="logos">
+                  <a href="https://github.com/lucassdolv">
+                    <img className="logoCard" src={logoGit} alt="" />
+                  </a>
+                  <a href="https://www.instagram.com/ineffable.lucas/">
+                    <img className="logoCard" src={logoInstagram} alt="" />
+                  </a>
+                </div>
               </div>
             </div>
 
             <div className="card">
-              <div className="card-header">
-                <h1>Angular</h1>
-              </div>
               <div className="card-body">
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Culpa, recusandae!
-                </p>
-                <a href="#" className="btn">
-                  Read more
-                </a>
+                <img className="imagens_creaters" src={joao} alt="" />
+                <div className="card-header">
+                  <h1>João Pedro</h1>
+                </div>
+                <div className="logos">
+                  <a href="https://github.com/JoaoP0liveira">
+                    <img className="logoCard" src={logoGit} alt="" />
+                  </a>
+                  <a href="https://www.instagram.com/xdjoaopedro09/">
+                    <img className="logoCard" src={logoInstagram} alt="" />
+                  </a>
+                </div>
               </div>
             </div>
 
             <div className="card">
-              <div className="card-header">
-                <h1>JQuery</h1>
-              </div>
               <div className="card-body">
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Culpa, recusandae!
-                </p>
-                <a href="#" className="btn">
-                  Read more
-                </a>
+                <img className="imagens_creaters" src={lucasR} alt="" />
+                <div className="card-header">
+                  <h1>Lucas Santana</h1>
+                </div>
+                <div className="logos">
+                  <a href="https://www.instagram.com/rlucasrossatto/">
+                    <img className="logoCard" src={logoGit} alt="" />
+                  </a>
+                  <a href="https://www.instagram.com/rlucasrossatto/">
+                    <img className="logoCard" src={logoInstagram} alt="" />
+                  </a>
+                </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="footer">
+        <div className="container-footer">
+          <div className="logo-footer">
+            <a href="/">
+              <img src={logoFooter} alt="logo footer" />
+            </a>
+          </div>
+          <div className="menu-footer">
+            <a href="#home">Bem vindo</a>
+            <a href="#aboutUs">Sobre nós</a>
+            <a href="#developers">Desenvolvedores</a>
+          </div>
+          <div className="social-footer">
+            <p className="texto">(11)9999-9999</p>
+            <p className="texto">inspired@gmail.com</p>
           </div>
         </div>
       </section>
