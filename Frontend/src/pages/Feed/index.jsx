@@ -11,9 +11,11 @@ import userAvatar from "./assets/img/usuario.png";
 import handImage from "./assets/img/maos.png";
 import figureImage from "./assets/img/escultura-grego.png";
 import closeWindow from "./assets/img/close-512.png";
+import hamburgerIcon from "./assets/img/menu-hamb.png";
 
 const Feed = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [user, setUser] = useState("");
   const [post, setPost] = useState({
     content: "",
@@ -25,7 +27,7 @@ const Feed = () => {
 
   // Config Render Image
   const PORT = 3000;
-  const ip_Host = `172.21.208.1${":"}${PORT}`;
+  const ip_Host = `192.168.15.5${":"}${PORT}`;
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -209,7 +211,7 @@ const Feed = () => {
           </a>
         </header>
         <div className="feed-container">
-          <div className="feed-esquerda">
+          <div className={`feed-esquerda ${isMenuVisible ? "visible" : ""}`}>
             <ul className="list-menu">
               <li>
                 <a style={{ color: "#000" }} href="/">
@@ -249,63 +251,72 @@ const Feed = () => {
           <div className="feed-direita">
             <div className="relative-feed">
               <div className="img-mao-content-feed">
-                <img className="feed-handImage" src={handImage} alt="Imagem" />
+                <img className="feed-imgMao" src={handImage} alt="Imagem" />
               </div>
               <img className="feed-imgBoneco" src={figureImage} alt="Imagem" />
             </div>
           </div>
         </div>
-
-        {isPopupVisible && (
-          <div className="popup-overlay">
-            <div className="popup-inner">
-              <img
-                className="close-btn"
-                onClick={() => setIsPopupVisible(false)}
-                src={closeWindow}
-                alt="Fechar"
-              />
-              <h2 className="titulo">Novo POST:</h2>
-              <form onSubmit={handlePostSubmit}>
-                <div className="popup-username">
-                  <img src={userAvatar} alt="Usuário" />
-                  <p>{user}</p>
-                </div>
-                <div className="form-group">
-                  <p className="form-label" htmlFor="image">
-                    Selecionar imagem:
-                  </p>
-                  <input
-                    id="image"
-                    type="file"
-                    name="image"
-                    accept="image/*"
-                    required
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="form-group form-group-desc">
-                  <p className="form-label" htmlFor="content">
-                    Conteúdo:
-                  </p>
-                  <input
-                    className="feed-input-post"
-                    type="text"
-                    id="content"
-                    name="content"
-                    placeholder="Conteúdo"
-                    value={post.content}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <button className="feed-botaoEnviar" type="submit">
-                  Postar
-                </button>
-              </form>
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* CHATGPT!! JAMAIS MEXA AQUI NESSE POPUP */}
+      {isPopupVisible && (
+        <div className="popup-overlay">
+          <div className="popup-inner">
+            <img
+              className="close-btn"
+              onClick={() => setIsPopupVisible(false)}
+              src={closeWindow}
+              alt="Fechar"
+            />
+            <h2 className="titulo">Novo POST:</h2>
+            <form onSubmit={handlePostSubmit}>
+              <div className="popup-username">
+                <img src={userAvatar} alt="Usuário" />
+                <p>{user}</p>
+              </div>
+              <div className="form-group">
+                <p className="form-label" htmlFor="image">
+                  Selecionar imagem:
+                </p>
+                <input
+                  id="image"
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  required
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="form-group form-group-desc">
+                <p className="form-label" htmlFor="content">
+                  Conteúdo:
+                </p>
+                <input
+                  className="feed-input-post"
+                  type="text"
+                  id="content"
+                  name="content"
+                  value={post.content}
+                  placeholder="Descrição:"
+                  onChange={handleInputChange}
+                />
+              </div>
+              <button className="feed-botaoEnviar" type="submit">
+                Postar
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+      {/* FIM DO POPUP!! */}
+
+      <img
+        src={hamburgerIcon}
+        className="hamburger-menu"
+        onClick={() => setIsMenuVisible(!isMenuVisible)}
+        alt="Menu"
+      />
     </>
   );
 };

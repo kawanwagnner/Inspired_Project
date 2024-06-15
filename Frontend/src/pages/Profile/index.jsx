@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import logo from "./assets/img/logo.png";
@@ -6,24 +6,33 @@ import homeIcon from "./assets/img/home.png";
 import userProfile from "./assets/img/usuario.png";
 import handImage from "./assets/img/maos.png";
 import figureImage from "./assets/img/escultura-grego.png";
+import closeIcon from "./assets/img/close-512.png";
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { format } from "date-fns";
+
 import "./assets/css/profile.css";
 
 const Profile = () => {
   const [posts, setPosts] = useState([]);
-  //Tem q puxar essa função do IsPopupVisible
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [error, setError] = useState(null);
   const [userData, setUserData] = useState(null);
+  const [newPost, setNewPost] = useState({
+    content: "",
+    image: null,
+  });
 
   const PORT = 3000;
-  const ip_Host = `172.21.208.1${":"}${PORT}`;
+  const ip_Host = `192.168.15.5${":"}${PORT}`;
 
   useEffect(() => {
     const fetchUserData = async () => {
       const authToken = localStorage.getItem("authToken");
 
       try {
-        console.log("Fetching user data...");
         const response = await axios.get(
           "http://localhost:3000/api/users/profile",
           {
@@ -34,10 +43,8 @@ const Profile = () => {
         );
 
         const { profile } = response.data;
-        console.log("User data received:", profile);
         setUserData(profile);
       } catch (error) {
-        console.error("Error fetching user data:", error);
         setError(error);
       }
     };
@@ -50,26 +57,21 @@ const Profile = () => {
       const authToken = localStorage.getItem("authToken");
 
       try {
-        console.log("Fetching posts...");
         const response = await axios.get("http://localhost:3000/feed/posts/", {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
         });
 
-        console.log("Posts received:", response.data);
         if (response.data && Array.isArray(response.data.posts)) {
           const userPosts = response.data.posts.filter(
             (post) => post.creator.email === userData.email
           );
           setPosts(userPosts);
-          console.log("User posts set:", userPosts);
         } else {
-          console.error("Invalid data received from API:", response.data);
           setError("Invalid data received from API.");
         }
       } catch (error) {
-        console.error("Error fetching posts:", error);
         setError(error);
       }
     };
@@ -79,9 +81,84 @@ const Profile = () => {
     }
   }, [userData]);
 
+  const handleInputChange = (e) => {
+    const { name, value, files } = e.target;
+    if (name === "image") {
+      setNewPost({ ...newPost, image: files[0] });
+    } else {
+      setNewPost({ ...newPost, content: value });
+    }
+  };
+
+  const handlePostSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!newPost.content || !newPost.image) {
+      toast.error("Por favor, preencha todos os campos.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", newPost.image);
+    formData.append("content", newPost.content);
+
+    try {
+      const authToken = localStorage.getItem("authToken");
+      const response = await axios.post(
+        `http://localhost:3000/feed/post`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (
+        response.data &&
+        response.data.message === "Post criado com sucesso!"
+      ) {
+        toast.success("Post criado com sucesso!");
+
+        // Adicionar novo post à lista de posts
+        setPosts((prevPosts) => [response.data.postData, ...prevPosts]);
+
+        // Limpar o formulário de novo post após o envio bem-sucedido
+        setNewPost({ content: "", image: null });
+
+        // Recarregar a página após um pequeno atraso para garantir que o toast seja exibido
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000); // aumentado para 1000ms para garantir tempo suficiente para exibir o toast
+      } else {
+        toast.error("Resposta inválida da API.");
+      }
+    } catch (error) {
+      if (error.response) {
+        toast.error(
+          `Erro ao criar o post: ${
+            error.response.data.message || error.response.data.error
+          }`
+        );
+      } else if (error.request) {
+        toast.error("Nenhuma resposta do servidor.");
+      } else {
+        toast.error(`Erro ao criar o post: ${error.message}`);
+      }
+    }
+
+    setIsPopupVisible(false);
+  };
+
   if (error) {
     return <p>Ocorreu um erro ao carregar os dados: {error.message}</p>;
   }
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return format(date, "dd/MM/yyyy");
+  };
 
   return (
     <div className="profile-container">
@@ -93,8 +170,7 @@ const Profile = () => {
           <li className="profile-li">
             <a href="/feed">
               <div className="profile-flex-item">
-                <img className="profile-logoHome" src={homeIcon} alt="Home" />{" "}
-                {/* Use homeIcon */}
+                <img className="profile-logoHome" src={homeIcon} alt="Home" />
                 <h1 style={{ color: "#000" }} className="profile-h1">
                   Feed
                 </h1>
@@ -119,7 +195,10 @@ const Profile = () => {
             />
             <p className="profile-username">@{userData?.username}</p>
             <p className="profile-usuario_bio">- Sem Bio</p>
-            <p className="profile-date">entrou em {userData?.createdAt}</p>
+            <p className="profile-date">
+              entrou em{" "}
+              {userData?.createdAt ? formatDate(userData.createdAt) : ""}
+            </p>
           </div>
           <button className="profile-botao_editar">Editar Perfil</button>
         </div>
@@ -158,6 +237,55 @@ const Profile = () => {
           <img className="profile-imgBoneco" src={figureImage} alt="Imagem" />
         </div>
       </div>
+
+      {isPopupVisible && (
+        <div className="popup-overlay">
+          <div className="popup-inner">
+            <img
+              className="close-btn"
+              onClick={() => setIsPopupVisible(false)}
+              src={closeIcon}
+              alt="Fechar"
+            />
+            <h2 className="titulo">Novo POST:</h2>
+            <form onSubmit={handlePostSubmit}>
+              <div className="popup-username">
+                <img src={userProfile} alt="Usuário" />
+                <p>{userData?.username}</p>
+              </div>
+              <div className="form-group">
+                <p className="form-label" htmlFor="image">
+                  Selecionar imagem:
+                </p>
+                <input
+                  id="image"
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  required
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="form-group form-group-desc">
+                <p className="form-label" htmlFor="content">
+                  Conteúdo:
+                </p>
+                <input
+                  className="feed-input-post"
+                  type="text"
+                  id="content"
+                  name="content"
+                  value={newPost.content}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <button className="feed-botaoEnviar" type="submit">
+                Postar
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
