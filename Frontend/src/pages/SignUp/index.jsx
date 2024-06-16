@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./css/style.css";
 import "./fonts/material-icon/css/material-design-iconic-font.min.css";
 import cameraMan from "../SignUp/img/cameraman.jpg";
 import Header from "../../components/Header";
 import { useNavigate } from "react-router-dom";
+
+import "./css/style.css";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
