@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import profile from "./img/profile.png";
 import aspasParaCima from "./img/aspas1.png";
 import aspasParaBaixo from "./img/aspasbaixo2.png";
@@ -18,35 +17,13 @@ import "./css/home.css";
 import "./css/aboutUs.css";
 
 const Home = () => {
-  const [userName, setUserName] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const fetchUserName = async () => {
-      const authToken = localStorage.getItem("authToken");
-      const userId = localStorage.getItem("userId");
-
-      if (authToken && userId) {
-        try {
-          const response = await axios.get(
-            `http://localhost:3000/api/users/${userId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${authToken}`,
-              },
-            }
-          );
-
-          if (response.data && response.data.name) {
-            const firstName = response.data.name.split(" ")[0]; // Extracting the first name
-            setUserName(firstName);
-          }
-        } catch (error) {
-          console.error("Erro ao buscar nome do usuário:", error);
-        }
-      }
-    };
-
-    fetchUserName();
+    const authToken = localStorage.getItem("authToken");
+    if (authToken) {
+      setIsAuthenticated(true);
+    }
 
     // Definindo um temporizador para limpar o localStorage após 3 horas
     const clearLocalStorageTimer = setTimeout(() => {
@@ -67,13 +44,14 @@ const Home = () => {
       <section id="home">
         <header style={{ display: "flex", alignItems: "center" }}>
           <img src={profile} width="50px" alt="profile" />
-          <a className="signIn" href={userName ? "/profile" : "/signIn"}>
-            <p>{userName ? userName : "Login"}</p>
-          </a>
-          {userName && (
+          {isAuthenticated ? (
             <button className="logoutButton" onClick={handleLogout}>
               Sair
             </button>
+          ) : (
+            <a className="signIn" href="/signIn">
+              <p>Login</p>
+            </a>
           )}
         </header>
 
@@ -85,7 +63,7 @@ const Home = () => {
               width="130px"
               alt="aspas para cima"
             />
-            <h2 className="title2">INOVATION</h2>
+            <h2 className="title2">INOVAÇÃO</h2>
             <h1 className="title1">
               Bem vindo <span className="title_OF">AO</span> Inspired
             </h1>
@@ -95,7 +73,7 @@ const Home = () => {
               width="130px"
               alt="aspas para baixo"
             />
-            {userName ? (
+            {isAuthenticated ? (
               <a href="/feed">
                 <h3 className="signUp">EXPLORAR</h3>
               </a>
@@ -117,7 +95,7 @@ const Home = () => {
           <div className="sobre-text-align">
             <ul id="list-sobre-texts">
               <li>
-                <h1 id="sobre-title">Aqui a arte ganha vida</h1>
+                <h1 id="sobre-title">Aqui a ARTE ganha vida🎨</h1>
               </li>
               <li>
                 <h3 id="sobre-text">
@@ -176,16 +154,24 @@ const Home = () => {
             <div className="tresPrimeiro">
               <div className="card">
                 <div className="card-body">
-                  <img className="imagens_creaters" src={kawan} alt="" />
+                  <img
+                    className="imagens_creaters"
+                    src={kawan}
+                    alt="Kawan Wagnner"
+                  />
                   <div className="card-header">
                     <h1>Kawan Wagnner</h1>
                   </div>
                   <div className="logos">
                     <a href="https://github.com/kawanwagnner/Inspired_Project">
-                      <img className="logoCard" src={logoGit} alt="" />
+                      <img className="logoCard" src={logoGit} alt="GitHub" />
                     </a>
                     <a href="https://www.instagram.com/kawan_wg.k/">
-                      <img className="logoCard" src={logoInstagram} alt="" />
+                      <img
+                        className="logoCard"
+                        src={logoInstagram}
+                        alt="Instagram"
+                      />
                     </a>
                   </div>
                 </div>
@@ -193,16 +179,24 @@ const Home = () => {
 
               <div className="card">
                 <div className="card-body">
-                  <img className="imagens_creaters" src={ricardo} alt="" />
+                  <img
+                    className="imagens_creaters"
+                    src={ricardo}
+                    alt="Luiz Ricardo"
+                  />
                   <div className="card-header">
                     <h1>Luiz Ricardo</h1>
                   </div>
                   <div className="logos">
                     <a href="https://github.com/RicksDev">
-                      <img className="logoCard" src={logoGit} alt="" />
+                      <img className="logoCard" src={logoGit} alt="GitHub" />
                     </a>
                     <a href="https://www.instagram.com/ricardo.filho04/">
-                      <img className="logoCard" src={logoInstagram} alt="" />
+                      <img
+                        className="logoCard"
+                        src={logoInstagram}
+                        alt="Instagram"
+                      />
                     </a>
                   </div>
                 </div>
@@ -210,68 +204,93 @@ const Home = () => {
 
               <div className="card">
                 <div className="card-body">
-                  <img className="imagens_creaters" src={emerson} alt="" />
+                  <img
+                    className="imagens_creaters"
+                    src={emerson}
+                    alt="Emerson Morales"
+                  />
                   <div className="card-header">
                     <h1>Emerson Morales</h1>
                   </div>
                   <div className="logos">
                     <a href="https://github.com/emersonjrdev">
-                      <img className="logoCard" src={logoGit} alt="" />
+                      <img className="logoCard" src={logoGit} alt="GitHub" />
                     </a>
                     <a href="https://www.instagram.com/emersxn_jr/">
-                      <img className="logoCard" src={logoInstagram} alt="" />
+                      <img
+                        className="logoCard"
+                        src={logoInstagram}
+                        alt="Instagram"
+                      />
                     </a>
                   </div>
                 </div>
               </div>
             </div>
-
             <div className="card">
               <div className="card-body">
-                <img className="imagens_creaters" src={lucasS} alt="" />
+                <img
+                  className="imagens_creaters"
+                  src={lucasS}
+                  alt="Lucas Santos"
+                />
                 <div className="card-header">
                   <h1>Lucas Santos</h1>
                 </div>
                 <div className="logos">
                   <a href="https://github.com/lucassdolv">
-                    <img className="logoCard" src={logoGit} alt="" />
+                    <img className="logoCard" src={logoGit} alt="GitHub" />
                   </a>
                   <a href="https://www.instagram.com/ineffable.lucas/">
-                    <img className="logoCard" src={logoInstagram} alt="" />
+                    <img
+                      className="logoCard"
+                      src={logoInstagram}
+                      alt="Instagram"
+                    />
                   </a>
                 </div>
               </div>
             </div>
-
             <div className="card">
               <div className="card-body">
-                <img className="imagens_creaters" src={joao} alt="" />
+                <img className="imagens_creaters" src={joao} alt="João Pedro" />
                 <div className="card-header">
                   <h1>João Pedro</h1>
                 </div>
                 <div className="logos">
-                  <a href="https://github.com/JoaoP0liveira">
-                    <img className="logoCard" src={logoGit} alt="" />
-                  </a>
-                  <a href="https://www.instagram.com/xdjoaopedro09/">
-                    <img className="logoCard" src={logoInstagram} alt="" />
+                  <a
+                    href="https://github.com/JoaoP0live
+ira"
+                  >
+                    <img
+                      className="logoCard"
+                      src={logoInstagram}
+                      alt="Instagram"
+                    />
                   </a>
                 </div>
               </div>
-            </div>
-
+            </div>{" "}
             <div className="card">
               <div className="card-body">
-                <img className="imagens_creaters" src={lucasR} alt="" />
+                <img
+                  className="imagens_creaters"
+                  src={lucasR}
+                  alt="Lucas Santana"
+                />
                 <div className="card-header">
                   <h1>Lucas Santana</h1>
                 </div>
                 <div className="logos">
                   <a href="https://www.instagram.com/rlucasrossatto/">
-                    <img className="logoCard" src={logoGit} alt="" />
+                    <img className="logoCard" src={logoGit} alt="GitHub" />
                   </a>
                   <a href="https://www.instagram.com/rlucasrossatto/">
-                    <img className="logoCard" src={logoInstagram} alt="" />
+                    <img
+                      className="logoCard"
+                      src={logoInstagram}
+                      alt="Instagram"
+                    />
                   </a>
                 </div>
               </div>

@@ -10,10 +10,6 @@ ul {
   list-style: none;
 }
 
-.aboutUs {
-  margin: 100px auto;
-}
-
 .container-aboutUs {
   margin-top: 188px;
   margin-left: 48px;
@@ -46,18 +42,19 @@ ul {
 }
 
 #sobre-text {
-  font-size: 25px;
+  font-size: 23px;
   font-weight: 200;
 }
 
 #sobre-subtitle {
-  font-size: 28px;
+  font-size: 22px;
   font-weight: bold;
   font-family: "Antic", sans-serif;
 }
 
 .sobre-text-align img {
-  margin: 0 10px; /* Ajuste a margem conforme necessário */
+  margin: 0 10px;
+  /* Ajuste a margem conforme necessário */
 }
 
 .sobre-buttons {
@@ -78,6 +75,6 @@ ul {
   font-weight: bold;
   padding: 10px 20px;
   border-radius: 30px;
-  font-size: 27px;
+  font-size: 20px;
   font-family: "Antic", sans-serif;
 }
