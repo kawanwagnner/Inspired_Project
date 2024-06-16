@@ -116,22 +116,30 @@ const deletePost = async (req, res, next) => {
   const postId = req.params.postId;
 
   try {
+    // Encontrar o post pelo ID
     const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({ message: "Post não encontrado!" });
     }
 
+    // Verificar se o usuário autenticado é o criador do post
     if (post.creator.toString() !== req.userId) {
       return res.status(403).json({ message: "Não autorizado!" });
     }
 
-    await post.remove();
+    // Remover o post
+    await Post.findByIdAndDelete(postId);
+
+    // Atualizar a lista de posts do usuário
     const user = await User.findById(req.userId);
     user.posts.pull(postId);
     await user.save();
 
+    // Responder com sucesso
     res.status(200).json({ message: "Post excluído com sucesso!" });
   } catch (error) {
+    // Logar o erro no console para depuração
+    console.error("Erro ao excluir post:", error);
     res
       .status(500)
       .json({ message: "Erro ao excluir post", error: error.message });

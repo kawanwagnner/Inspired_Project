@@ -15,6 +15,9 @@ const Profile = () => {
   const [posts, setPosts] = useState([]);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isEditPopupVisible, setIsEditPopupVisible] = useState(false);
+  const [isPostEditPopupVisible, setIsPostEditPopupVisible] = useState(false);
+  const [currentPost, setCurrentPost] = useState(null);
+  const [menuVisible, setMenuVisible] = useState({});
   const [error, setError] = useState(null);
   const [userData, setUserData] = useState(null);
   const [newPost, setNewPost] = useState({
@@ -24,6 +27,10 @@ const Profile = () => {
   const [editProfileData, setEditProfileData] = useState({
     username: "",
     bio: "",
+  });
+
+  const [editPostData, setEditPostData] = useState({
+    content: "",
   });
 
   const PORT = 3000;
@@ -100,6 +107,15 @@ const Profile = () => {
     setEditProfileData({ ...editProfileData, [name]: value });
   };
 
+  const handleEditPostInputChange = (e) => {
+    const { name, value, files } = e.target;
+    if (name === "image") {
+      setEditPostData({ ...editPostData, image: files[0] });
+    } else {
+      setEditPostData({ ...editPostData, content: value });
+    }
+  };
+
   const handlePostSubmit = async (e) => {
     e.preventDefault();
 
@@ -137,7 +153,7 @@ const Profile = () => {
 
         setTimeout(() => {
           window.location.reload();
-        }, 1000);
+        }, 1);
       } else {
         toast.error("Resposta inválida da API.");
       }
@@ -175,13 +191,15 @@ const Profile = () => {
 
       if (
         response.data &&
-        response.data.message === "Perfil atualizado com sucesso!"
+        response.data.msg === "Perfil atualizado com sucesso!"
       ) {
         toast.success("Perfil atualizado com sucesso!");
+
+        // Atualizar localmente os dados do usuário
         setUserData({ ...userData, ...editProfileData });
-        setTimeout(() => {
-          window.location.reload();
-        }, 1);
+
+        // Fechar a janela de edição após a atualização bem-sucedida
+        setIsEditPopupVisible(false);
       } else {
         toast.error("Resposta inválida da API.");
       }
@@ -198,8 +216,107 @@ const Profile = () => {
         toast.error(`Erro ao atualizar o perfil: ${error.message}`);
       }
     }
+  };
 
-    setIsEditPopupVisible(false);
+  const handleEditPostSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("content", editPostData.content);
+    if (editPostData.image) {
+      formData.append("image", editPostData.image);
+    }
+
+    try {
+      const authToken = localStorage.getItem("authToken");
+      const response = await axios.put(
+        `http://localhost:3000/feed/posts/${currentPost._id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (
+        response.data &&
+        response.data.message === "Post atualizado com sucesso!"
+      ) {
+        toast.success("Post atualizado com sucesso!");
+
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post._id === currentPost._id ? response.data.postData : post
+          )
+        );
+
+        setIsPostEditPopupVisible(false);
+
+        // Recarregar a página após um pequeno delay
+        setTimeout(() => {
+          window.location.reload();
+        }, 1);
+      } else {
+        toast.error("Resposta inválida da API.");
+      }
+    } catch (error) {
+      if (error.response) {
+        toast.error(
+          `Erro ao atualizar o post: ${
+            error.response.data.message || error.response.data.error
+          }`
+        );
+      } else if (error.request) {
+        toast.error("Nenhuma resposta do servidor.");
+      } else {
+        toast.error(`Erro ao atualizar o post: ${error.message}`);
+      }
+    }
+  };
+
+  const handleDeletePost = async (postId) => {
+    try {
+      const authToken = localStorage.getItem("authToken");
+      const response = await axios.delete(
+        `http://localhost:3000/feed/posts/${postId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+
+      if (
+        response.data &&
+        response.data.message === "Post excluído com sucesso!"
+      ) {
+        toast.success("Post excluído com sucesso!");
+        setPosts((prevPosts) =>
+          prevPosts.filter((post) => post._id !== postId)
+        );
+
+        // Atualizar a página após excluir o post com um pequeno delay
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000); // 1 segundo de delay
+      } else {
+        toast.error("Resposta inválida da API.");
+      }
+    } catch (error) {
+      if (error.response) {
+        toast.error(
+          `Erro ao deletar o post: ${
+            error.response.data.message || error.response.data.error
+          }`
+        );
+      } else if (error.request) {
+        toast.error("Nenhuma resposta do servidor.");
+      } else {
+        toast.error(`Erro ao deletar o post: ${error.message}`);
+      }
+    }
   };
 
   if (error) {
@@ -209,6 +326,22 @@ const Profile = () => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return format(date, "dd/MM/yyyy");
+  };
+
+  const toggleMenu = (postId) => {
+    setMenuVisible((prevMenuVisible) => ({
+      ...prevMenuVisible,
+      [postId]: !prevMenuVisible[postId],
+    }));
+  };
+
+  const openEditPostPopup = (post) => {
+    setCurrentPost(post);
+    setEditPostData({
+      content: post.content,
+      image: null,
+    });
+    setIsPostEditPopupVisible(true);
   };
 
   return (
@@ -273,6 +406,19 @@ const Profile = () => {
                 alt="Avatar do usuário"
               />
               <h3 className="post-username">{post.creator.username}</h3>
+              <div className="post-menu">
+                <button onClick={() => toggleMenu(post._id)}>...</button>
+                {menuVisible[post._id] && (
+                  <div className="post-menu-options">
+                    <button onClick={() => openEditPostPopup(post)}>
+                      Editar
+                    </button>
+                    <button onClick={() => handleDeletePost(post._id)}>
+                      Excluir
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
             <div className="post-content">
               {post.imageUrl && (
@@ -387,6 +533,38 @@ const Profile = () => {
               </div>
               <button className="feed-botaoEnviar" type="submit">
                 Salvar
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {isPostEditPopupVisible && (
+        <div className="popup-overlay">
+          <div className="popup-inner">
+            <img
+              className="close-btn"
+              onClick={() => setIsPostEditPopupVisible(false)}
+              src={closeIcon}
+              alt="Fechar"
+            />
+            <h2 className="titulo">Editar Post:</h2>
+            <form onSubmit={handleEditPostSubmit}>
+              <div className="form-group form-group-desc">
+                <p className="form-label" htmlFor="content">
+                  Nova descrição:
+                </p>
+                <input
+                  className="feed-input-post"
+                  type="text"
+                  id="content"
+                  name="content"
+                  value={editPostData.content}
+                  onChange={handleEditPostInputChange}
+                />
+              </div>
+              <button className="feed-botaoEnviar" type="submit">
+                Atualizar
               </button>
             </form>
           </div>

@@ -3,12 +3,15 @@ import Home from "../pages/Home/index.jsx";
 import SignIn from "../pages/SignIn/index.jsx";
 import SignUp from "../pages/SignUp/index.jsx";
 import Feed from "../pages/Feed/index.jsx";
-import Profile from "../pages/Profile/index.jsx"; // Importe o componente Profile
+import Profile from "../pages/Profile/index.jsx";
 import PrivateRoute from "../auth/PrivateRoute.jsx";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export function Routers() {
   return (
     <BrowserRouter>
+      <ToastContainer />
       <Routes>
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
@@ -16,9 +19,6 @@ export function Routers() {
 
         <Route path="/" element={<PrivateRoute />}>
           <Route path="/feed" element={<Feed />} />
-        </Route>
-
-        <Route path="/" element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
         </Route>
 

@@ -31,8 +31,10 @@ const update = async (req, res, next) => {
     updatedUser.password = undefined;
     updatedUser.posts = undefined;
 
-    // Retorna o perfil atualizado do usuário
-    return res.status(200).json({ profile: updatedUser });
+    // Retorna o perfil atualizado do usuário com uma mensagem de sucesso
+    return res
+      .status(200)
+      .json({ msg: "Perfil atualizado com sucesso!", profile: updatedUser });
   } catch (err) {
     // Em caso de erro, retorna uma mensagem de erro detalhada
     return res

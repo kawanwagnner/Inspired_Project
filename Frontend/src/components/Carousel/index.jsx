@@ -4,12 +4,14 @@ import { Carousel } from "primereact/carousel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faStar } from "@fortawesome/free-solid-svg-icons";
 
-import ricardo from "./img/RicardoF.jpg";
-import joao from "./img/joao.jpg";
-import emerson from "./img/Emerson.jpg";
-import LucasMoedas from "./img/LucasMoedas.jpg";
-import Lucas from "./img/LucasSantana.jpg";
-import kawan from "./img/Kawan.jpg";
+import ricardo from "./assets/img/RicardoF.jpg";
+import joao from "./assets/img/joao.jpg";
+import emerson from "./assets/img/Emerson.jpg";
+import LucasMoedas from "./assets/img/LucasMoedas.jpg";
+import Lucas from "./assets/img/LucasSantana.jpg";
+import kawan from "./assets/img/Kawan.jpg";
+
+import "./assets/css/style.css";
 
 export default function ResponsiveDemo() {
   const [products] = useState([
@@ -46,17 +48,17 @@ export default function ResponsiveDemo() {
 
   const productTemplate = (product) => {
     return (
-      <div className="border-1 surface-border border-round m-2 text-center py-5 px-3">
-        <div className="mb-3">
+      <div className="container-carousel">
+        <div className="image-content">
           <img
-            src={`https://primefaces.org/cdn/primereact/images/product/${product.image}`}
+            src={product.image}
             alt={product.name}
             className="w-6 shadow-2"
           />
         </div>
         <div>
-          <h4 className="mb-1">{product.name}</h4>
-          <div className="mt-5 flex flex-wrap gap-2 justify-content-center">
+          <h4 className="name">{product.name}</h4>
+          <div className="icons">
             <Button className="p-button p-button-rounded">
               <FontAwesomeIcon icon={faSearch} />
             </Button>
