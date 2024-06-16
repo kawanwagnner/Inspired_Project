@@ -10,11 +10,6 @@ const update = async (req, res, next) => {
       return res.status(400).json({ msg: "ID do usuário inválido." });
     }
 
-    // Verifica se o campo 'name' está presente no corpo da requisição
-    if (!req.body.name) {
-      return res.status(400).json({ msg: "O campo 'name' é obrigatório." });
-    }
-
     // Procura o usuário pelo ID
     const user = await User.findById(req.userId);
 
@@ -23,8 +18,11 @@ const update = async (req, res, next) => {
       return res.status(404).json({ msg: "Usuário não encontrado." });
     }
 
-    // Atualiza o nome do usuário com o valor fornecido
-    user.name = req.body.name;
+    // Atualiza os campos do usuário com os valores fornecidos
+    const { username, bio } = req.body;
+
+    if (username) user.username = username;
+    if (bio) user.bio = bio;
 
     // Salva as alterações no banco de dados
     const updatedUser = await user.save();

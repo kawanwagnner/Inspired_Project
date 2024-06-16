@@ -1,32 +1,33 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { format } from "date-fns";
 import logo from "./assets/img/logo.png";
 import homeIcon from "./assets/img/home.png";
 import userProfile from "./assets/img/usuario.png";
 import handImage from "./assets/img/maos.png";
 import figureImage from "./assets/img/escultura-grego.png";
 import closeIcon from "./assets/img/close-512.png";
-
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
-import { format } from "date-fns";
-
 import "./assets/css/profile.css";
 
 const Profile = () => {
   const [posts, setPosts] = useState([]);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isEditPopupVisible, setIsEditPopupVisible] = useState(false);
   const [error, setError] = useState(null);
   const [userData, setUserData] = useState(null);
   const [newPost, setNewPost] = useState({
     content: "",
     image: null,
   });
+  const [editProfileData, setEditProfileData] = useState({
+    username: "",
+    bio: "",
+  });
 
   const PORT = 3000;
-  const ip_Host = `192.168.15.5${":"}${PORT}`;
+  const ip_Host = `192.168.15.5:${PORT}`;
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -44,6 +45,10 @@ const Profile = () => {
 
         const { profile } = response.data;
         setUserData(profile);
+        setEditProfileData({
+          username: profile.username,
+          bio: profile.bio || "",
+        });
       } catch (error) {
         setError(error);
       }
@@ -90,6 +95,11 @@ const Profile = () => {
     }
   };
 
+  const handleEditInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditProfileData({ ...editProfileData, [name]: value });
+  };
+
   const handlePostSubmit = async (e) => {
     e.preventDefault();
 
@@ -121,16 +131,13 @@ const Profile = () => {
       ) {
         toast.success("Post criado com sucesso!");
 
-        // Adicionar novo post à lista de posts
         setPosts((prevPosts) => [response.data.postData, ...prevPosts]);
 
-        // Limpar o formulário de novo post após o envio bem-sucedido
         setNewPost({ content: "", image: null });
 
-        // Recarregar a página após um pequeno atraso para garantir que o toast seja exibido
         setTimeout(() => {
           window.location.reload();
-        }, 1000); // aumentado para 1000ms para garantir tempo suficiente para exibir o toast
+        }, 1000);
       } else {
         toast.error("Resposta inválida da API.");
       }
@@ -149,6 +156,50 @@ const Profile = () => {
     }
 
     setIsPopupVisible(false);
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const authToken = localStorage.getItem("authToken");
+      const response = await axios.put(
+        `http://localhost:3000/api/users/update/`, // Corrigido para a rota de atualização
+        editProfileData,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+
+      if (
+        response.data &&
+        response.data.message === "Perfil atualizado com sucesso!"
+      ) {
+        toast.success("Perfil atualizado com sucesso!");
+        setUserData({ ...userData, ...editProfileData });
+        setTimeout(() => {
+          window.location.reload();
+        }, 1);
+      } else {
+        toast.error("Resposta inválida da API.");
+      }
+    } catch (error) {
+      if (error.response) {
+        toast.error(
+          `Erro ao atualizar o perfil: ${
+            error.response.data.message || error.response.data.error
+          }`
+        );
+      } else if (error.request) {
+        toast.error("Nenhuma resposta do servidor.");
+      } else {
+        toast.error(`Erro ao atualizar o perfil: ${error.message}`);
+      }
+    }
+
+    setIsEditPopupVisible(false);
   };
 
   if (error) {
@@ -194,13 +245,20 @@ const Profile = () => {
               alt="Usuário"
             />
             <p className="profile-username">@{userData?.username}</p>
-            <p className="profile-usuario_bio">- Sem Bio</p>
+            <p className="profile-usuario_bio">
+              - {userData?.bio || "Sem Bio"}
+            </p>
             <p className="profile-date">
               entrou em{" "}
               {userData?.createdAt ? formatDate(userData.createdAt) : ""}
             </p>
           </div>
-          <button className="profile-botao_editar">Editar Perfil</button>
+          <button
+            className="profile-botao_editar"
+            onClick={() => setIsEditPopupVisible(true)}
+          >
+            Editar Perfil
+          </button>
         </div>
         <div className="divisor-content">
           <h2>Posts</h2>
@@ -281,6 +339,54 @@ const Profile = () => {
               </div>
               <button className="feed-botaoEnviar" type="submit">
                 Postar
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {isEditPopupVisible && (
+        <div className="popup-overlay">
+          <div className="popup-inner">
+            <img
+              className="close-btn"
+              onClick={() => setIsEditPopupVisible(false)}
+              src={closeIcon}
+              alt="Fechar"
+            />
+            <h2 className="titulo">Editar Perfil:</h2>
+            <form onSubmit={handleEditSubmit}>
+              <div className="popup-username">
+                <img src={userProfile} alt="Usuário" />
+                <p>{userData?.username}</p>
+              </div>
+              <p className="form-label" htmlFor="username">
+                Nome de usuário:
+              </p>
+              <div className="form-group">
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value={editProfileData.username}
+                  onChange={handleEditInputChange}
+                  required
+                />
+              </div>
+              <p className="form-label" htmlFor="bio">
+                Bio:
+              </p>
+              <div className="form-group form-group-desc">
+                <input
+                  type="text"
+                  id="bio"
+                  name="bio"
+                  value={editProfileData.bio}
+                  onChange={handleEditInputChange}
+                />
+              </div>
+              <button className="feed-botaoEnviar" type="submit">
+                Salvar
               </button>
             </form>
           </div>
