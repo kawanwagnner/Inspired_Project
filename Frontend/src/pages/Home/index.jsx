@@ -14,6 +14,8 @@ import logoFooter from "./img/img-developers/inspired_White.png";
 import logoGit from "./img/img-developers/github (1).png";
 import logoInstagram from "./img/img-developers/instagram (1).png";
 
+import Carousel from "../../components/Carousel/index";
+
 import "./css/home.css";
 import "./css/aboutUs.css";
 
@@ -108,7 +110,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="aboutUs" id="aboutUs">
+      <section id="aboutUs">
         <div className="heading">
           <h1 className="title">Sobre nós</h1>
         </div>
@@ -172,6 +174,9 @@ const Home = () => {
           <div className="heading">
             <h1 className="title">Desenvolvedores</h1>
           </div>
+
+          <Carousel />
+
           <div className="row">
             <div className="tresPrimeiro">
               <div className="card">

@@ -27,7 +27,7 @@ const Feed = () => {
 
   // Config Render Image
   const PORT = 3000;
-  const ip_Host = `192.168.15.5${":"}${PORT}`;
+  const ip_Host = `192.168.15.3${":"}${PORT}`;
 
   useEffect(() => {
     const fetchUserData = async () => {

@@ -11,15 +11,18 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 html {
   scroll-behavior: smooth;
 }
+
 .social-footer {
   display: flex;
   gap: 50px;
   margin-top: 20px;
   align-items: center;
 }
+
 .imgs_logo {
   width: 39%;
   height: 55%;
@@ -38,12 +41,14 @@ header {
   align-items: center;
   padding: 20px;
 }
+
 .imagens_creaters {
   width: 80%;
   height: 230px;
   border-radius: 50%;
   object-fit: cover;
 }
+
 .tresPrimeiro {
   display: flex;
   justify-content: space-around;
@@ -73,7 +78,7 @@ a {
 /* Body Page; */
 
 #home {
-  background: #000 url(../img/bg-maos.png) no-repeat;
+  background: #fff url(../img/bg-maos.png) no-repeat;
   background-position: 95% 95%;
   background-size: 100%;
   background-attachment: fixed;
@@ -81,6 +86,8 @@ a {
   width: 100%;
   height: 100vh;
 }
+
+
 
 .container-position {
   position: absolute;
@@ -279,6 +286,7 @@ a {
   text-align: center;
   font-size: 18px;
 }
+
 .logos {
   display: flex;
   align-items: center;
@@ -289,6 +297,7 @@ a {
   width: 25%;
   margin-top: 20px;
 }
+
 .texto {
   align-items: center;
   display: flex;
@@ -336,6 +345,7 @@ a {
     width: 80%;
   }
 }
+
 .container-footer {
   background-color: black;
   display: flex;
@@ -431,11 +441,13 @@ a {
     width: 100px;
     margin-top: -40px;
   }
+
   .menu-footer {
     font-size: 18px;
     margin-left: -22%;
     margin-bottom: 20px;
   }
+
   .social-footer {
     margin-left: 30%;
     margin-top: 20px;
@@ -455,11 +467,13 @@ a {
     width: 100px;
     margin-top: -40px;
   }
+
   .menu-footer {
     font-size: 17px;
     margin-left: -19%;
     margin-bottom: 20px;
   }
+
   .social-footer {
     margin-left: 30%;
     margin-top: 20px;
@@ -478,10 +492,12 @@ a {
     width: 100px;
     margin-left: 25%;
   }
+
   .menu-footer {
     font-size: 14px;
     margin-left: -10%;
   }
+
   .social-footer {
     margin-left: 27%;
     width: 160px;
