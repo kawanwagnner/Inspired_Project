@@ -1,37 +1,39 @@
 ## Índice
 
-- [Preview](#preview)
+<!-- - [Preview](#preview)
 - [Sobre](#sobre)
 - [Funcionalidades](#funcionalidades)
 - [Layout](#layout)
 - [Tecnologias](#tecnologias)
 - [Autor](#autor)
-- [Licença](#licenca)
+- [Licença](#licenca) -->
 
 ---
 
 ## 💻 Sobre <a id="sobre"></a>
 
-Uma simples rede social :).
-<br>
+Fomos desafiados a criar uma aplicação fullstack com CRUD implementado. Eu e meus amigos, sendo eles:
+
+- Kawan wagnner
+- Luiz Ricardo
+- Lucas Santana
+- Lucas Santos
+- Emerson Morales
+- João Pedro
+  Desenvolvemos uma simples rede social interativa. Buscamos atender o público alvo de artistas, para postagens de artes e descrições sobre sua artes.
+  <br>
+  Desenvolvemos também, uma aplicação totalmente interativa com CRUD de usuário e do post. Podendo ser postado, alterado e excluído a qualquer momento.
 
 ---
 
-<!-- ## 🚀 Preview <a id="preview"></a>
-
--> https://rede-social-saulo-felipe.vercel.app/
-
------------------------------------- -->
-
 ## ⚙️ Funcionalidades <a id="funcionalidades"></a>
 
-1. ✅ Responsivo
+1. ✅ CRUD
 2. ✅ Postagens
-3. ✅ Likes, dislikes e comentários
-4. ✅ Perfis de usuário dinâmico
-5. ✅ Sistema de autenticação com Google, Github e Email
-6. ✅ Chat em tempo real
-7. ✅ Seguir usuários e ser seguido
+3. ✅ Perfis de usuário dinâmico
+4. ✅ Editar e excluir Posts e user
+5. ✅ Responsivo
+6. ✅ Validação de usuário
 
 ---
 
@@ -41,7 +43,7 @@ Uma simples rede social :).
 <img src="https://img.shields.io/badge/Backend-NodeJs-green">
 <img src="https://img.shields.io/badge/Frontend-ReactJS-green">
 
-<!-- <p>*O Layout completo do site está disponível <a href="https://rede-social-saulo-felipe.vercel.app">aqui</a>.</p>
+ <!-- <!-- <p>*O Layout completo do site está disponível <a href="https://rede-social-saulo-felipe.vercel.app">aqui</a>.</p>
 
 <img src="Github/layout-1.png">
 <img src="Github/layout-2.png">
@@ -62,26 +64,23 @@ Uma simples rede social :).
 
 ## 🤖 Tecnologias <a id="tecnologias"></a>
 
-Nesta rede social, foram utilizadas as seguintes stacks:
+Nesta rede social, foram utilizadas as seguintes stacks: -->
 
 - HTML5 <img width="16px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" />
 - CSS3 <img width="16px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" />
-- Sass <img width="16px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" />
 - Javascript <img width="16px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" />
-- Typescript <img width="16px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" />
 - Nodejs <img width="16px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" />
-- Nextjs <img width="16px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" />
-- PostgreSQL <img width="16px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" />
-- websocket <img width="16px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/socketio/socketio-original.svg" />
+- React <img width="16px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" />
+- MongoDB <img width="16px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original-wordmark.svg" />
 
 ---
 
 ## 👨 Autor <a id="autor"></a>
 
-<p align="center">➡️ Desenvolvido por <strong>eu</strong> mesmo 🧑‍💻.</p>
+<p align="center">➡️ Desenvolvido por <strong>- Kawan Wagnner <br>- Luiz Ricardo <br>- Emerson Morales <br>- João Pedro <br>- Lucas Santana <br>- Lucas Santos</strong> 🧑‍💻.</p>
 
 ---
 
 ## 📜 Licença <a id="licenca"></a>
 
-<p align="center">Todos os direitos reservados ©Copyright - Saulo Felipe</p> -->
+<p align="center">Todos os direitos reservados ©Copyright - Kawan Wagnner</p>

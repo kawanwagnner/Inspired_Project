@@ -1,40 +1,10 @@
-/* style.css */
-
-.container-carousel {
-    background-color: #fff;
-    padding: 50px;
-    border-radius: 30px;
-
-
-    width: 100vw;
-    margin-left: calc(-50vw + 50%);
+.container-image {
+    width: 90%;
+    margin: auto;
 }
 
-.image-content img {
+.container-image img {
     width: 100%;
-    height: auto;
-    border-radius: 20px;
-}
-
-.name {
-    text-align: center;
-}
-
-.icons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-.card {
-    width: 100%;
-}
-
-.p-carousel {
-    width: 100%;
-}
-
-.p-carousel-item {
-    display: flex;
-    justify-content: center;
+    object-fit: cover;
+    border-radius: 200px;
 }

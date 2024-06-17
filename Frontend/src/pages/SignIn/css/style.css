@@ -1,39 +1,29 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body {
-  background-color: #edecf3;
-}
-
 .container {
   display: flex;
-  width: 900px; /* Ajustei a largura para acomodar a imagem e o formulário */
-  height: 515px;
-  margin: auto;
-  margin-top: 200px;
+  width: 90%;
+  max-width: 900px;
+  height: auto;
+  margin: 200px auto 0 auto;
   align-items: center;
   justify-content: center;
 }
 
 .form-and-image {
   display: flex;
-  width: 102%;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
 }
 
 .inspi {
-  margin-left: 150px;
+  margin-left: 10%;
   margin-top: 13px;
 }
 
 .container img {
   max-width: 100%;
   height: auto;
-  border-radius: 22px 0px 0px 22px; /* Ajustei a curvatura da imagem */
-  
+  border-radius: 22px 0 0 22px;
 }
 
 .form {
@@ -41,14 +31,14 @@ body {
   padding: 20px;
   background-color: white;
   height: 100%;
-  border-radius: 0px 22px 22px 0px; /* Ajustei a curvatura do formulário */
+  border-radius: 0 22px 22px 0;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .login {
-  font-size: 38px;
+  font-size: 2.375rem;
   margin-top: 50px;
-  margin-left: 40px;
+  margin-left: 10%;
   font-family: "Antic", sans-serif;
   font-weight: bold;
 }
@@ -69,7 +59,7 @@ body {
   z-index: 99;
   left: 12px;
   bottom: 9px;
-  margin-left: 40px;
+  margin-left: 10%;
 }
 
 .input_label {
@@ -79,60 +69,179 @@ body {
 }
 
 .estatua {
-  max-width: 50%; /* Ajuste conforme necessário */
+  max-width: 50%;
   height: auto;
-  border-radius: 33px 0px 0px 30px; /* Curvatura para o lado esquerdo */
+  border-radius: 33px 0 0 30px;
 }
 
 .input_field {
-  width: 400px;
+  width: 80%;
+  max-width: 400px;
   height: 40px;
-  padding: 0 0 0 40px;
+  padding-left: 40px;
   border-radius: 7px;
   outline: none;
   border: 3px solid #000000;
-  filter: drop-shadow(0px 1px 0px #efefef)
-    drop-shadow(0px 1px 0.5px rgba(239, 239, 239, 0.5));
+  filter: drop-shadow(0px 1px 0px #efefef) drop-shadow(0px 1px 0.5px rgba(239, 239, 239, 0.5));
   transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
   margin: auto;
-  margin-left: 40px;
+  margin-left: 10%;
 }
 
 .input_field:focus {
   border: 1px solid transparent;
-  box-shadow: 0px 0px 0px 2px #242424;
+  box-shadow: 0 0 0 2px #242424;
   background-color: transparent;
 }
 
 .sign-in_btn {
-  width: 400px;
-  height: 54px;
+  width: 70%;
+  max-width: 260px;
+  height: 55px;
   border: 0;
-  background: #000000;
+  background: #020202;
   border-radius: 30px;
   color: #ffffff;
   cursor: pointer;
   margin-top: 50px;
-  margin-left: 40px;
+  margin-left: 10%;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 .sign-in_btn:hover {
   background-color: rgb(39, 38, 38);
 }
-.conta{
+
+.conta {
   color: black;
 }
 
 p {
   font-weight: bold;
   font-family: "Antic", sans-serif;
-  margin-left: 50px;
+  margin-left: 10%;
   margin-top: 10px;
 }
 
 a {
   color: #f20530;
   text-decoration: none;
+}
+
+@media screen and (max-width: 890px) {
+  .form {
+    border-radius: 22px;
+  }
+
+  .estatua {
+    display: none;
+  }
+
+  .form {
+    padding-left: 18%;
+  }
+
+  .sign-in_btn {
+    width: 95%;
+    margin-left: 10px;
+  }
+}
+
+@media screen and (max-width: 775px) {
+  .sign-in_btn {
+    width: 95%;
+    margin-left: 10px;
+  }
+
+  .header {
+    margin-left: 41%;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .form {
+    padding-left: 8%;
+  }
+}
+
+@media screen and (max-width: 645px) {
+  .form {
+    padding-left: 5%;
+  }
+
+  .header {
+    margin-left: 35%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    flex-direction: column;
+    margin-top: 100px;
+  }
+
+  .form {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .sign-in_btn {
+    width: 88%;
+    height: 50px;
+    margin-top: 30px;
+    margin-left: 5%;
+  }
+
+  .inspi {
+    display: none;
+  }
+
+  .inputs {
+    width: 100%;
+    height: auto;
+    margin-left: 0;
+  }
+
+  .login {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .header {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .register-form {
+    width: 100%;
+  }
+
+  .input_field {
+    width: 100%;
+    margin: 0;
+  }
+
+  .icon {
+    margin: 0;
+  }
+
+  .conta {
+    margin-top: 20px;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .inputs {
+    margin-left: 10px;
+  }
+
+  .sign-in_btn {
+    margin-left: 0;
+  }
+
+  .form-group {
+    margin-left: 10px;
+  }
 }

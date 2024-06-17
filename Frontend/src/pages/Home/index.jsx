@@ -3,18 +3,13 @@ import profile from "./img/profile.png";
 import aspasParaCima from "./img/aspas1.png";
 import aspasParaBaixo from "./img/aspasbaixo2.png";
 import vanGogh from "./img/van-gogh.png";
-import kawan from "./img/img-developers/Kawan.jpg";
-import ricardo from "./img/img-developers/RicardoF.jpg";
-import emerson from "./img/img-developers/Emerson.jpg";
-import lucasS from "./img/img-developers/LucasMoedas.jpg";
-import joao from "./img/img-developers/joao.jpg";
-import lucasR from "./img/img-developers/LucasSantana.jpg";
 import logoFooter from "./img/img-developers/inspired_White.png";
 import logoGit from "./img/img-developers/github (1).png";
 import logoInstagram from "./img/img-developers/instagram (1).png";
 
 import "./css/home.css";
 import "./css/aboutUs.css";
+import DevelopersCarousel from "../../components/Carousel";
 
 const Home = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -42,7 +37,10 @@ const Home = () => {
   return (
     <>
       <section id="home">
-        <header style={{ display: "flex", alignItems: "center" }}>
+        <header
+          className="header"
+          style={{ display: "flex", alignItems: "center" }}
+        >
           <img src={profile} width="50px" alt="profile" />
           {isAuthenticated ? (
             <button className="logoutButton" onClick={handleLogout}>
@@ -150,152 +148,8 @@ const Home = () => {
           <div className="heading">
             <h1 className="title">Desenvolvedores</h1>
           </div>
-          <div className="row">
-            <div className="tresPrimeiro">
-              <div className="card">
-                <div className="card-body">
-                  <img
-                    className="imagens_creaters"
-                    src={kawan}
-                    alt="Kawan Wagnner"
-                  />
-                  <div className="card-header">
-                    <h1>Kawan Wagnner</h1>
-                  </div>
-                  <div className="logos">
-                    <a href="https://github.com/kawanwagnner/Inspired_Project">
-                      <img className="logoCard" src={logoGit} alt="GitHub" />
-                    </a>
-                    <a href="https://www.instagram.com/kawan_wg.k/">
-                      <img
-                        className="logoCard"
-                        src={logoInstagram}
-                        alt="Instagram"
-                      />
-                    </a>
-                  </div>
-                </div>
-              </div>
 
-              <div className="card">
-                <div className="card-body">
-                  <img
-                    className="imagens_creaters"
-                    src={ricardo}
-                    alt="Luiz Ricardo"
-                  />
-                  <div className="card-header">
-                    <h1>Luiz Ricardo</h1>
-                  </div>
-                  <div className="logos">
-                    <a href="https://github.com/RicksDev">
-                      <img className="logoCard" src={logoGit} alt="GitHub" />
-                    </a>
-                    <a href="https://www.instagram.com/ricardo.filho04/">
-                      <img
-                        className="logoCard"
-                        src={logoInstagram}
-                        alt="Instagram"
-                      />
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="card">
-                <div className="card-body">
-                  <img
-                    className="imagens_creaters"
-                    src={emerson}
-                    alt="Emerson Morales"
-                  />
-                  <div className="card-header">
-                    <h1>Emerson Morales</h1>
-                  </div>
-                  <div className="logos">
-                    <a href="https://github.com/emersonjrdev">
-                      <img className="logoCard" src={logoGit} alt="GitHub" />
-                    </a>
-                    <a href="https://www.instagram.com/emersxn_jr/">
-                      <img
-                        className="logoCard"
-                        src={logoInstagram}
-                        alt="Instagram"
-                      />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="card">
-              <div className="card-body">
-                <img
-                  className="imagens_creaters"
-                  src={lucasS}
-                  alt="Lucas Santos"
-                />
-                <div className="card-header">
-                  <h1>Lucas Santos</h1>
-                </div>
-                <div className="logos">
-                  <a href="https://github.com/lucassdolv">
-                    <img className="logoCard" src={logoGit} alt="GitHub" />
-                  </a>
-                  <a href="https://www.instagram.com/ineffable.lucas/">
-                    <img
-                      className="logoCard"
-                      src={logoInstagram}
-                      alt="Instagram"
-                    />
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="card">
-              <div className="card-body">
-                <img className="imagens_creaters" src={joao} alt="João Pedro" />
-                <div className="card-header">
-                  <h1>João Pedro</h1>
-                </div>
-                <div className="logos">
-                  <a
-                    href="https://github.com/JoaoP0live
-ira"
-                  >
-                    <img
-                      className="logoCard"
-                      src={logoInstagram}
-                      alt="Instagram"
-                    />
-                  </a>
-                </div>
-              </div>
-            </div>{" "}
-            <div className="card">
-              <div className="card-body">
-                <img
-                  className="imagens_creaters"
-                  src={lucasR}
-                  alt="Lucas Santana"
-                />
-                <div className="card-header">
-                  <h1>Lucas Santana</h1>
-                </div>
-                <div className="logos">
-                  <a href="https://www.instagram.com/rlucasrossatto/">
-                    <img className="logoCard" src={logoGit} alt="GitHub" />
-                  </a>
-                  <a href="https://www.instagram.com/rlucasrossatto/">
-                    <img
-                      className="logoCard"
-                      src={logoInstagram}
-                      alt="Instagram"
-                    />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+          <DevelopersCarousel />
         </div>
       </section>
 

@@ -1,85 +1,63 @@
-import React, { useState } from "react";
-import { Button } from "primereact/button";
-import { Carousel } from "primereact/carousel";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faStar } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
-import ricardo from "./assets/img/RicardoF.jpg";
-import joao from "./assets/img/joao.jpg";
-import emerson from "./assets/img/Emerson.jpg";
-import LucasMoedas from "./assets/img/LucasMoedas.jpg";
-import Lucas from "./assets/img/LucasSantana.jpg";
 import kawan from "./assets/img/Kawan.jpg";
+import ricardo from "./assets/img/RicardoF.jpg";
+import emerson from "./assets/img/Emerson.jpg";
+import lucasM from "./assets/img/LucasMoedas.jpg";
+import joao from "./assets/img/joao.jpg";
+import lucas from "./assets/img/LucasSantana.jpg";
 
 import "./assets/css/style.css";
 
-export default function ResponsiveDemo() {
-  const [products] = useState([
-    { name: "Ricardo Filho", image: ricardo },
-    { name: "João Pedro", image: joao },
-    { name: "Emerson", image: emerson },
-    { name: "Lucas Santana", image: Lucas },
-    { name: "Lucas Rosato", image: LucasMoedas },
-    { name: "Kawan Wnn", image: kawan },
-  ]);
+const responsive = {
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 3,
+    slidesToSlide: 3, // optional, default to 1.
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2,
+    slidesToSlide: 2, // optional, default to 1.
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+    slidesToSlide: 1, // optional, default to 1.
+  },
+};
 
-  const responsiveOptions = [
-    {
-      breakpoint: "1400px",
-      numVisible: 2,
-      numScroll: 1,
-    },
-    {
-      breakpoint: "1199px",
-      numVisible: 3,
-      numScroll: 1,
-    },
-    {
-      breakpoint: "767px",
-      numVisible: 2,
-      numScroll: 1,
-    },
-    {
-      breakpoint: "575px",
-      numVisible: 1,
-      numScroll: 1,
-    },
-  ];
-
-  const productTemplate = (product) => {
-    return (
-      <div className="container-carousel">
-        <div className="image-content">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-6 shadow-2"
-          />
-        </div>
-        <div>
-          <h4 className="name">{product.name}</h4>
-          <div className="icons">
-            <Button className="p-button p-button-rounded">
-              <FontAwesomeIcon icon={faSearch} />
-            </Button>
-            <Button className="p-button-success p-button-rounded">
-              <FontAwesomeIcon icon={faStar} />
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  };
+const DevelopersCarousel = (props) => {
+  const images = [kawan, ricardo, emerson, lucasM, joao, lucas];
 
   return (
-    <div className="card">
-      <Carousel
-        value={products}
-        numScroll={1}
-        numVisible={3}
-        responsiveOptions={responsiveOptions}
-        itemTemplate={productTemplate}
-      />
-    </div>
+    <Carousel
+      swipeable={true}
+      draggable={true}
+      showDots={true}
+      responsive={responsive}
+      ssr={true} // means to render carousel on server-side.
+      infinite={true}
+      autoPlay={props.deviceType !== "mobile"}
+      autoPlaySpeed={1000}
+      keyBoardControl={true}
+      customTransition="all .5"
+      transitionDuration={500}
+      containerClass="carousel-container"
+      removeArrowOnDeviceType={["tablet", "mobile"]}
+      deviceType={props.deviceType}
+      dotListClass="custom-dot-list-style"
+      itemClass="carousel-item-padding-40-px"
+    >
+      {images.map((image, index) => (
+        <div className="container-image" key={index}>
+          <img src={image} alt={`Imagem ${index + 1}`} />
+        </div>
+      ))}
+    </Carousel>
   );
-}
+};
+
+export default DevelopersCarousel;
