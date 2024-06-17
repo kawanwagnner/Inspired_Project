@@ -1,10 +1,10 @@
 ---
 ## 💻 Sobre <a id="sobre"></a>
 
-Fomos desafiados a criar uma aplicação fullstack com CRUD implementado.<br>
+<p>Fomos desafiados a criar uma aplicação fullstack com CRUD implementado.<br>
 Desenvolvemos uma simples rede social interativa. Buscamos atender o público alvo de artistas, para postagens de artes e descrições sobre sua artes.
 <br>
-Desenvolvemos também, uma aplicação totalmente interativa com CRUD de usuário e do post. Podendo ser postado, alterado e excluído a qualquer momento.
+Desenvolvemos também, uma aplicação totalmente interativa com CRUD de usuário e do post. Podendo ser postado, alterado e excluído a qualquer momento.<p/>
 ---
 
 ## ⚙️ Funcionalidades <a id="funcionalidades"></a>
