@@ -156,7 +156,7 @@ const Home = () => {
       <section className="footer">
         <div className="container-footer">
           <div className="logo-footer">
-            <a href="/">
+            <a href="#home">
               <img src={logoFooter} alt="logo footer" />
             </a>
           </div>

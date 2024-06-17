@@ -6,7 +6,7 @@ import kawan from "./assets/img/Kawan.jpg";
 import ricardo from "./assets/img/RicardoF.jpg";
 import emerson from "./assets/img/Emerson.jpg";
 import lucasM from "./assets/img/LucasMoedas.jpg";
-import joao from "./assets/img/joao.jpg";
+import joao from "./assets/img/joao.png";
 import lucas from "./assets/img/LucasSantana.jpg";
 
 import "./assets/css/style.css";
