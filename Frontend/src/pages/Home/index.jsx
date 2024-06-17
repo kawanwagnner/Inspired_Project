@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
-import profile from "./img/profile.png";
-import aspasParaCima from "./img/aspas1.png";
-import aspasParaBaixo from "./img/aspasbaixo2.png";
-import vanGogh from "./img/van-gogh.png";
-import logoFooter from "./img/img-developers/inspired_White.png";
-import logoGit from "./img/img-developers/github (1).png";
-import logoInstagram from "./img/img-developers/instagram (1).png";
-import DevelopersCarousel from "../../components/Carousel";
+import profile from "./assets/img/profile.png";
+import aspasParaCima from "./assets/img/aspas1.png";
+import aspasParaBaixo from "./assets/img/aspasbaixo2.png";
+import vanGogh from "./assets/img/van-gogh.png";
+import logoFooter from "./assets/img/img-developers/inspired_White.png";
+import DevelopersCarousel from "../../components/Carousel/index";
 
-import "./css/home.css";
-import "./css/aboutUs.css";
+import "./assets/css/home.css";
+import "./assets/css/aboutUs.css";
 
 const Home = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

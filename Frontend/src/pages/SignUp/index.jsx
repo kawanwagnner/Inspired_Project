@@ -71,7 +71,7 @@ const SignUp = () => {
         navigate("/");
       } else {
         const errorData = await response.json();
-        toast.error(`Error: ${errorData.error}`);
+        toast.error(Error`: ${errorData.error}`);
       }
     } catch (error) {
       toast.error("Error submitting form");
@@ -101,7 +101,7 @@ const SignUp = () => {
               </figure>
             </div>
             <div className="signin-form">
-              <h2 className="form-title">Sign up</h2>
+              <h2 className="form-title">Cadastro</h2>
               <form
                 method="POST"
                 className="register-form"
@@ -118,6 +118,20 @@ const SignUp = () => {
                     id="name"
                     placeholder="Your Name"
                     value={formData.name}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="username">
+                    <i className="zmdi zmdi-account material-icons-name"></i>
+                  </label>
+                  <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    placeholder="Username"
+                    value={formData.username}
                     onChange={handleChange}
                   />
                 </div>
@@ -160,20 +174,6 @@ const SignUp = () => {
                     id="confirm_pass"
                     placeholder="Confirm Password"
                     value={formData.confirm_pass}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="username">
-                    <i className="zmdi zmdi-account material-icons-name"></i>
-                  </label>
-                  <input
-                    type="text"
-                    name="username"
-                    id="username"
-                    placeholder="Username"
-                    value={formData.username}
                     onChange={handleChange}
                   />
                 </div>

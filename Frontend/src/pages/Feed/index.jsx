@@ -27,7 +27,7 @@ const Feed = () => {
 
   // Config Render Image
   const PORT = 3000;
-  const ip_Host = `192.168.15.3${":"}${PORT}`;
+  const ip_Host = `192.168.94.179${":"}${PORT}`;
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -221,7 +221,7 @@ const Feed = () => {
                       src={homeIcon}
                       alt="Início"
                     />
-                    <h1 className="feed-titulo">Início</h1>
+                    <h1 className="feed-titulo">Feed</h1>
                   </div>
                 </a>
               </li>

@@ -109,8 +109,6 @@ img {
   height: auto;
 }
 
-
-
 figure {
   margin: 0;
 }
@@ -225,7 +223,7 @@ body {
 .form-title {
   margin-bottom: 33px;
   margin-top: 33px;
-  color: #d90b42;
+  color: red;
 }
 
 .signup-image {
@@ -260,6 +258,7 @@ figure {
 
 #signin {
   margin-top: 16px;
+  border-radius: 20px;
 }
 
 .signup-image-link {
@@ -290,9 +289,6 @@ figure {
   overflow: hidden;
   padding: 5px 0;
 }
-
-
-
 
 .form-group:last-child {
   margin-bottom: 0px;
@@ -551,89 +547,74 @@ label.valid:after {
   border-bottom-left-radius: 20px;
 }
 
+/* responsividade */
 @media screen and (max-width: 1200px) {
   .container {
-    width: calc(100% - 30px);
     max-width: 100%;
   }
+
+  .register-form i {
+    margin-left: 6px;
+  }
 }
 
-@media screen and (min-width: 1024px) {
+
+@media screen and (max-width: 1201px) {
   .container {
-    max-width: 1200px;
+    max-width: 100%;
   }
+
+  .register-form i {
+    margin-left: 10px;
+  }
+
 }
 
-@media screen and (max-width: 768px) {
 
-  .signup-content,
-  .signin-content {
-    flex-direction: column;
-    -moz-flex-direction: column;
-    -webkit-flex-direction: column;
-    -o-flex-direction: column;
-    -ms-flex-direction: column;
-    justify-content: center;
-    -moz-justify-content: center;
-    -webkit-justify-content: center;
-    -o-justify-content: center;
-    -ms-justify-content: center;
-  }
 
-  .signup-form {
-    margin-left: 0px;
-    margin-right: 0px;
-    padding-left: 0px;
-    /* box-sizing: border-box; */
-    padding: 0 30px;
-  }
-
+@media screen and (max-width: 890px) {
   .signin-image {
-    margin-left: 0px;
-    margin-right: 0px;
-    margin-top: 50px;
-    order: 2;
-    -moz-order: 2;
-    -webkit-order: 2;
-    -o-order: 2;
-    -ms-order: 2;
+    display: none;
   }
 
-  .signup-form,
-  .signup-image,
-  .signin-form,
-  .signin-image {
-    width: auto;
+  .register-form {
+    width: 300px;
   }
 
-  .social-login {
-    justify-content: center;
-    -moz-justify-content: center;
-    -webkit-justify-content: center;
-    -o-justify-content: center;
-    -ms-justify-content: center;
-  }
-
-  .form-button {
-    text-align: center;
+  .register-form i {
+    margin-left: 10px;
   }
 
   .signin-form {
-    order: 1;
-    -moz-order: 1;
-    -webkit-order: 1;
-    -o-order: 1;
-    -ms-order: 1;
-    margin-right: 0px;
-    margin-left: 0px;
-    padding: 0 30px;
+    width: 400px;
+    margin-left: 150px;
   }
 
   .form-title {
-    text-align: center;
+    margin-left: 27%;
   }
+
 }
 
+/* @media screen and (min-width: 600px) {
+
+  .signin-image {
+    display: none;
+  }
+  .register-form{
+    width: 400px;
+  }
+  .register-form i {
+    margin-left: 100px;
+  }
+.signin-form {
+  width: 500px;
+}
+.form-title{
+  margin-left: 35%;
+}
+
+} */
 @media screen and (max-width: 400px) {
   .social-login {
     flex-direction: column;

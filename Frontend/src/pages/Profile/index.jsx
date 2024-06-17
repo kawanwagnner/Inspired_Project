@@ -34,7 +34,7 @@ const Profile = () => {
   });
 
   const PORT = 3000;
-  const ip_Host = `192.168.15.3${":"}${PORT}`;
+  const ip_Host = `192.168.94.179${":"}${PORT}`;
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -435,9 +435,6 @@ const Profile = () => {
       </div>
       <div className="profile-direita">
         <div className="relative-profile">
-          <div className="img-mao-content">
-            <img className="profile-imgMao" src={handImage} alt="Imagem" />
-          </div>
           <img className="profile-imgBoneco" src={figureImage} alt="Imagem" />
         </div>
       </div>
