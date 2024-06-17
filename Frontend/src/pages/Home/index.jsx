@@ -6,10 +6,10 @@ import vanGogh from "./img/van-gogh.png";
 import logoFooter from "./img/img-developers/inspired_White.png";
 import logoGit from "./img/img-developers/github (1).png";
 import logoInstagram from "./img/img-developers/instagram (1).png";
+import DevelopersCarousel from "../../components/Carousel";
 
 import "./css/home.css";
 import "./css/aboutUs.css";
-import DevelopersCarousel from "../../components/Carousel";
 
 const Home = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

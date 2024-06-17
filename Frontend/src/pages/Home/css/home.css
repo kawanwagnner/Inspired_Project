@@ -6,12 +6,6 @@
   font-weight: 400;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 html {
   scroll-behavior: smooth;
 }
@@ -238,6 +232,7 @@ a {
   background: #fff url(../img/img-parallax1.jpg) no-repeat center center;
   background-size: cover;
   background-attachment: fixed;
+  padding-bottom: 50px;
 }
 
 .container-exhibition {
@@ -499,17 +494,5 @@ a {
   .social-footer {
     margin-left: 27%;
     width: 160px;
-  }
-}
-
-@media screen and (max-width: 550px) {
-  #home {
-    background: #000 url(../img/design-moba.png) no-repeat;
-    background-position: 95% 95%;
-    background-size: 100%;
-    background-attachment: fixed;
-    width: 100%;
-    height: 100vh;
-    font-size: 10px;
   }
 }

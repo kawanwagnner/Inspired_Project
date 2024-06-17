@@ -1,13 +1,14 @@
 import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { FaGithub, FaInstagram } from "react-icons/fa";
 
-import kawan from "./assets/img/Kawan.jpg";
-import ricardo from "./assets/img/RicardoF.jpg";
+import kawan from "./assets/img/Kawan.png";
+import ricardo from "./assets/img/RicardoF.png";
 import emerson from "./assets/img/Emerson.jpg";
-import lucasM from "./assets/img/LucasMoedas.jpg";
+import lucasM from "./assets/img/LucasMoedas.png";
 import joao from "./assets/img/joao.png";
-import lucas from "./assets/img/LucasSantana.jpg";
+import lucas from "./assets/img/LucasSantana.png";
 
 import "./assets/css/style.css";
 
@@ -29,9 +30,46 @@ const responsive = {
   },
 };
 
-const DevelopersCarousel = (props) => {
-  const images = [kawan, ricardo, emerson, lucasM, joao, lucas];
+const developers = [
+  {
+    name: "Kawan Wnn",
+    image: kawan,
+    github: "https://github.com/kawanwagnner",
+    instagram: "https://instagram.com/kawan_wg.k",
+  },
+  {
+    name: "Ricardo Filho",
+    image: ricardo,
+    github: "https://github.com/RicksDev",
+    instagram: "https://instagram.com/ricardo.filho04",
+  },
+  {
+    name: "Emerson Morales",
+    image: emerson,
+    github: "https://github.com/emersonjrdev",
+    instagram: "https://instagram.com/emersxnsep",
+  },
+  {
+    name: "Lucas Santos",
+    image: lucasM,
+    github: "https://github.com/lucassdolv",
+    instagram: "https://instagram.com/ineffable.lucas",
+  },
+  {
+    name: "João Pedro",
+    image: joao,
+    github: "https://github.com/JoaoP0liveira",
+    instagram: "https://instagram.com/xdjoaopedro09",
+  },
+  {
+    name: "Lucas Santana",
+    image: lucas,
+    github: "https://github.com/LucasRossatto",
+    instagram: "https://instagram.com/rlucasrossatto",
+  },
+];
 
+const DevelopersCarousel = (props) => {
   return (
     <Carousel
       swipeable={true}
@@ -51,9 +89,30 @@ const DevelopersCarousel = (props) => {
       dotListClass="custom-dot-list-style"
       itemClass="carousel-item-padding-40-px"
     >
-      {images.map((image, index) => (
+      {developers.map((developer, index) => (
         <div className="container-image" key={index}>
-          <img src={image} alt={`Imagem ${index + 1}`} />
+          <img src={developer.image} alt={`Imagem de ${developer.name}`} />
+          <p className="name-developer">{developer.name}</p>
+          <div className="social-medias">
+            <a
+              href={developer.github}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="github">
+                <FaGithub />
+              </div>
+            </a>
+            <a
+              href={developer.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="instagram">
+                <FaInstagram />
+              </div>
+            </a>
+          </div>
         </div>
       ))}
     </Carousel>

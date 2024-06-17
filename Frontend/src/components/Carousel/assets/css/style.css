@@ -1,10 +1,39 @@
 .container-image {
     width: 90%;
     margin: auto;
+    background-color: #fff;
+    padding: 50px 0px;
+    border-radius: 20px;
 }
 
 .container-image img {
-    width: 100%;
+    width: 70%;
     object-fit: cover;
-    border-radius: 200px;
+    border-radius: 250px;
+    display: block;
+    margin: auto;
+}
+
+.name-developer {
+    text-align: center;
+    margin: 10px 0px 35px 0px;
+    color: #000;
+    font-size: 23px;
+}
+
+.social-medias {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.github,
+.instagram {
+    font-size: 40px;
+    cursor: pointer;
+    color: #000;
+}
+
+.social-medias div {
+    margin: 0 20px;
 }
