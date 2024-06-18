@@ -365,6 +365,15 @@
     display: none;
   }
 
+  .feed-direita {
+    display: none;
+  }
+
+  .feed-meio {
+    width: 100% !important;
+    margin: 50px auto !important;
+  }
+
   .hamburger-menu {
     display: block;
   }
@@ -383,159 +392,6 @@
     padding-top: 7em;
     border-right: 3px solid #dcdcdc;
     transition: all ease .5s;
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .feed-meio {
-    width: 80%;
-    margin: 0 auto;
-    padding-top: 90px;
-  }
-
-  .feed-post {
-    width: 90%;
-    padding: 20px 20px;
-  }
-
-  .feed-header-post ul {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .feed-post-section {
-    gap: 10px;
-  }
-
-  .feed-name {
-    font-size: 20px;
-  }
-
-  .feed-img-content {
-    height: 300px;
-  }
-
-  .feed-avatar {
-    height: 60px;
-    width: 60px;
-  }
-
-  .feed-tres-pontos {
-    height: 25px;
-    width: 25px;
-  }
-
-  .post-card {
-    width: 95%;
-    padding: 10px;
-  }
-
-  .like-icon {
-    cursor: pointer;
-    transition: color 0.3s ease;
-  }
-
-  .like-icon.liked {
-    color: red;
-    /* Cor vermelha para indicar que o post foi curtido */
-  }
-
-  .post-avatar {
-    width: 50px;
-  }
-
-  .post-image {
-    width: 100%;
-  }
-
-  .description {
-    font-size: 14px;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .feed-direita {
-    display: none;
-  }
-
-  .feed-meio {
-    width: 100%;
-    margin: 0;
-    padding-top: 90px;
-  }
-
-  .feed-post {
-    width: 95%;
-  }
-
-  .post-card {
-    width: 100%;
-  }
-
-  .post-image {
-    width: 100%;
-  }
-
-  .popup-inner {
-    width: 90%;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .feed-home-hover {
-    padding: 0 5px;
-  }
-
-  .feed-logoHome,
-  .feed-logoUser {
-    width: 20px;
-    height: 20px;
-  }
-
-  .feed-titulo {
-    font-size: 16px;
-  }
-
-  .feed-botaoPost {
-    padding: 5px 20px;
-    font-size: 16px;
-  }
-
-  .feed-container {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .feed-esquerda.visible {
-    width: 80%;
-  }
-
-  .post-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .post-avatar {
-    width: 40px;
-  }
-
-  .feed-avatar {
-    height: 50px;
-    width: 50px;
-  }
-
-  .popup-inner {
-    width: 95%;
-  }
-
-  .form-group input,
-  .form-group textarea {
-    font-size: 14px;
-  }
-
-  .popup-inner button {
-    padding: 5px 10px;
-    font-size: 14px;
   }
 }
 
@@ -646,7 +502,6 @@ button {
   margin: 88px auto 0 auto;
   z-index: 10;
   border-top: none;
-  transform: translateX(0%);
 }
 
 .feed-banner {
@@ -801,7 +656,7 @@ button {
   content: "";
   height: 100vh;
   width: 50px;
-  background-color: var(--Bgbranco-secundario);
+  background-color: #fff;
   border-right: 3px solid #dcdcdc;
 
   position: absolute;
@@ -1004,7 +859,7 @@ button {
   width: 75%;
 }
 
-.post-header {
+.post-header-feed {
   display: flex;
   align-items: center;
   gap: 15px;
@@ -1014,6 +869,7 @@ button {
 
 .post-avatar {
   width: 60px;
+  margin-left: none;
 }
 
 .post-image {

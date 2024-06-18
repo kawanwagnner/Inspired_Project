@@ -36,6 +36,12 @@ header {
   padding: 20px;
 }
 
+@media screen and (max-width: 775px) {
+  .header {
+    margin-left: 0 !important;
+  }
+}
+
 .imagens_creaters {
   width: 80%;
   height: 230px;
@@ -84,7 +90,7 @@ a {
 .container-position {
   position: absolute;
   top: 0%;
-  left: 52.5%;
+  left: 50%;
   transform: translateX(-50%);
 }
 
@@ -121,6 +127,14 @@ a {
   margin-bottom: 20px;
 }
 
+.title2 {
+  font-family: "Antic", sans-serif;
+  font-style: italic;
+  font-size: 30px;
+  letter-spacing: 10px;
+  transform: translateY(20px);
+}
+
 .title_OF {
   display: block;
   font-size: 20px;
@@ -129,13 +143,119 @@ a {
   font-style: italic;
 }
 
-.title2 {
-  font-family: "Antic", sans-serif;
-  font-style: italic;
-  font-size: 30px;
-  letter-spacing: 10px;
-  transform: translateY(20px);
+@media screen and (max-width: 809px) {
+  .container-position {
+    width: 80%;
+    margin-left: 50px;
+  }
+
+  .container-content {
+    width: 77%;
+    transform: translateY(20%);
+  }
+
+  .left-aspas {
+    position: absolute;
+    right: 80%;
+    top: 30%;
+    transform: translateY(-50%);
+  }
+
+  .right-aspas {
+    left: 75%;
+  }
+
+  .title1 {
+    font-size: 65px;
+  }
+
+  .title_OF {
+    font-size: 15px;
+    font-family: "Antic", sans-serif;
+    font-style: italic;
+    margin: -30px
+  }
+
+
 }
+
+@media screen and (max-width: 665px) {
+  #root {
+    width: 100%;
+  }
+
+  .container-position {
+    width: 90%;
+    left: 61%;
+    margin-left: 0;
+  }
+
+  .container-content {
+    transform: translateY(50%);
+  }
+
+  .left-aspas {
+    width: 20%;
+    right: 80%;
+  }
+
+  .right-aspas {
+    left: 72%;
+    width: 20%;
+  }
+
+  .title1 {
+    font-size: 50px;
+  }
+
+  .title2 {
+    font-size: 15px;
+  }
+
+  .title_OF {
+    font-size: 12px;
+    font-family: "Antic", sans-serif;
+    font-style: italic;
+    margin: -25px
+  }
+}
+
+@media screen and (max-width: 450px) {
+  #root {
+    width: 100%;
+  }
+
+  .container-content {
+    transform: translateY(65%);
+  }
+
+  .title1 {
+    font-size: 40px;
+  }
+
+  .title2 {
+    font-size: 12px
+  }
+
+  .title_OF {
+    font-size: 12px;
+    font-family: "Antic", sans-serif;
+    font-style: italic;
+    margin: -20px;
+  }
+
+  .left-aspas {
+    width: 20%;
+    right: 80%;
+  }
+
+  .right-aspas {
+    left: 72%;
+    width: 20%;
+  }
+}
+
+
 
 .signUp {
   font-family: "Antic", sans-serif;

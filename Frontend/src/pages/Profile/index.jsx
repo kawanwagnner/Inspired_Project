@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import logo from "./assets/img/logo.png";
 import homeIcon from "./assets/img/home.png";
 import userProfile from "./assets/img/usuario.png";
-import handImage from "./assets/img/maos.png";
+import userIcon from "./assets/img/user.png";
 import figureImage from "./assets/img/escultura-grego.png";
 import closeIcon from "./assets/img/close-512.png";
 import "./assets/css/profile.css";
@@ -34,7 +34,7 @@ const Profile = () => {
   });
 
   const PORT = 3000;
-  const ip_Host = `192.168.94.179${":"}${PORT}`;
+  const ip_Host = `localhost${":"}${PORT}`;
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -76,9 +76,10 @@ const Profile = () => {
         });
 
         if (response.data && Array.isArray(response.data.posts)) {
-          const userPosts = response.data.posts.filter(
-            (post) => post.creator.email === userData.email
-          );
+          const userPosts = response.data.posts
+            .filter((post) => post.creator.email === userData.email)
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Ordenar por data de criação
+
           setPosts(userPosts);
         } else {
           setError("Invalid data received from API.");
@@ -280,7 +281,8 @@ const Profile = () => {
     try {
       const authToken = localStorage.getItem("authToken");
       const response = await axios.delete(
-        `http://localhost:3000/feed/posts/${postId}`,
+        `http://localhost:3000/feed/posts
+/${postId}`,
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
@@ -297,10 +299,10 @@ const Profile = () => {
           prevPosts.filter((post) => post._id !== postId)
         );
 
-        // Atualizar a página após excluir o post com um pequeno delay
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000); // 1 segundo de delay
+        // // Atualizar a página após excluir o post com um pequeno delay
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 1000); // 1 segundo de delay
       } else {
         toast.error("Resposta inválida da API.");
       }
@@ -360,6 +362,12 @@ const Profile = () => {
                 </h1>
               </div>
             </a>
+            <a style={{ color: "#000" }} href="/profile">
+              <div className="feed-flex-item feed-home-hover">
+                <img className="feed-logoUser" src={userIcon} alt="Perfil" />
+                <h1 className="feed-titulo">Perfil</h1>
+              </div>
+            </a>
           </li>
         </ul>
         <button
@@ -397,41 +405,56 @@ const Profile = () => {
           <h2>Posts</h2>
           <div className="profile-linha"></div>
         </div>
-        {posts.map((post) => (
-          <div key={post._id} className="post-card">
-            <div className="post-header">
-              <img
-                className="post-avatar"
-                src={userProfile}
-                alt="Avatar do usuário"
-              />
-              <h3 className="post-username">{post.creator.username}</h3>
-              <div className="post-menu">
-                <button onClick={() => toggleMenu(post._id)}>...</button>
-                {menuVisible[post._id] && (
-                  <div className="post-menu-options">
-                    <button onClick={() => openEditPostPopup(post)}>
-                      Editar
-                    </button>
-                    <button onClick={() => handleDeletePost(post._id)}>
-                      Excluir
-                    </button>
-                  </div>
+        {posts.length === 0 ? (
+          <p className="no-posts-message">Não há posts para exibir.</p>
+        ) : (
+          posts.map((post) => (
+            <div key={post._id} className="post-card">
+              <div className="post-header">
+                <div className="user-post-config">
+                  <img
+                    className="post-avatar"
+                    src={userProfile}
+                    alt="Avatar do usuário"
+                  />
+                  <h3 className="post-username-profile">
+                    {post.creator.username}
+                  </h3>
+                </div>
+                <div className="post-menu">
+                  <button
+                    className="options__icon"
+                    onClick={() => toggleMenu(post._id)}
+                  >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </button>
+                  {menuVisible[post._id] && (
+                    <div className="post-menu-options">
+                      <button onClick={() => openEditPostPopup(post)}>
+                        Editar
+                      </button>
+                      <button onClick={() => handleDeletePost(post._id)}>
+                        Excluir
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="post-content">
+                {post.imageUrl && (
+                  <img
+                    className="post-image"
+                    src={`http://${ip_Host}/${post.imageUrl}`}
+                    alt="Post"
+                  />
                 )}
+                <p className="description">{post.content}</p>
               </div>
             </div>
-            <div className="post-content">
-              {post.imageUrl && (
-                <img
-                  className="post-image"
-                  src={`http://${ip_Host}/${post.imageUrl}`}
-                  alt="Post"
-                />
-              )}
-              <p className="description">{post.content}</p>
-            </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
       <div className="profile-direita">
         <div className="relative-profile">

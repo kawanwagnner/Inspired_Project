@@ -27,7 +27,7 @@ const Feed = () => {
 
   // Config Render Image
   const PORT = 3000;
-  const ip_Host = `192.168.94.179${":"}${PORT}`;
+  const ip_Host = `localhost${":"}${PORT}`;
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -75,8 +75,12 @@ const Feed = () => {
         console.log("Posts response:", response);
 
         if (response.data && Array.isArray(response.data.posts)) {
-          setPosts(response.data.posts);
-          console.log("Posts set:", response.data.posts);
+          // Ordenar os posts por data de criação, do mais recente para o mais antigo
+          const sortedPosts = response.data.posts.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          );
+          setPosts(sortedPosts);
+          console.log("Posts set:", sortedPosts);
         } else {
           setError("Dados inválidos recebidos da API.");
           console.error("Dados inválidos recebidos da API:", response.data);
@@ -136,7 +140,7 @@ const Feed = () => {
       ) {
         toast.success("Post criado com sucesso!");
 
-        // Adicionar novo post à lista de posts
+        // Adicionar novo post ao início da lista de posts
         setPosts((prevPosts) => [response.data.postData, ...prevPosts]);
         console.log("New post added:", response.data.postData);
 
@@ -175,7 +179,7 @@ const Feed = () => {
 
     return posts.map((post) => (
       <div key={post._id} className="post-card">
-        <div className="post-header">
+        <div className="post-header-feed">
           <img
             className="post-avatar"
             src={userAvatar}
