@@ -22,16 +22,16 @@ const SignUp = () => {
 
   const validate = () => {
     const errors = {};
-    if (!formData.name) errors.name = "Name is required";
-    if (!formData.email) errors.email = "Email is required";
+    if (!formData.name) errors.name = "Nome é obrigatório";
+    if (!formData.email) errors.email = "E-mail é obrigatório";
     if (!/\S+@\S+\.\S+/.test(formData.email))
-      errors.email = "Email address is invalid";
-    if (!formData.password) errors.password = "Password is required";
+      errors.email = "Endereço de e-mail é inválido";
+    if (!formData.password) errors.password = "Senha é obrigatória";
     if (formData.password.length < 6)
-      errors.password = "Password must be at least 6 characters";
+      errors.password = "A senha deve ter pelo menos 6 caracteres";
     if (formData.password !== formData.confirm_pass)
-      errors.confirm_pass = "Passwords do not match";
-    if (!formData.username) errors.username = "Username is required";
+      errors.confirm_pass = "As senhas não coincidem";
+    if (!formData.username) errors.username = "Nome de usuário é obrigatório";
     return errors;
   };
 
@@ -65,7 +65,7 @@ const SignUp = () => {
       if (response.ok) {
         const data = await response.json();
         toast.success(data.message);
-        console.log("Form data submitted: ", formData);
+        console.log("Dados do formulário enviados: ", formData);
 
         // Redirecionar imediatamente após o cadastro bem-sucedido
         navigate("/");
@@ -74,7 +74,7 @@ const SignUp = () => {
         toast.error(Error`: ${errorData.error}`);
       }
     } catch (error) {
-      toast.error("Error submitting form");
+      toast.error("Erro ao enviar formulário");
     }
   };
 

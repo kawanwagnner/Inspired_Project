@@ -7,7 +7,6 @@ import Logo from "./img/LOGO.png";
 import Estatua from "./img/Login e Cadastro (6).png";
 import Header from "../../components/Header";
 import { useNavigate } from "react-router-dom";
-
 import "./css/style.css";
 
 const SignIn = () => {
