@@ -546,6 +546,11 @@
   opacity: 0.9;
 }
 
+.no-posts-message {
+  text-align: center;
+  transform: translate(-10%, 90%);
+}
+
 @media screen and (max-width: 1200px) {
   .profile-direita {
     display: none;
