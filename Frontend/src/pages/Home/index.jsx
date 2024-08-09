@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 import profile from "./assets/img/profile.png";
 import aspasParaCima from "./assets/img/aspas1.png";
 import aspasParaBaixo from "./assets/img/aspasbaixo2.png";
@@ -18,123 +20,175 @@ const Home = () => {
       setIsAuthenticated(true);
     }
 
-    // Definindo um temporizador para limpar o localStorage após 3 horas
     const clearLocalStorageTimer = setTimeout(() => {
       localStorage.clear();
-    }, 3 * 60 * 60 * 1000); // 3 horas em milissegundos
+    }, 3 * 60 * 60 * 1000);
 
-    // Limpando o temporizador ao desmontar o componente
     return () => clearTimeout(clearLocalStorageTimer);
   }, []);
 
   const handleLogout = () => {
     localStorage.clear();
-    window.location.href = "/signIn"; // Redireciona para a página de login após o logout
+    window.location.href = "/signIn";
   };
+
+  // Usando o Intersection Observer para ativar animações no scroll
+  const { ref: homeRef, inView: homeInView } = useInView({ triggerOnce: true });
+  const { ref: aboutUsRef, inView: aboutUsInView } = useInView({
+    triggerOnce: true,
+  });
+  const { ref: footerRef, inView: footerInView } = useInView({
+    triggerOnce: true,
+  });
 
   return (
     <>
-      <section id="home">
+      <section id="home" ref={homeRef}>
         <header
           className="header"
           style={{ display: "flex", alignItems: "center" }}
         >
-          <img src={profile} width="50px" alt="profile" />
+          <motion.img
+            src={profile}
+            width="50px"
+            alt="profile"
+            whileHover={{ scale: 1.1 }}
+          />
           {isAuthenticated ? (
-            <button className="logoutButton" onClick={handleLogout}>
+            <motion.button
+              className="logoutButton"
+              onClick={handleLogout}
+              whileHover={{ scale: 1.1, backgroundColor: "#f00" }}
+            >
               Sair
-            </button>
+            </motion.button>
           ) : (
-            <a className="signIn" href="/signIn">
+            <motion.a
+              className="signIn"
+              href="/signIn"
+              whileHover={{ scale: 1.1 }}
+            >
               <p>Login</p>
-            </a>
+            </motion.a>
           )}
         </header>
 
-        <div className="container-position">
+        <motion.div
+          className="container-position"
+          initial={{ opacity: 0 }}
+          animate={homeInView ? { opacity: 1 } : {}}
+          transition={{ duration: 1.5 }}
+        >
           <div className="container-content">
-            <img
+            <motion.img
               src={aspasParaCima}
               className="left-aspas"
               width="130px"
               alt="aspas para cima"
+              initial={{ x: -100, y: -50, opacity: 0 }} // Ajuste o valor de y conforme necessário
+              animate={homeInView ? { x: 0, y: -55, opacity: 1 } : {}}
+              transition={{ duration: 1.2, ease: "easeOut" }} // Você pode ajustar o tipo de easing para suavizar a animação
             />
-            <h2 className="title2">INOVAÇÃO</h2>
-            <h1 className="title1">
+
+            <motion.h2
+              className="title2"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={homeInView ? { scale: 1, opacity: 1 } : {}}
+              transition={{ duration: 1.2 }}
+            >
+              INOVAÇÃO
+            </motion.h2>
+            <motion.h1
+              className="title1"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={homeInView ? { scale: 1, opacity: 1 } : {}}
+              transition={{ duration: 1.2 }}
+            >
               Bem vindo <span className="title_OF">AO</span> Inspired
-            </h1>
-            <img
+            </motion.h1>
+            <motion.img
               src={aspasParaBaixo}
               className="right-aspas"
               width="130px"
               alt="aspas para baixo"
+              initial={{ x: 100, opacity: 0 }}
+              animate={homeInView ? { x: 0, opacity: 1 } : {}}
+              transition={{ duration: 1.2 }}
             />
             {isAuthenticated ? (
-              <a href="/feed">
+              <motion.a href="/feed" whileHover={{ scale: 1.1 }}>
                 <h3 className="signUp">EXPLORAR</h3>
-              </a>
+              </motion.a>
             ) : (
-              <a href="/signUp">
+              <motion.a href="/signUp" whileHover={{ scale: 1.1 }}>
                 <h3 className="signUp">CADASTRAR-SE</h3>
-              </a>
+              </motion.a>
             )}
           </div>
-        </div>
+        </motion.div>
       </section>
 
-      <section className="aboutUs" id="aboutUs">
-        <div className="heading">
+      <section className="aboutUs" id="aboutUs" ref={aboutUsRef}>
+        <motion.div
+          className="heading"
+          initial={{ opacity: 0, y: 50 }}
+          animate={aboutUsInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1.2 }}
+        >
           <h1 className="title">Sobre nós</h1>
-        </div>
+        </motion.div>
         <div className="container-aboutUs">
-          <img src={vanGogh} width="720px" height="578px" alt="Van Gogh" />
+          <motion.img
+            src={vanGogh}
+            width="720px"
+            height="578px"
+            alt="Van Gogh"
+            initial={{ opacity: 0 }}
+            animate={aboutUsInView ? { opacity: 1 } : {}}
+            transition={{ duration: 1.5 }}
+          />
           <div className="sobre-text-align">
-            <ul id="list-sobre-texts">
-              <li>
+            <motion.ul
+              id="list-sobre-texts"
+              initial={{ opacity: 0, y: 50 }}
+              animate={aboutUsInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 1.5, staggerChildren: 0.3 }}
+            >
+              <motion.li>
                 <h1 id="sobre-title">Aqui a ARTE ganha vida🎨</h1>
-              </li>
-              <li>
+              </motion.li>
+              <motion.li>
                 <h3 id="sobre-text">
                   Somos uma rede social criada exclusivamente para artistas de
                   todos os gêneros e formas de expressão, proporcionando um
                   espaço seguro e inspirador para compartilhar, colaborar e
                   crescer.
                 </h3>
-              </li>
-              <li>
+              </motion.li>
+              <motion.li>
                 <h2 id="sobre-subtitle">
                   Na nossa rede social, você tem liberdade de mostrar seu
                   trabalho em todas as suas formas.
                 </h2>
-              </li>
-            </ul>
+              </motion.li>
+            </motion.ul>
 
             <div className="sobre-buttons">
               <ul>
-                <li>
-                  <button>Desenhos</button>
-                </li>
-                <li>
-                  <button>Fotografias</button>
-                </li>
-                <li>
-                  <button>Esculturas</button>
-                </li>
-                <li>
-                  <button>Cinema</button>
-                </li>
-                <li>
-                  <button>Tatuagens</button>
-                </li>
-                <li>
-                  <button>Textos</button>
-                </li>
-                <li>
-                  <button>Pinturas</button>
-                </li>
-                <li>
-                  <button>Teatro</button>
-                </li>
+                {[
+                  "Desenhos",
+                  "Fotografias",
+                  "Esculturas",
+                  "Cinema",
+                  "Tatuagens",
+                  "Textos",
+                  "Pinturas",
+                  "Teatro",
+                ].map((item, index) => (
+                  <motion.li key={index} whileHover={{ scale: 1.1 }}>
+                    <button>{item}</button>
+                  </motion.li>
+                ))}
               </ul>
             </div>
           </div>
@@ -151,11 +205,21 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="footer">
-        <div className="container-footer">
+      <section className="footer" ref={footerRef}>
+        <motion.div
+          className="container-footer"
+          initial={{ opacity: 0 }}
+          animate={footerInView ? { opacity: 1 } : {}}
+          transition={{ duration: 1.5 }}
+        >
           <div className="logo-footer">
             <a href="#home">
-              <img src={logoFooter} alt="logo footer" />
+              <motion.img
+                src={logoFooter}
+                alt="logo footer"
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 1 }}
+              />
             </a>
           </div>
           <div className="menu-footer">
@@ -164,10 +228,10 @@ const Home = () => {
             <a href="#developers">Desenvolvedores</a>
           </div>
           <div className="social-footer">
-            <p className="texto">(11)9999-9999</p>
+            {/* <p className="texto">(11)9999-9999</p> */}
             <p className="texto">inspired@gmail.com</p>
           </div>
-        </div>
+        </motion.div>
       </section>
     </>
   );

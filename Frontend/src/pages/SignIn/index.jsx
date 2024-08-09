@@ -19,10 +19,11 @@ const SignIn = () => {
 
   const validate = () => {
     const errors = {};
-    if (!formData.email) errors.email = "Email é obrigatório!";
-    if (!formData.password) errors.password = "Senha é obrigatória!";
-    if (formData.password.length < 6)
-      errors.password = "A senha deve conter no mínimo 6 caracteres...";
+
+    if (!formData.email || !formData.password) {
+      errors.general = "A senha ou o email estão incorretos.";
+    }
+
     return errors;
   };
 
@@ -39,9 +40,7 @@ const SignIn = () => {
 
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
-      Object.entries(validationErrors).forEach(([, message]) => {
-        toast.error(message);
-      });
+      toast.error(validationErrors.general);
       return;
     }
 
@@ -61,18 +60,19 @@ const SignIn = () => {
         const data = await response.json();
         localStorage.setItem("authToken", data.token);
         localStorage.setItem("userId", data.userId); // Salvar o ID do usuário no localStorage
-        toast.success(data.message);
+        toast.success("Login realizado com sucesso!");
 
-        console.log("User authenticated: ", data);
         setTimeout(() => {
           navigate("/feed"); // Redirecionamento após o login
         }, 2000); // 2 segundos de delay para o usuário ver a mensagem de sucesso
       } else {
         const errorData = await response.json();
-        toast.error(errorData.message);
+        toast.error(
+          errorData.message || "A senha ou o email estão incorretos."
+        );
       }
     } catch (error) {
-      toast.error("Error logging in");
+      toast.error("A senha ou o email estão incorretos.");
     }
   };
 
